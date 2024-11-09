@@ -1,148 +1,33 @@
 [
-    {
-        "id": 1001,
-        "nombre": "Comedia",
-        "subgeneros": [
-            {
-                "id": 1002,
-                "nombre": "Comedia Romantica"
-            }
-        ]
-    },
-    {
-        "id": 1003,
-        "nombre": "Romance",
-        "subgeneros": [
-            {
-                "id": 1004,
-                "nombre": "Romance Historico"
-            }
-        ]
-    },
-    {
-        "id": 1005,
-        "nombre": "Ficcion",
-        "subgeneros": [
-            {
-                "id": 1006,
-                "nombre": "Fantasia",
-                "subgeneros": [
-                    {
-                        "id": 1007,
-                        "nombre": "Alta Fantasia"
-                    },
-                    {
-                        "id": 1008,
-                        "nombre": "Fantasia Urbana"
-                    }
-                ]
-            },
-            {
-                "id": 1009,
-                "nombre": "Distopia"
-            },
-            {
-                "id": 1010,
-                "nombre": "Ciencia Ficcion",
-                "subgeneros": [
-                    {
-                        "id": 1011,
-                        "nombre": "Space Opera"
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": 1012,
-        "nombre": "Thriller",
-        "subgeneros": [
-            {
-                "id": 1013,
-                "nombre": "Policial"
-            },
-            {
-                "id": 1014,
-                "nombre": "Thriller Psicologico"
-            }
-        ]
-    },
-    {
-        "id": 1015,
-        "nombre": "Juvenil",
-        "subgeneros": [
-            {
-                "id": 1016,
-                "nombre": "Fantasia Juvenil"
-            },
-            {
-                "id": 1017,
-                "nombre": "Aventura Juvenil"
-            },
-            {
-                "id": 1018,
-                "nombre": "Misterio Juvenil"
-            },
-            {
-                "id": 1019,
-                "nombre": "Cuentos de Hadas"
-            }
-        ]
-    },
-    {
-        "id": 1020,
-        "nombre": "No Ficcion",
-        "subgeneros": [
-            {
-                "id": 1021,
-                "nombre": "Biografico",
-                "subgeneros": [
-                    {
-                        "id": 1022,
-                        "nombre": "Autobiografia"
-                    },
-                    {
-                        "id": 1023,
-                        "nombre": "Memorias"
-                    }
-                ]
-            },
-            {
-                "id": 1024,
-                "nombre": "Historicos",
-                "subgeneros": [
-                    {
-                        "id": 1025,
-                        "nombre": "Historia Moderna"
-                    },
-                    {
-                        "id": 1026,
-                        "nombre": "Historia Antigua"
-                    }
-                ]
-            },
-            {
-                "id": 1027,
-                "nombre": "Autoayuda",
-                "subgeneros": [
-                    {
-                        "id": 1028,
-                        "nombre": "Psicologia Positiva"
-                    },
-                    {
-                        "id": 1029,
-                        "nombre": "Desarrollo Personal"
-                    }
-                ]
-            },
-            {
-                "id": 1030,
-                "nombre": "Cientifico"
-            },
-            {
-                "id": 1031,
-                "nombre": "Filosofico"
-            }
-        ]
-    }
+    { "id": 1001, "nombre": "Comedia", "generoPadreId": null },
+    { "id": 1002, "nombre": "Comedia Romantica", "generoPadreId": 1001 },
+    { "id": 1003, "nombre": "Romance", "generoPadreId": null },
+    { "id": 1004, "nombre": "Romance Historico", "generoPadreId": 1003 },
+    { "id": 1005, "nombre": "Ficcion", "generoPadreId": null },
+    { "id": 1006, "nombre": "Fantasia", "generoPadreId": 1005 },
+    { "id": 1007, "nombre": "Alta Fantasia", "generoPadreId": 1006 },
+    { "id": 1008, "nombre": "Fantasia Urbana", "generoPadreId": 1006 },
+    { "id": 1009, "nombre": "Distopia", "generoPadreId": 1005 },
+    { "id": 1010, "nombre": "Ciencia Ficcion", "generoPadreId": 1005 },
+    { "id": 1011, "nombre": "Space Opera", "generoPadreId": 1010 },
+    { "id": 1012, "nombre": "Thriller", "generoPadreId": null },
+    { "id": 1013, "nombre": "Policial", "generoPadreId": 1012 },
+    { "id": 1014, "nombre": "Thriller Psicologico", "generoPadreId": 1012 },
+    { "id": 1015, "nombre": "Juvenil", "generoPadreId": null },
+    { "id": 1016, "nombre": "Fantasia Juvenil", "generoPadreId": 1015 },
+    { "id": 1017, "nombre": "Aventura Juvenil", "generoPadreId": 1015 },
+    { "id": 1018, "nombre": "Misterio Juvenil", "generoPadreId": 1015 },
+    { "id": 1019, "nombre": "Cuentos de Hadas", "generoPadreId": 1015 },
+    { "id": 1020, "nombre": "No Ficcion", "generoPadreId": null },
+    { "id": 1021, "nombre": "Biografico", "generoPadreId": 1020 },
+    { "id": 1022, "nombre": "Autobiografia", "generoPadreId": 1021 },
+    { "id": 1023, "nombre": "Memorias", "generoPadreId": 1021 },
+    { "id": 1024, "nombre": "Historicos", "generoPadreId": 1020 },
+    { "id": 1025, "nombre": "Historia Moderna", "generoPadreId": 1024 },
+    { "id": 1026, "nombre": "Historia Antigua", "generoPadreId": 1024 },
+    { "id": 1027, "nombre": "Autoayuda", "generoPadreId": 1020 },
+    { "id": 1028, "nombre": "Psicologia Positiva", "generoPadreId": 1027 },
+    { "id": 1029, "nombre": "Desarrollo Personal", "generoPadreId": 1027 },
+    { "id": 1030, "nombre": "Cientifico", "generoPadreId": 1020 },
+    { "id": 1031, "nombre": "Filosofico", "generoPadreId": 1020 }
 ]

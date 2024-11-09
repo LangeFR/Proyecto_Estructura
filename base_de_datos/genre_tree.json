@@ -1,17 +1,14 @@
 {
-    "value": "Aventura Juvenil",
-    "book_ids": [
-        "02c6abbb-341a-46a0-a611-1c19c72b4836",
-        "aae610fa-a897-4620-86c6-d1a3f7659b53",
-        "ba892984-9114-421a-a7d7-ac84ea475fd3",
-        "ecfc9172-eef6-42d8-b975-8fb98fc57368"
-    ],
+    "value": "Biblioteca",
+    "book_ids": [],
     "children": [
         {
-            "value": "Cientifico",
+            "value": "Aventura Juvenil",
             "book_ids": [
-                "480de12e-d311-4c18-a4fe-b6ee46845844",
-                "fb4850f8-7be2-4ec2-8c05-7963e13702d2"
+                "02c6abbb-341a-46a0-a611-1c19c72b4836",
+                "aae610fa-a897-4620-86c6-d1a3f7659b53",
+                "ba892984-9114-421a-a7d7-ac84ea475fd3",
+                "ecfc9172-eef6-42d8-b975-8fb98fc57368"
             ],
             "children": [
                 {
@@ -32,42 +29,18 @@
                                 "a72360d5-2f48-41dc-ba6f-c57d4aac7d2e"
                             ],
                             "children": []
-                        },
-                        {
-                            "value": "Autobiografia",
-                            "book_ids": [],
-                            "children": []
-                        },
-                        {
-                            "value": "Alta Fantasia",
-                            "book_ids": [],
-                            "children": [
-                                {
-                                    "value": "Autobiografia",
-                                    "book_ids": [],
-                                    "children": []
-                                },
-                                {
-                                    "value": "Alta Fantasia",
-                                    "book_ids": [],
-                                    "children": []
-                                },
-                                {
-                                    "value": "Autobiografia",
-                                    "book_ids": [],
-                                    "children": [
-                                        {
-                                            "value": "Alta Fantasia",
-                                            "book_ids": [],
-                                            "children": []
-                                        }
-                                    ]
-                                }
-                            ]
                         }
                     ]
                 }
             ]
+        },
+        {
+            "value": "Cientifico",
+            "book_ids": [
+                "480de12e-d311-4c18-a4fe-b6ee46845844",
+                "fb4850f8-7be2-4ec2-8c05-7963e13702d2"
+            ],
+            "children": []
         },
         {
             "value": "Fantasia Urbana",
@@ -78,11 +51,6 @@
                 "76ba6671-0b3b-4cdf-9311-0a2d5a43de97",
                 "ba424a3f-b4b4-4570-8008-25c053411a3b"
             ],
-            "children": []
-        },
-        {
-            "value": "Aventura Juvenil",
-            "book_ids": [],
             "children": [
                 {
                     "value": "Romance Historico",
@@ -92,322 +60,114 @@
                         "816a2c1a-f647-45f1-acd6-75efc057659b",
                         "4803a9b4-a173-4c75-b91a-4d521cd686d8"
                     ],
-                    "children": []
-                },
-                {
-                    "value": "Distopia",
-                    "book_ids": [
-                        "6bf378d1-5922-4aac-a765-9ce3ed6dd3da",
-                        "aed0ea64-56af-4037-a403-4c4bb4e5049e",
-                        "e9ab0e1a-dc8b-470f-a66f-c14ed42c223d",
-                        "46d1d1fb-2f84-48e6-8df4-6a34483d9388",
-                        "170e3184-237e-4696-8ea1-9d3d70d7935c",
-                        "5fb7b6be-b81f-40e8-a3d0-b19cd1ca1573"
-                    ],
-                    "children": []
+                    "children": [
+                        {
+                            "value": "Distopia",
+                            "book_ids": [
+                                "6bf378d1-5922-4aac-a765-9ce3ed6dd3da",
+                                "aed0ea64-56af-4037-a403-4c4bb4e5049e",
+                                "e9ab0e1a-dc8b-470f-a66f-c14ed42c223d",
+                                "46d1d1fb-2f84-48e6-8df4-6a34483d9388",
+                                "170e3184-237e-4696-8ea1-9d3d70d7935c",
+                                "5fb7b6be-b81f-40e8-a3d0-b19cd1ca1573"
+                            ],
+                            "children": [
+                                {
+                                    "value": "Cuentos de Hadas",
+                                    "book_ids": [
+                                        "9f2b64fd-86a7-430b-bf95-082bfa08760f",
+                                        "9ca8e8d9-6c0c-4b2e-a0ba-2dfe59e6767d",
+                                        "517259f1-2f68-4981-a61f-da78de2639f8",
+                                        "8a2ec066-d37a-4102-a548-c5bba2ac62f4",
+                                        "d91a24a1-df56-492f-9315-ee3a352ebaf2"
+                                    ],
+                                    "children": [
+                                        {
+                                            "value": "Comedia Romantica",
+                                            "book_ids": [
+                                                "b43924af-2e73-4b65-9bd1-5caca5f2ed09"
+                                            ],
+                                            "children": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "value": "Fantasia Juvenil",
+                                    "book_ids": [
+                                        "53b8f3c1-70d1-432b-9716-9bb3ab0923a5"
+                                    ],
+                                    "children": []
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "value": "Psicologia Positiva",
                     "book_ids": [
                         "a2baea16-ffc3-40da-b48b-0004370d52ce",
                         "6a4e7745-7b40-4b87-83af-08654062855c",
-                        "76bf3e86-469c-4d85-93de-5a7978cf3a49"
+                        "39bcc821-f8ce-4b0c-846c-8bc84889da21",
+                        "76bf3e86-469c-4d85-93de-5a7978cf3a49",
+                        "239a3975-23ac-463e-b406-076cbbd7c98f"
+                    ],
+                    "children": []
+                },
+                {
+                    "value": "Historia Moderna",
+                    "book_ids": [
+                        "3f672d97-d779-4e24-b99b-2a862504500e",
+                        "1c8e424c-fe05-4af3-b652-d6b202bc25b2",
+                        "2d029e64-88fe-4741-83ae-258fd05defec",
+                        "634f31e1-7794-4c7f-9d60-709bb152338d",
+                        "1f968b99-f29d-4c42-8a3e-67c3af5890e7"
                     ],
                     "children": [
                         {
-                            "value": "Historia Moderna",
+                            "value": "Policial",
                             "book_ids": [
-                                "3f672d97-d779-4e24-b99b-2a862504500e",
-                                "1c8e424c-fe05-4af3-b652-d6b202bc25b2",
-                                "2d029e64-88fe-4741-83ae-258fd05defec",
-                                "634f31e1-7794-4c7f-9d60-709bb152338d",
-                                "1f968b99-f29d-4c42-8a3e-67c3af5890e7"
+                                "18feeef5-e9e5-4270-be46-89f734caa3b4",
+                                "9776fc6b-6244-4c26-930e-c01d716f39c6",
+                                "03c54e1c-ba5d-4d92-8144-761986a96ce2",
+                                "2b1262ce-f497-4cdd-9376-80b4ab460b09"
                             ],
                             "children": [
                                 {
-                                    "value": "Historia Moderna",
-                                    "book_ids": [],
-                                    "children": [
-                                        {
-                                            "value": "Cuentos de Hadas",
-                                            "book_ids": [
-                                                "9f2b64fd-86a7-430b-bf95-082bfa08760f",
-                                                "9ca8e8d9-6c0c-4b2e-a0ba-2dfe59e6767d",
-                                                "517259f1-2f68-4981-a61f-da78de2639f8",
-                                                "8a2ec066-d37a-4102-a548-c5bba2ac62f4",
-                                                "d91a24a1-df56-492f-9315-ee3a352ebaf2"
-                                            ],
-                                            "children": [
-                                                {
-                                                    "value": "Distopia",
-                                                    "book_ids": [],
-                                                    "children": [
-                                                        {
-                                                            "value": "Aventura Juvenil",
-                                                            "book_ids": [],
-                                                            "children": [
-                                                                {
-                                                                    "value": "Cientifico",
-                                                                    "book_ids": [],
-                                                                    "children": []
-                                                                },
-                                                                {
-                                                                    "value": "Aventura Juvenil",
-                                                                    "book_ids": [],
-                                                                    "children": []
-                                                                },
-                                                                {
-                                                                    "value": "Comedia Romantica",
-                                                                    "book_ids": [
-                                                                        "b43924af-2e73-4b65-9bd1-5caca5f2ed09"
-                                                                    ],
-                                                                    "children": []
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "value": "Filosofico",
-                                                    "book_ids": [
-                                                        "ee5b3eb7-b6dc-48da-8be1-73b9040e0334",
-                                                        "3bfb9e29-09af-4775-9d76-798edd77d548"
-                                                    ],
-                                                    "children": []
-                                                },
-                                                {
-                                                    "value": "Fantasia Urbana",
-                                                    "book_ids": [],
-                                                    "children": [
-                                                        {
-                                                            "value": "Fantasia Juvenil",
-                                                            "book_ids": [
-                                                                "53b8f3c1-70d1-432b-9716-9bb3ab0923a5"
-                                                            ],
-                                                            "children": [
-                                                                {
-                                                                    "value": "Distopia",
-                                                                    "book_ids": [],
-                                                                    "children": [
-                                                                        {
-                                                                            "value": "Distopia",
-                                                                            "book_ids": [],
-                                                                            "children": [
-                                                                                {
-                                                                                    "value": "Cuentos de Hadas",
-                                                                                    "book_ids": [],
-                                                                                    "children": [
-                                                                                        {
-                                                                                            "value": "Desarrollo Personal",
-                                                                                            "book_ids": [
-                                                                                                "39bcc821-f8ce-4b0c-846c-8bc84889da21",
-                                                                                                "239a3975-23ac-463e-b406-076cbbd7c98f"
-                                                                                            ],
-                                                                                            "children": []
-                                                                                        },
-                                                                                        {
-                                                                                            "value": "Cuentos de Hadas",
-                                                                                            "book_ids": [],
-                                                                                            "children": []
-                                                                                        },
-                                                                                        {
-                                                                                            "value": "Cuentos de Hadas",
-                                                                                            "book_ids": [],
-                                                                                            "children": [
-                                                                                                {
-                                                                                                    "value": "Cuentos de Hadas",
-                                                                                                    "book_ids": [],
-                                                                                                    "children": []
-                                                                                                },
-                                                                                                {
-                                                                                                    "value": "Desarrollo Personal",
-                                                                                                    "book_ids": [],
-                                                                                                    "children": []
-                                                                                                }
-                                                                                            ]
-                                                                                        }
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        },
-                                                                        {
-                                                                            "value": "Distopia",
-                                                                            "book_ids": [],
-                                                                            "children": []
-                                                                        },
-                                                                        {
-                                                                            "value": "Distopia",
-                                                                            "book_ids": [],
-                                                                            "children": []
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "value": "Historia Antigua",
-                                                            "book_ids": [
-                                                                "47c73f6b-c1cd-486a-beef-b467eb5a8489"
-                                                            ],
-                                                            "children": []
-                                                        },
-                                                        {
-                                                            "value": "Fantasia Urbana",
-                                                            "book_ids": [],
-                                                            "children": [
-                                                                {
-                                                                    "value": "Fantasia Urbana",
-                                                                    "book_ids": [],
-                                                                    "children": []
-                                                                },
-                                                                {
-                                                                    "value": "Filosofico",
-                                                                    "book_ids": [],
-                                                                    "children": []
-                                                                },
-                                                                {
-                                                                    "value": "Fantasia Urbana",
-                                                                    "book_ids": [],
-                                                                    "children": []
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
-                                {
-                                    "value": "Historia Moderna",
-                                    "book_ids": [],
-                                    "children": []
-                                },
-                                {
-                                    "value": "Policial",
+                                    "value": "Filosofico",
                                     "book_ids": [
-                                        "18feeef5-e9e5-4270-be46-89f734caa3b4",
-                                        "9776fc6b-6244-4c26-930e-c01d716f39c6",
-                                        "03c54e1c-ba5d-4d92-8144-761986a96ce2",
-                                        "2b1262ce-f497-4cdd-9376-80b4ab460b09"
+                                        "ee5b3eb7-b6dc-48da-8be1-73b9040e0334",
+                                        "3bfb9e29-09af-4775-9d76-798edd77d548"
                                     ],
                                     "children": [
                                         {
-                                            "value": "Misterio Infantil",
+                                            "value": "Historia Antigua",
                                             "book_ids": [
-                                                "61a875c2-db8e-42ca-ad6f-7a2909e08b5c",
-                                                "b0e5a860-7710-4675-9ea8-d1a5b539e09f",
-                                                "8b1f6398-e9fa-4c38-b4dc-42dfa503094a"
+                                                "47c73f6b-c1cd-486a-beef-b467eb5a8489"
                                             ],
-                                            "children": [
-                                                {
-                                                    "value": "Memorias",
-                                                    "book_ids": [
-                                                        "7ba261f8-e050-4132-9c5d-9be300028352",
-                                                        "1e5aed06-278a-45e5-acdc-aac448ee7ecf",
-                                                        "da868485-3e99-40d0-a50a-dbec255596e5",
-                                                        "0c439273-abe4-4249-84b4-6e389513e2a8",
-                                                        "5ac79cc7-5d24-46c6-962f-bf1454be2955"
-                                                    ],
-                                                    "children": [
-                                                        {
-                                                            "value": "Memorias",
-                                                            "book_ids": [],
-                                                            "children": [
-                                                                {
-                                                                    "value": "Historia Moderna",
-                                                                    "book_ids": [],
-                                                                    "children": [
-                                                                        {
-                                                                            "value": "Historia Moderna",
-                                                                            "book_ids": [],
-                                                                            "children": []
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                        {
-                                                            "value": "Memorias",
-                                                            "book_ids": [],
-                                                            "children": []
-                                                        },
-                                                        {
-                                                            "value": "Memorias",
-                                                            "book_ids": [],
-                                                            "children": [
-                                                                {
-                                                                    "value": "Memorias",
-                                                                    "book_ids": [],
-                                                                    "children": []
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "value": "Misterio Infantil",
-                                                    "book_ids": [],
-                                                    "children": []
-                                                },
-                                                {
-                                                    "value": "Misterio Infantil",
-                                                    "book_ids": [],
-                                                    "children": []
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "value": "Policial",
-                                            "book_ids": [],
                                             "children": []
-                                        },
-                                        {
-                                            "value": "Policial",
-                                            "book_ids": [],
-                                            "children": [
-                                                {
-                                                    "value": "Policial",
-                                                    "book_ids": [],
-                                                    "children": []
-                                                }
-                                            ]
                                         }
                                     ]
                                 }
                             ]
                         },
                         {
-                            "value": "Romance Historico",
-                            "book_ids": [],
+                            "value": "Misterio Juvenil",
+                            "book_ids": [
+                                "61a875c2-db8e-42ca-ad6f-7a2909e08b5c",
+                                "b0e5a860-7710-4675-9ea8-d1a5b539e09f",
+                                "8b1f6398-e9fa-4c38-b4dc-42dfa503094a"
+                            ],
                             "children": []
                         },
                         {
-                            "value": "Romance Historico",
-                            "book_ids": [],
+                            "value": "Space Opera",
+                            "book_ids": [
+                                "4efbf6d0-cb24-4ed9-86fb-5d932aeb35e1",
+                                "ebe2bcd6-5599-4841-8bbc-745152f5b6ee",
+                                "a2ed0c9d-0a45-4944-9169-e86dbc708a2c",
+                                "354b0d17-8c5e-405b-8694-1418b50a7097"
+                            ],
                             "children": [
-                                {
-                                    "value": "Space Opera",
-                                    "book_ids": [
-                                        "4efbf6d0-cb24-4ed9-86fb-5d932aeb35e1",
-                                        "ebe2bcd6-5599-4841-8bbc-745152f5b6ee",
-                                        "a2ed0c9d-0a45-4944-9169-e86dbc708a2c",
-                                        "354b0d17-8c5e-405b-8694-1418b50a7097"
-                                    ],
-                                    "children": [
-                                        {
-                                            "value": "Psicologia Positiva",
-                                            "book_ids": [],
-                                            "children": [
-                                                {
-                                                    "value": "Psicologia Positiva",
-                                                    "book_ids": [],
-                                                    "children": []
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
                                 {
                                     "value": "Thriller Psicologico",
                                     "book_ids": [
@@ -417,48 +177,17 @@
                                         "d8b3d47f-0ad1-4f48-9453-f43cf02abde8",
                                         "e2def3dc-0c20-4bec-ad9d-dedc295636ff"
                                     ],
-                                    "children": []
-                                },
-                                {
-                                    "value": "Thriller Psicologico",
-                                    "book_ids": [],
                                     "children": [
                                         {
-                                            "value": "Space Opera",
-                                            "book_ids": [],
-                                            "children": [
-                                                {
-                                                    "value": "Romance Historico",
-                                                    "book_ids": [],
-                                                    "children": []
-                                                },
-                                                {
-                                                    "value": "Space Opera",
-                                                    "book_ids": [],
-                                                    "children": []
-                                                },
-                                                {
-                                                    "value": "Space Opera",
-                                                    "book_ids": [],
-                                                    "children": []
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "value": "Thriller Psicologico",
-                                            "book_ids": [],
+                                            "value": "Memorias",
+                                            "book_ids": [
+                                                "7ba261f8-e050-4132-9c5d-9be300028352",
+                                                "1e5aed06-278a-45e5-acdc-aac448ee7ecf",
+                                                "da868485-3e99-40d0-a50a-dbec255596e5",
+                                                "0c439273-abe4-4249-84b4-6e389513e2a8",
+                                                "5ac79cc7-5d24-46c6-962f-bf1454be2955"
+                                            ],
                                             "children": []
-                                        },
-                                        {
-                                            "value": "Thriller Psicologico",
-                                            "book_ids": [],
-                                            "children": [
-                                                {
-                                                    "value": "Thriller Psicologico",
-                                                    "book_ids": [],
-                                                    "children": []
-                                                }
-                                            ]
                                         }
                                     ]
                                 }
