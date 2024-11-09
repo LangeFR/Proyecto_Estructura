@@ -28,7 +28,7 @@
     },
     {
         "id": "aae610fa-a897-4620-86c6-d1a3f7659b53",
-        "titulo": "La noche de el pasado",
+        "titulo": "La noche del pasado",
         "autor": "J. K. Rowling",
         "genero": "Aventura Juvenil",
         "anio_publicacion": 2019,
@@ -46,7 +46,7 @@
     },
     {
         "id": "6bf378d1-5922-4aac-a765-9ce3ed6dd3da",
-        "titulo": "La verdad de el futuro",
+        "titulo": "La verdad del futuro",
         "autor": "F. Scott Fitzgerald",
         "genero": "Distopia",
         "anio_publicacion": 2002,
@@ -298,7 +298,7 @@
     },
     {
         "id": "46d1d1fb-2f84-48e6-8df4-6a34483d9388",
-        "titulo": "La sombra de el pasado",
+        "titulo": "La sombra del pasado",
         "autor": "William Faulkner",
         "genero": "Distopia",
         "anio_publicacion": 1993,
@@ -316,7 +316,7 @@
     },
     {
         "id": "fb4850f8-7be2-4ec2-8c05-7963e13702d2",
-        "titulo": "La verdad de el mar",
+        "titulo": "La verdad del mar",
         "autor": "Ernest Hemingway",
         "genero": "Cientifico",
         "anio_publicacion": 1990,
@@ -424,7 +424,7 @@
     },
     {
         "id": "45004c9a-b81f-4be1-bbbc-a352aff5d517",
-        "titulo": "El ultimo de el mar",
+        "titulo": "El ultimo del mar",
         "autor": "Ray Bradbury",
         "genero": "Thriller Psicologico",
         "anio_publicacion": 1993,
@@ -433,7 +433,7 @@
     },
     {
         "id": "6e8750d7-b423-4408-b330-3d1065f7e5d0",
-        "titulo": "La guerra de el futuro",
+        "titulo": "La guerra del futuro",
         "autor": "Virginia Woolf",
         "genero": "Alta Fantasia",
         "anio_publicacion": 2003,
@@ -442,7 +442,7 @@
     },
     {
         "id": "517259f1-2f68-4981-a61f-da78de2639f8",
-        "titulo": "Cronicas de el pasado",
+        "titulo": "Cronicas del pasado",
         "autor": "Franz Kafka",
         "genero": "Cuentos de Hadas",
         "anio_publicacion": 1991,
@@ -460,7 +460,7 @@
     },
     {
         "id": "76ba6671-0b3b-4cdf-9311-0a2d5a43de97",
-        "titulo": "La vida de el pasado",
+        "titulo": "La vida del pasado",
         "autor": "J. R. R. Tolkien",
         "genero": "Fantasia Urbana",
         "anio_publicacion": 2000,
@@ -496,7 +496,7 @@
     },
     {
         "id": "8b1f6398-e9fa-4c38-b4dc-42dfa503094a",
-        "titulo": "El despertar de el mar",
+        "titulo": "El despertar del mar",
         "autor": "T. S. Eliot",
         "genero": "Misterio Infantil",
         "anio_publicacion": 2005,
@@ -505,7 +505,7 @@
     },
     {
         "id": "76bf3e86-469c-4d85-93de-5a7978cf3a49",
-        "titulo": "El poder de el mar",
+        "titulo": "El poder del mar",
         "autor": "Aldous Huxley",
         "genero": "Psicologia Positiva",
         "anio_publicacion": 2009,
@@ -523,7 +523,7 @@
     },
     {
         "id": "a72360d5-2f48-41dc-ba6f-c57d4aac7d2e",
-        "titulo": "La magia de el mar",
+        "titulo": "La magia del mar",
         "autor": "Jules Verne",
         "genero": "Autobiografia",
         "anio_publicacion": 2000,
@@ -550,7 +550,7 @@
     },
     {
         "id": "2b1262ce-f497-4cdd-9376-80b4ab460b09",
-        "titulo": "La marca de el pasado",
+        "titulo": "La marca del pasado",
         "autor": "Emily Dickinson",
         "genero": "Policial",
         "anio_publicacion": 2011,
@@ -577,7 +577,7 @@
     },
     {
         "id": "f839c9f2-d3ea-4285-9392-4c16fa9b0c8b",
-        "titulo": "La sombra de el futuro",
+        "titulo": "La sombra del futuro",
         "autor": "H. P. Lovecraft",
         "genero": "Alta Fantasia",
         "anio_publicacion": 1991,
