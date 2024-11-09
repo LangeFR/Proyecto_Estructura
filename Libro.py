@@ -1,5 +1,8 @@
+import uuid
+
 class Libro:
-    def __init__(self, titulo, autor, genero, anio_publicacion, editorial=None, isbn=None):
+    def __init__(self, titulo, autor, genero, anio_publicacion, editorial=None, isbn=None, id=None):
+        self.id = id or str(uuid.uuid4())  # Genera un nuevo UUID si no se proporciona un ID
         self.titulo = titulo
         self.autor = autor
         self.genero = genero
@@ -7,10 +10,13 @@ class Libro:
         self.editorial = editorial
         self.isbn = isbn
 
-    def __str__(self):
-        return f"'{self.titulo}' by {self.autor} ({self.anio_publicacion}) - Genre: {self.genero}"
-
-    def __repr__(self):
-        return (f"Libro(titulo={self.titulo}, autor={self.autor}, "
-                f"genero={self.genero}, anio_publicacion={self.anio_publicacion}, "
-                f"editorial={self.editorial}, isbn={self.isbn})")
+    def __dict__(self):
+        return {
+            'id': self.id,
+            'titulo': self.titulo,
+            'autor': self.autor,
+            'genero': self.genero,
+            'anio_publicacion': self.anio_publicacion,
+            'editorial': self.editorial,
+            'isbn': self.isbn
+        }
