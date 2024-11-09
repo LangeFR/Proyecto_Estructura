@@ -1,7 +1,12 @@
 class NAryNode:
-    def __init__(self, value):
-        self.value = value
-        self.children = []
+    def __init__(self, value, book_titles=None):
+        self.value = value  # El valor principal del nodo
+        self.children = []  # Lista de nodos hijos
+        self.book_titles = book_titles or []  # Lista de títulos (strings) asociada al nodo
+
+    def add_title(self, title):
+        self.book_titles.append(title)  # Método para añadir un título a la lista
+
 
 class NAryTree:
     def __init__(self):

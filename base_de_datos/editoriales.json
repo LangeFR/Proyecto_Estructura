@@ -1,0 +1,50 @@
+[
+    {
+        "id": 2001,
+        "nombre": "HarperCollins"
+    },
+    {
+        "id": 2002,
+        "nombre": "Scholastic"
+    },
+    {
+        "id": 2003,
+        "nombre": "Pan Macmillan"
+    },
+    {
+        "id": 2004,
+        "nombre": "Macmillan"
+    },
+    {
+        "id": 2005,
+        "nombre": "Bloomsbury"
+    },
+    {
+        "id": 2006,
+        "nombre": "Penguin Random House"
+    },
+    {
+        "id": 2007,
+        "nombre": "Hachette Book Group"
+    },
+    {
+        "id": 2008,
+        "nombre": "Vintage"
+    },
+    {
+        "id": 2009,
+        "nombre": "Oxford University Press"
+    },
+    {
+        "id": 2010,
+        "nombre": "Dover Publications"
+    },
+    {
+        "id": 2011,
+        "nombre": "Simon & Schuster"
+    },
+    {
+        "id": 2012,
+        "nombre": "Cambridge University Press"
+    }
+]

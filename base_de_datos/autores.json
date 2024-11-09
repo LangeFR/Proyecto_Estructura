@@ -1,0 +1,134 @@
+[
+    {
+        "id": 3001,
+        "nombre": "F. Scott Fitzgerald"
+    },
+    {
+        "id": 3002,
+        "nombre": "Jules Verne"
+    },
+    {
+        "id": 3003,
+        "nombre": "Robert Louis Stevenson"
+    },
+    {
+        "id": 3004,
+        "nombre": "T. S. Eliot"
+    },
+    {
+        "id": 3005,
+        "nombre": "Mary Shelley"
+    },
+    {
+        "id": 3006,
+        "nombre": "Aldous Huxley"
+    },
+    {
+        "id": 3007,
+        "nombre": "Philip K. Dick"
+    },
+    {
+        "id": 3008,
+        "nombre": "Virginia Woolf"
+    },
+    {
+        "id": 3009,
+        "nombre": "Kurt Vonnegut"
+    },
+    {
+        "id": 3010,
+        "nombre": "George R. R. Martin"
+    },
+    {
+        "id": 3011,
+        "nombre": "William Faulkner"
+    },
+    {
+        "id": 3012,
+        "nombre": "J. R. R. Tolkien"
+    },
+    {
+        "id": 3013,
+        "nombre": "Emily Dickinson"
+    },
+    {
+        "id": 3014,
+        "nombre": "Homer"
+    },
+    {
+        "id": 3015,
+        "nombre": "John Steinbeck"
+    },
+    {
+        "id": 3016,
+        "nombre": "Leo Tolstoy"
+    },
+    {
+        "id": 3017,
+        "nombre": "J. K. Rowling"
+    },
+    {
+        "id": 3018,
+        "nombre": "George Orwell"
+    },
+    {
+        "id": 3019,
+        "nombre": "Harper Lee"
+    },
+    {
+        "id": 3020,
+        "nombre": "Charles Dickens"
+    },
+    {
+        "id": 3021,
+        "nombre": "Arthur Conan Doyle"
+    },
+    {
+        "id": 3022,
+        "nombre": "Jack London"
+    },
+    {
+        "id": 3023,
+        "nombre": "Ray Bradbury"
+    },
+    {
+        "id": 3024,
+        "nombre": "Agatha Christie"
+    },
+    {
+        "id": 3025,
+        "nombre": "Mark Twain"
+    },
+    {
+        "id": 3026,
+        "nombre": "Ernest Hemingway"
+    },
+    {
+        "id": 3027,
+        "nombre": "Edgar Allan Poe"
+    },
+    {
+        "id": 3028,
+        "nombre": "Franz Kafka"
+    },
+    {
+        "id": 3029,
+        "nombre": "H. P. Lovecraft"
+    },
+    {
+        "id": 3030,
+        "nombre": "Oscar Wilde"
+    },
+    {
+        "id": 3031,
+        "nombre": "H. G. Wells"
+    },
+    {
+        "id": 3032,
+        "nombre": "Jane Austen"
+    },
+    {
+        "id": 3033,
+        "nombre": "Herman Melville"
+    }
+]
