@@ -13,7 +13,7 @@ import os.path
 
 _location = os.path.dirname(__file__)
 
-import Navegacion_support
+import navegacion_support
 
 _bgcolor = '#d9d9d9'
 _fgcolor = '#000000'
@@ -122,10 +122,10 @@ class Toplevel1:
         self.btnVisualizar.configure(text='''Consultas''')
 
 def start_up():
-    Navegacion_support.main()
+    navegacion_support.main()
 
 if __name__ == '__main__':
-    Navegacion_support.main()
+    navegacion_support.main()
 
 
 
