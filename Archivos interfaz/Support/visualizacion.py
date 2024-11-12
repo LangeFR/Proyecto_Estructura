@@ -20,7 +20,8 @@ project_root = os.path.abspath(os.path.join(current_dir, '..', '..'))
 sys.path.append(project_root)
 
 # Ahora importa el módulo
-from models.n_ary_tree import NAryTree  
+from models.n_ary_tree import NAryTree, NAryNode
+
 
 import visualizacion_support
 
@@ -125,7 +126,7 @@ class Toplevel1:
         self.Button1.configure(foreground="black")
         self.Button1.configure(highlightbackground="#d9d9d9")
         self.Button1.configure(highlightcolor="#000000")
-        self.Button1.configure(text='''Ver grafo''')
+        self.Button1.configure(text='''Ver Arbol''')
         self.Button1.configure(command=self.on_button_click)
 
         self.Button2 = tk.Button(self.Frame1)
@@ -154,6 +155,40 @@ class Toplevel1:
 
         self.menubar = tk.Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
         top.configure(menu = self.menubar)
+    
+        #----------------------------------------------------------------Canvas arbol
+        # Canvas para visualizar el árbol con scrollbars
+        # Variables para manejar el desplazamiento
+        self.start_x = 0
+        self.start_y = 0
+
+        # Llamar al método que crea el contenedor del árbol
+        self.crear_contenedor_arbol()       
+
+
+    def crear_contenedor_arbol(self):
+        """Crea el contenedor del árbol, incluyendo el Canvas y los eventos de zoom y desplazamiento."""
+        
+        # Crear un contenedor dedicado al árbol para el Canvas
+        self.tree_container = tk.Frame(self.top)
+        self.tree_container.place(relx=0.483, rely=0.244, relheight=0.562, relwidth=0.488)
+
+        # Canvas para visualizar el árbol
+        self.Canvas1 = tk.Canvas(self.tree_container, bg="#d9d9d9")
+        self.Canvas1.pack(side="left", fill="both", expand=True)
+
+        # Vincular eventos de desplazamiento
+        self.Canvas1.bind("<ButtonPress-1>", self.start_move)
+        self.Canvas1.bind("<B1-Motion>", self.on_move)
+        self.Canvas1.bind("<ButtonRelease-1>", self.end_move)
+
+        # Vincular eventos de zoom para distintos sistemas
+        self.Canvas1.bind("<MouseWheel>", self.zoom)        # Windows y Linux
+        self.Canvas1.bind("<Button-4>", self.zoom)          # Mac scroll up
+    
+
+
+
 
     # Método para cargar datos y construir el árbol
     def on_button_click(self):
@@ -167,39 +202,141 @@ class Toplevel1:
             return json.load(file)
 
     def cargar_generos(self):
+        """Carga los géneros desde el archivo JSON conservando toda su información."""
         with open(ruta_generos, 'r') as file:
             generos = json.load(file)
-        return {genero['id']: genero['nombre'] for genero in generos}
+        # Retorna una lista de diccionarios, cada uno con id, nombre y generoPadreId
+        return {genero['id']: genero for genero in generos}
+
 
     def construir_arbol_por_genero(self):
+        """Construye el árbol de géneros basado en la relación padre-hijo."""
         books = self.cargar_libros()
         generos = self.cargar_generos()
         
         genre_tree = NAryTree()
-        genre_tree.insert("Biblioteca")
+        genre_tree.insert("Biblioteca")  # Nodo raíz del árbol
+        
+        # Insertar cada género en el árbol con su padre correspondiente
+        for genero in generos.values():
+            nombre = genero['nombre']
+            genero_id = genero['id']
+            genero_padre_id = genero['generoPadreId']
+            
+            # Insertar el nodo basado en su generoPadreId
+            self.insertar_nodo_por_padre(genre_tree, nombre, genero_id, genero_padre_id)
 
+        # Asignar libros a sus géneros
         for book in books:
             genero_id = book['generoId']
             book_id = book['id']
-            genero_nombre = generos.get(genero_id, "Género desconocido")
-
+            genero_nombre = generos[genero_id]['nombre']
+            
+            # Buscar el nodo del género en el árbol y añadir el libro
             genre_node = genre_tree.search(genero_nombre)
-            if not genre_node:
-                genre_tree.insert(genero_nombre)
-                genre_node = genre_tree.search(genero_nombre)
-            genre_node.add_title(book_id)
+            if genre_node:
+                genre_node.add_title(book_id)
         
         return genre_tree
+    
+    def insertar_nodo_por_padre(self, tree, nombre, genero_id, genero_padre_id):
+        """Inserta un nodo en el árbol bajo su nodo padre."""
+        # Si el género no tiene padre, se inserta bajo el nodo raíz 'Biblioteca'
+        if genero_padre_id is None:
+            parent_node = tree.root
+        else:
+            # Buscar o crear el nodo padre en el árbol
+            parent_nombre = self.cargar_generos()[genero_padre_id]['nombre']
+            parent_node = self.buscar_o_crear_nodo(tree, parent_nombre)
+        
+        # Buscar el nodo hijo
+        child_node = self.buscar_o_crear_nodo(tree, nombre)
+
+        # Insertar el género como hijo del nodo padre encontrado
+        # Solo si el nodo hijo no tiene ningún otro padre
+        if child_node not in parent_node.children:
+            # Añadir solo si child_node no tiene ningún padre
+            if child_node not in tree.root.children and not any(child_node in node.children for node in tree.root.children):
+                parent_node.children.append(child_node)
+
+    def buscar_o_crear_nodo(self, tree, nombre):
+        """Busca un nodo en el árbol por su nombre; si no existe, lo crea."""
+        # Buscar el nodo por nombre
+        node = tree.search(nombre)
+        # Si el nodo no existe, crearlo
+        if not node:
+            node = NAryNode(nombre)
+            # Si el árbol está vacío, asignarlo como raíz
+            if not tree.root:
+                tree.root = node
+        return node
+
+
+
 
     def dibujar_arbol(self, canvas, node, x, y, x_offset):
+        """Dibuja el árbol en el canvas mostrando solo los nombres de los géneros."""
         if not node:
             return
-        canvas.create_text(x, y, text=f"{node.value}\nIDs: {', '.join(node.book_titles)}", anchor="center")
-        child_y = y + 80
+
+        # Dibujar solo el nombre del género
+        canvas.create_text(x, y, text=node.value, anchor="center")
+
+        # Ajustar el espaciado horizontal en función del número de hijos
+        if node.children:
+            # Cuanto más hijos tiene el nodo, mayor será el espaciado entre ellos
+            dynamic_x_offset = x_offset * max(1, (len(node.children) - 1))
+
+        child_y = y + 80  # Espaciado vertical entre niveles
         for i, child in enumerate(node.children):
-            child_x = x - x_offset + (i * (x_offset * 2 // max(1, len(node.children))))
+            # Calcular posición x para cada hijo con el espaciado dinámico
+            child_x = x - dynamic_x_offset + (i * (dynamic_x_offset * 2 // max(1, len(node.children))))
+            # Dibujar línea entre el nodo actual y el hijo
             canvas.create_line(x, y + 10, child_x, child_y - 10)
+            # Dibujar el hijo
             self.dibujar_arbol(canvas, child, child_x, child_y, x_offset // 2)
+
+    
+    def zoom(self, event):
+        """Maneja el zoom en el Canvas con la rueda del ratón."""
+        # Ajusta el valor de escala dependiendo del sistema
+        if event.num == 4 or event.delta > 0:
+            scale = 1.1
+        elif event.num == 5 or event.delta < 0:
+            scale = 0.9
+        else:
+            return  # No hacer nada si el evento no es reconocible
+
+        # Aplicar el zoom y actualizar el scrollregion
+        self.Canvas1.scale("all", event.x, event.y, scale, scale)
+        self.configure_scrollregion()
+
+
+
+    def configure_scrollregion(self, event=None):
+        """Configura la región de desplazamiento del Canvas para permitir desplazamiento completo."""
+        self.Canvas1.configure(scrollregion=self.Canvas1.bbox("all"))
+
+    
+    def start_move(self, event):
+        """Marca la posición inicial en el Canvas para el arrastre."""
+        self.Canvas1.scan_mark(event.x, event.y)
+
+    def on_move(self, event):
+        """Arrastra el Canvas en función del movimiento del mouse."""
+        # Usa scan_dragto con las coordenadas actuales sin actualizar start_x y start_y
+        self.Canvas1.scan_dragto(event.x, event.y, gain=1)
+
+    def end_move(self, event):
+        """Finaliza el movimiento del Canvas."""
+        # No se necesita realizar ninguna acción específica al finalizar el arrastre
+        pass
+
+
+
+
+
+
 
 def start_up():
     visualizacion_support.main()
