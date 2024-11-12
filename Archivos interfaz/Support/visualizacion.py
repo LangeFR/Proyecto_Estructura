@@ -6,14 +6,21 @@
 #    Nov 11, 2024 04:34:41 PM EST  platform: Windows NT
 
 import sys
+import os
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
-import os.path
 import json
-from models.n_ary_tree import NAryTree  
 
-_location = os.path.dirname(__file__)
+# Determina la ruta al directorio raíz del proyecto
+current_dir = os.path.dirname(__file__)
+project_root = os.path.abspath(os.path.join(current_dir, '..', '..'))
+
+# Agrega el directorio raíz a sys.path
+sys.path.append(project_root)
+
+# Ahora importa el módulo
+from models.n_ary_tree import NAryTree  
 
 import visualizacion_support
 
