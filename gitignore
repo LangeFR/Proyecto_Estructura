@@ -1,0 +1,30 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Backup and autosave files
+*.bak*
+*.tmp
+*.tcl.*
+# Autosave files for VSCode
+.autosave.tcl*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Virtual environment folders
+env/
+venv/
+
+# Configuración de IDEs
+.vscode/
+.idea/
+
+# Archivos JSON de persistencia
+base_de_datos/genre_tree.json
+
+# Excluir archivos temporales y de soporte, si no son necesarios
+Interface miscelánea/Support/
