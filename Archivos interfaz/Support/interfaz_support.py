@@ -9,7 +9,7 @@
 import sys
 import tkinter as tk
 from tkinter.constants import *
-import navegacion_support  # Este import debe estar dirigido al script que inicia la interfaz de Navegacion
+import navegacion_support 
 
 def doIngresar():
     global root

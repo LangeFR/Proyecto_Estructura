@@ -10,10 +10,16 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
 import os.path
+import json
+from models.n_ary_tree import NAryTree  
 
 _location = os.path.dirname(__file__)
 
 import visualizacion_support
+
+# Rutas de archivos de datos
+ruta_books = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\base_de_datos\books.json"
+ruta_generos = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\base_de_datos\generos.json"
 
 _bgcolor = '#d9d9d9'
 _fgcolor = '#000000'
@@ -45,7 +51,7 @@ class Toplevel1:
         top.geometry("600x450+436+171")
         top.minsize(120, 1)
         top.maxsize(1540, 845)
-        top.resizable(1,  1)
+        top.resizable(1, 1)
         top.title("Toplevel 0")
         top.configure(background="#98e4fe")
         top.configure(highlightbackground="#d9d9d9")
@@ -93,12 +99,16 @@ class Toplevel1:
         self.Label1.configure(text='''Visualizar por:''')
 
         _style_code()
-        self.TCombobox1 = ttk.Combobox(self.Frame1)
-        self.TCombobox1.place(relx=0.408, rely=0.242, relheight=0.115
-                , relwidth=0.559)
-        self.TCombobox1.configure(textvariable=self.combobox)
+        self.combobox = tk.StringVar()
+        self.TCombobox1 = ttk.Combobox(self.Frame1, textvariable=self.combobox, state="readonly")
+        self.TCombobox1.place(relx=0.408, rely=0.242, relheight=0.115, relwidth=0.559)
+        # Define las opciones del combobox
+        opciones_combobox = ['Título', 'Género', 'Año de Publicación']
+        self.TCombobox1['values'] = opciones_combobox
+        self.TCombobox1.set('Título') 
         self.TCombobox1.configure(takefocus="")
 
+        # Botón "Ver grafo"
         self.Button1 = tk.Button(self.Frame1)
         self.Button1.place(relx=0.082, rely=0.424, height=26, width=57)
         self.Button1.configure(activebackground="#d9d9d9")
@@ -109,6 +119,7 @@ class Toplevel1:
         self.Button1.configure(highlightbackground="#d9d9d9")
         self.Button1.configure(highlightcolor="#000000")
         self.Button1.configure(text='''Ver grafo''')
+        self.Button1.configure(command=self.on_button_click)
 
         self.Button2 = tk.Button(self.Frame1)
         self.Button2.place(relx=0.694, rely=0.788, height=26, width=57)
@@ -137,12 +148,54 @@ class Toplevel1:
         self.menubar = tk.Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
         top.configure(menu = self.menubar)
 
+    # Método para cargar datos y construir el árbol
+    def on_button_click(self):
+        if self.combobox.get() == "Género":
+            genre_tree = self.construir_arbol_por_genero()
+            self.Canvas1.delete("all")
+            self.dibujar_arbol(self.Canvas1, genre_tree.root, 300, 20, 150)
+
+    def cargar_libros(self):
+        with open(ruta_books, 'r') as file:
+            return json.load(file)
+
+    def cargar_generos(self):
+        with open(ruta_generos, 'r') as file:
+            generos = json.load(file)
+        return {genero['id']: genero['nombre'] for genero in generos}
+
+    def construir_arbol_por_genero(self):
+        books = self.cargar_libros()
+        generos = self.cargar_generos()
+        
+        genre_tree = NAryTree()
+        genre_tree.insert("Biblioteca")
+
+        for book in books:
+            genero_id = book['generoId']
+            book_id = book['id']
+            genero_nombre = generos.get(genero_id, "Género desconocido")
+
+            genre_node = genre_tree.search(genero_nombre)
+            if not genre_node:
+                genre_tree.insert(genero_nombre)
+                genre_node = genre_tree.search(genero_nombre)
+            genre_node.add_title(book_id)
+        
+        return genre_tree
+
+    def dibujar_arbol(self, canvas, node, x, y, x_offset):
+        if not node:
+            return
+        canvas.create_text(x, y, text=f"{node.value}\nIDs: {', '.join(node.book_titles)}", anchor="center")
+        child_y = y + 80
+        for i, child in enumerate(node.children):
+            child_x = x - x_offset + (i * (x_offset * 2 // max(1, len(node.children))))
+            canvas.create_line(x, y + 10, child_x, child_y - 10)
+            self.dibujar_arbol(canvas, child, child_x, child_y, x_offset // 2)
+
 def start_up():
     visualizacion_support.main()
 
 if __name__ == '__main__':
     visualizacion_support.main()
-
-
-
-
