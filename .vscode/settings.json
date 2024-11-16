@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./Archivos interfaz/Support"
+        "./Archivos interfaz/Support",
+        "./models"
     ]
 }
