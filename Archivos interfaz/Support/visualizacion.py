@@ -129,6 +129,7 @@ class Toplevel1:
         self.Button1.configure(text='''Ver Arbol''')
         self.Button1.configure(command=self.on_button_click)
 
+        # Botón "Regresar"
         self.Button2 = tk.Button(self.Frame1)
         self.Button2.place(relx=0.694, rely=0.788, height=26, width=57)
         self.Button2.configure(activebackground="#d9d9d9")
@@ -139,6 +140,7 @@ class Toplevel1:
         self.Button2.configure(highlightbackground="#d9d9d9")
         self.Button2.configure(highlightcolor="#000000")
         self.Button2.configure(text='''Regresar''')
+        self.Button2.configure(command=self.regresar)
 
         self.Label2 = tk.Label(self.top)
         self.Label2.place(relx=0.433, rely=0.044, height=21, width=74)
@@ -275,16 +277,16 @@ class Toplevel1:
 
 
     def dibujar_arbol(self, canvas, node, x, y, x_offset):
-        """Dibuja el árbol en el canvas mostrando solo los nombres de los géneros."""
+        """Dibuja el árbol en el canvas mostrando el texto ajustado en líneas."""
         if not node:
             return
 
-        # Dibujar solo el nombre del género
-        canvas.create_text(x, y, text=node.value, anchor="center")
+        # Ajustar el texto para que se divida en varias líneas si es muy largo
+        texto_ajustado = self.dividir_texto(node.value, max_char_per_line=12)  # Dividir texto en líneas de hasta 12 caracteres
+        canvas.create_text(x, y, text=texto_ajustado, anchor="center")
 
         # Ajustar el espaciado horizontal en función del número de hijos
         if node.children:
-            # Cuanto más hijos tiene el nodo, mayor será el espaciado entre ellos
             dynamic_x_offset = x_offset * max(1, (len(node.children) - 1))
 
         child_y = y + 80  # Espaciado vertical entre niveles
@@ -295,6 +297,34 @@ class Toplevel1:
             canvas.create_line(x, y + 10, child_x, child_y - 10)
             # Dibujar el hijo
             self.dibujar_arbol(canvas, child, child_x, child_y, x_offset // 2)
+
+    def dividir_texto(self, texto, max_char_per_line):
+        """
+        Divide el texto en múltiples líneas si excede max_char_per_line caracteres por línea.
+        """
+        palabras = texto.split()  # Divide el texto por palabras
+        lineas = []
+        linea_actual = ""
+
+        for palabra in palabras:
+            # Si añadir la palabra actual supera el límite, guarda la línea y comienza una nueva
+            if len(linea_actual) + len(palabra) + 1 > max_char_per_line:
+                lineas.append(linea_actual)
+                linea_actual = palabra
+            else:
+                # Añade la palabra a la línea actual
+                if linea_actual:  # Si ya hay palabras en la línea
+                    linea_actual += " " + palabra
+                else:
+                    linea_actual = palabra
+
+        # Añadir la última línea si hay contenido
+        if linea_actual:
+            lineas.append(linea_actual)
+
+        # Unir las líneas con saltos de línea
+        return "\n".join(lineas)
+
 
     
     def zoom(self, event):
@@ -331,6 +361,13 @@ class Toplevel1:
         """Finaliza el movimiento del Canvas."""
         # No se necesita realizar ninguna acción específica al finalizar el arrastre
         pass
+
+
+    # Método para regresar a navegacion.py
+    def regresar(self):
+        self.top.destroy()  # Cierra la ventana actual
+        import navegacion  # Importa el módulo navegacion
+        navegacion.start_up()  # Llama al método principal de navegacion
 
 
 
