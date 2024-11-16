@@ -1,6 +1,40 @@
 import os
 import json
 from models.n_ary_tree import NAryTree, NAryNode
+import tkinter as tk  # Asegúrate de importar tkinter si es necesario para Tooltip
+
+class Tooltip:
+    """
+    Clase para gestionar tooltips como Label en una posición fija.
+    """
+    def __init__(self, parent):
+        """
+        Inicializa el Tooltip creando un Label en la posición fija.
+        
+        :param parent: El widget padre donde se colocará el tooltip.
+        """
+        self.parent = parent
+        self.tooltip_label = tk.Label(parent, text="", bg="yellow", fg="black", bd=1, relief="solid", font=("Arial", 10, "bold"))
+        # Posicionar el tooltip en la parte inferior central del frame
+        self.tooltip_label.place(relx=0.5, rely=0.95, anchor='s')  # 95% de la altura, centrado horizontalmente
+        self.tooltip_label.lower()  # Ocultar inicialmente
+
+    def show(self, text):
+        """
+        Muestra el tooltip con el texto proporcionado.
+        
+        :param text: El texto que se mostrará en el tooltip.
+        """
+        self.tooltip_label.config(text=text)
+        self.tooltip_label.lift()  # Llevar el tooltip al frente
+
+    def hide(self):
+        """
+        Oculta el tooltip.
+        """
+        self.tooltip_label.config(text="")
+        self.tooltip_label.lower()  # Enviar el tooltip al fondo
+
 
 class VisualizarGeneroAdapter:
     def __init__(self, canvas):
@@ -12,6 +46,9 @@ class VisualizarGeneroAdapter:
         self.ruta_books = os.path.join(project_root, 'base_de_datos', 'books.json')
         self.ruta_generos = os.path.join(project_root, 'base_de_datos', 'generos.json')
         self.generos = self.cargar_generos()  # Cargar géneros al inicializar el adaptador
+
+        # Inicializar el objeto Tooltip
+        self.tooltip = Tooltip(self.canvas.master)
 
     def cargar_libros(self):
         """Carga los libros desde el archivo JSON."""
@@ -70,16 +107,14 @@ class VisualizarGeneroAdapter:
         return genre_tree
 
     def obtener_iniciales(self, genero_id):
-        BFlag = False
         """Obtiene las iniciales del nombre del género dado su ID."""
+        if genero_id == "Biblioteca":
+            return "Biblioteca"
         for genero in self.generos:
             if genero["id"] == genero_id:
                 nombre = genero["nombre"]
-                # Generar las iniciales del nombre (e.g., "Romance Historico" -> "R. H.")
+                # Generar las iniciales del nombre (e.g., "Romance Histórico" -> "R. H.")
                 return ". ".join([palabra[0].upper() for palabra in nombre.split()]) + "."
-        if BFlag == False:
-            BFlag = True
-            return "Biblioteca"
         return "N/A"  # En caso de que no se encuentre el nombre
 
     def dibujar_arbol(self, node, x, y, x_offset):
@@ -95,6 +130,9 @@ class VisualizarGeneroAdapter:
         tag = f"node_{node.value}"
         self.canvas.create_text(x, y, text=texto, anchor="center", tags=(tag,))
 
+        # Agregar eventos al nodo para mostrar información
+        self.agregar_eventos_nodo(tag, node.value)
+
         # Si el nodo no tiene hijos, simplemente dibuja
         if not node.children:
             return
@@ -102,26 +140,25 @@ class VisualizarGeneroAdapter:
         # Calcular las posiciones de los hijos
         y_hijos = y + 80
         ancho_total = self.calcular_ancho_subarbol(node) * 50  # Determina el rango total de ancho
-        current_x = x - ancho_total // 2  # Empieza desde la posición inicial del rango
+        current_x = x - ancho_total / 2  # Empieza desde la posición inicial del rango
 
         posiciones_hijos = []  # Lista para almacenar las posiciones de los hijos
         for child in node.children:
             child_ancho = self.calcular_ancho_subarbol(child) * 50
-            child_x = current_x + child_ancho // 2  # Centra el hijo dentro de su rango
+            child_x = current_x + child_ancho / 2  # Centra el hijo dentro de su rango
             posiciones_hijos.append(child_x)
             self.dibujar_arbol(child, child_x, y_hijos, x_offset)
             current_x += child_ancho  # Avanza al siguiente hijo
 
         # Recalcular la posición del nodo actual basado en los hijos
         if posiciones_hijos:
-            x_centrado = (posiciones_hijos[0] + posiciones_hijos[-1]) // 2
+            x_centrado = (posiciones_hijos[0] + posiciones_hijos[-1]) / 2
             # Mover el texto del nodo actual al nuevo centro
             self.canvas.move(tag, x_centrado - x, 0)
 
         # Dibuja líneas entre el nodo y sus hijos
         for child_x in posiciones_hijos:
             self.canvas.create_line(x_centrado, y + 20, child_x, y_hijos - 20)
-
 
     def calcular_ancho_subarbol(self, node):
         """Calcula el ancho del subárbol en términos de número de hojas."""
@@ -151,3 +188,28 @@ class VisualizarGeneroAdapter:
         print("  " * nivel + f"{node.value}: {[child.value for child in node.children]}")
         for child in node.children:
             self.imprimir_arbol(child, nivel + 1)
+
+    def agregar_eventos_nodo(self, tag, genero_id):
+        """Asocia eventos de mouse a un nodo en el Canvas."""
+        # Vincula el evento para mostrar el tooltip
+        self.canvas.tag_bind(tag, "<Enter>", lambda event, gid=genero_id: self.mostrar_tooltip(gid))
+        # Vincula el evento para ocultar el tooltip
+        self.canvas.tag_bind(tag, "<Leave>", self.ocultar_tooltip)
+
+    def mostrar_tooltip(self, genero_id):
+        """Muestra un tooltip con información del nodo en una posición fija."""
+        try:
+            # Obtener el nombre completo del género
+            nombre_completo = next((genero["nombre"] for genero in self.generos if genero["id"] == genero_id), "N/A")
+
+            # Mostrar el tooltip en la posición fija
+            self.tooltip.show(nombre_completo)
+        except Exception as e:
+            print(f"Error en mostrar_tooltip: {e}")
+
+    def ocultar_tooltip(self, event=None):
+        """Elimina cualquier tooltip existente del Canvas."""
+        try:
+            self.tooltip.hide()
+        except Exception as e:
+            print(f"Error en ocultar_tooltip: {e}")
