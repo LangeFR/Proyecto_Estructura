@@ -10,7 +10,6 @@ import os
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
-import json
 
 # Determina la ruta al directorio raíz del proyecto
 current_dir = os.path.dirname(__file__)
@@ -19,15 +18,10 @@ project_root = os.path.abspath(os.path.join(current_dir, '..', '..'))
 # Agrega el directorio raíz a sys.path
 sys.path.append(project_root)
 
-# Ahora importa el módulo
-from models.n_ary_tree import NAryTree, NAryNode
-
+# Importar los adaptadores
+from adapters.visualizar_genero_adapter import VisualizarGeneroAdapter
 
 import visualizacion_support
-
-# Rutas de archivos de datos
-ruta_books = os.path.join(project_root, 'base_de_datos', 'books.json')
-ruta_generos = os.path.join(project_root, 'base_de_datos', 'generos.json')
 
 _bgcolor = '#d9d9d9'
 _fgcolor = '#000000'
@@ -40,15 +34,17 @@ _tabbg2 = 'gray40'
 _style_code_ran = 0
 def _style_code():
     global _style_code_ran
-    if _style_code_ran: return        
-    try: visualizacion_support.root.tk.call('source',
-                os.path.join(_location, 'themes', 'default.tcl'))
-    except: pass
+    if _style_code_ran: 
+        return        
+    try: 
+        visualizacion_support.root.tk.call('source', os.path.join(_location, 'themes', 'default.tcl'))
+    except: 
+        pass
     style = ttk.Style()
     style.theme_use('default')
-    style.configure('.', font = "TkDefaultFont")
+    style.configure('.', font="TkDefaultFont")
     if sys.platform == "win32":
-       style.theme_use('winnative')    
+        style.theme_use('winnative')    
     _style_code_ran = 1
 
 class Toplevel1:
@@ -69,8 +65,7 @@ class Toplevel1:
         self.combobox = tk.StringVar()
 
         self.Canvas1 = tk.Canvas(self.top)
-        self.Canvas1.place(relx=0.483, rely=0.244, relheight=0.562
-                , relwidth=0.488)
+        self.Canvas1.place(relx=0.483, rely=0.244, relheight=0.562, relwidth=0.488)
         self.Canvas1.configure(background="#d9d9d9")
         self.Canvas1.configure(borderwidth="2")
         self.Canvas1.configure(cursor="fleur")
@@ -82,8 +77,7 @@ class Toplevel1:
         self.Canvas1.configure(selectforeground="black")
 
         self.Frame1 = tk.Frame(self.top)
-        self.Frame1.place(relx=0.033, rely=0.333, relheight=0.367
-                , relwidth=0.408)
+        self.Frame1.place(relx=0.033, rely=0.333, relheight=0.367, relwidth=0.408)
         self.Frame1.configure(relief='groove')
         self.Frame1.configure(borderwidth="2")
         self.Frame1.configure(relief="groove")
@@ -107,16 +101,14 @@ class Toplevel1:
         self.Label1.configure(text='''Visualizar por:''')
 
         _style_code()
-        self.combobox = tk.StringVar()
         self.TCombobox1 = ttk.Combobox(self.Frame1, textvariable=self.combobox, state="readonly")
         self.TCombobox1.place(relx=0.408, rely=0.242, relheight=0.115, relwidth=0.559)
-        # Define las opciones del combobox
         opciones_combobox = ['Título', 'Género', 'Año de Publicación']
         self.TCombobox1['values'] = opciones_combobox
         self.TCombobox1.set('Título') 
         self.TCombobox1.configure(takefocus="")
 
-        # Botón "Ver grafo"
+        # Botón "Ver árbol"
         self.Button1 = tk.Button(self.Frame1)
         self.Button1.place(relx=0.082, rely=0.424, height=26, width=57)
         self.Button1.configure(activebackground="#d9d9d9")
@@ -155,225 +147,60 @@ class Toplevel1:
         self.Label2.configure(highlightcolor="#000000")
         self.Label2.configure(text='''Visualización''')
 
-        self.menubar = tk.Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)
-        top.configure(menu = self.menubar)
-    
-        #----------------------------------------------------------------Canvas arbol
-        # Canvas para visualizar el árbol con scrollbars
-        # Variables para manejar el desplazamiento
-        self.start_x = 0
-        self.start_y = 0
-
-        # Llamar al método que crea el contenedor del árbol
-        self.crear_contenedor_arbol()       
+        # Vincular eventos de zoom y movimiento
+        self.Canvas1.bind("<MouseWheel>", self.zoom)  # Zoom con la rueda del ratón
+        self.Canvas1.bind("<ButtonPress-1>", self.start_move)  # Inicia el movimiento
+        self.Canvas1.bind("<B1-Motion>", self.on_move)  # Arrastra el Canvas
 
 
-    def crear_contenedor_arbol(self):
-        """Crea el contenedor del árbol, incluyendo el Canvas y los eventos de zoom y desplazamiento."""
-        
-        # Crear un contenedor dedicado al árbol para el Canvas
-        self.tree_container = tk.Frame(self.top)
-        self.tree_container.place(relx=0.483, rely=0.244, relheight=0.562, relwidth=0.488)
+        self.menubar = tk.Menu(top, font="TkMenuFont", bg=_bgcolor, fg=_fgcolor)
+        top.configure(menu=self.menubar)
 
-        # Canvas para visualizar el árbol
-        self.Canvas1 = tk.Canvas(self.tree_container, bg="#d9d9d9")
-        self.Canvas1.pack(side="left", fill="both", expand=True)
-
-        # Vincular eventos de desplazamiento
-        self.Canvas1.bind("<ButtonPress-1>", self.start_move)
-        self.Canvas1.bind("<B1-Motion>", self.on_move)
-        self.Canvas1.bind("<ButtonRelease-1>", self.end_move)
-
-        # Vincular eventos de zoom para distintos sistemas
-        self.Canvas1.bind("<MouseWheel>", self.zoom)        # Windows y Linux
-        self.Canvas1.bind("<Button-4>", self.zoom)          # Mac scroll up
-    
-
-
-
-
-    # Método para cargar datos y construir el árbol
     def on_button_click(self):
-        if self.combobox.get() == "Género":
-            genre_tree = self.construir_arbol_por_genero()
-            self.Canvas1.delete("all")
-            self.dibujar_arbol(self.Canvas1, genre_tree.root, 300, 20, 150)
+        """Determina el tipo de árbol a visualizar y delega al adaptador correspondiente."""
+        selected_option = self.combobox.get()
+        self.Canvas1.delete("all")
 
-    def cargar_libros(self):
-        with open(ruta_books, 'r') as file:
-            return json.load(file)
-
-    def cargar_generos(self):
-        """Carga los géneros desde el archivo JSON conservando toda su información."""
-        with open(ruta_generos, 'r') as file:
-            generos = json.load(file)
-        # Retorna una lista de diccionarios, cada uno con id, nombre y generoPadreId
-        return {genero['id']: genero for genero in generos}
-
-
-    def construir_arbol_por_genero(self):
-        """Construye el árbol de géneros basado en la relación padre-hijo."""
-        books = self.cargar_libros()
-        generos = self.cargar_generos()
-        
-        genre_tree = NAryTree()
-        genre_tree.insert("Biblioteca")  # Nodo raíz del árbol
-        
-        # Insertar cada género en el árbol con su padre correspondiente
-        for genero in generos.values():
-            nombre = genero['nombre']
-            genero_id = genero['id']
-            genero_padre_id = genero['generoPadreId']
-            
-            # Insertar el nodo basado en su generoPadreId
-            self.insertar_nodo_por_padre(genre_tree, nombre, genero_id, genero_padre_id)
-
-        # Asignar libros a sus géneros
-        for book in books:
-            genero_id = book['generoId']
-            book_id = book['id']
-            genero_nombre = generos[genero_id]['nombre']
-            
-            # Buscar el nodo del género en el árbol y añadir el libro
-            genre_node = genre_tree.search(genero_nombre)
-            if genre_node:
-                genre_node.add_title(book_id)
-        
-        return genre_tree
-    
-    def insertar_nodo_por_padre(self, tree, nombre, genero_id, genero_padre_id):
-        """Inserta un nodo en el árbol bajo su nodo padre."""
-        # Si el género no tiene padre, se inserta bajo el nodo raíz 'Biblioteca'
-        if genero_padre_id is None:
-            parent_node = tree.root
-        else:
-            # Buscar o crear el nodo padre en el árbol
-            parent_nombre = self.cargar_generos()[genero_padre_id]['nombre']
-            parent_node = self.buscar_o_crear_nodo(tree, parent_nombre)
-        
-        # Buscar el nodo hijo
-        child_node = self.buscar_o_crear_nodo(tree, nombre)
-
-        # Insertar el género como hijo del nodo padre encontrado
-        # Solo si el nodo hijo no tiene ningún otro padre
-        if child_node not in parent_node.children:
-            # Añadir solo si child_node no tiene ningún padre
-            if child_node not in tree.root.children and not any(child_node in node.children for node in tree.root.children):
-                parent_node.children.append(child_node)
-
-    def buscar_o_crear_nodo(self, tree, nombre):
-        """Busca un nodo en el árbol por su nombre; si no existe, lo crea."""
-        # Buscar el nodo por nombre
-        node = tree.search(nombre)
-        # Si el nodo no existe, crearlo
-        if not node:
-            node = NAryNode(nombre)
-            # Si el árbol está vacío, asignarlo como raíz
-            if not tree.root:
-                tree.root = node
-        return node
+        if selected_option == "Género":
+            adapter = VisualizarGeneroAdapter(self.Canvas1)
+            genre_tree = adapter.construir_arbol_por_genero()
+            adapter.dibujar_arbol(genre_tree.root, 300, 20, 150)
 
 
 
 
-    def dibujar_arbol(self, canvas, node, x, y, x_offset):
-        """Dibuja el árbol en el canvas mostrando el texto ajustado en líneas."""
-        if not node:
-            return
-
-        # Ajustar el texto para que se divida en varias líneas si es muy largo
-        texto_ajustado = self.dividir_texto(node.value, max_char_per_line=12)  # Dividir texto en líneas de hasta 12 caracteres
-        canvas.create_text(x, y, text=texto_ajustado, anchor="center")
-
-        # Ajustar el espaciado horizontal en función del número de hijos
-        if node.children:
-            dynamic_x_offset = x_offset * max(1, (len(node.children) - 1))
-
-        child_y = y + 80  # Espaciado vertical entre niveles
-        for i, child in enumerate(node.children):
-            # Calcular posición x para cada hijo con el espaciado dinámico
-            child_x = x - dynamic_x_offset + (i * (dynamic_x_offset * 2 // max(1, len(node.children))))
-            # Dibujar línea entre el nodo actual y el hijo
-            canvas.create_line(x, y + 10, child_x, child_y - 10)
-            # Dibujar el hijo
-            self.dibujar_arbol(canvas, child, child_x, child_y, x_offset // 2)
-
-    def dividir_texto(self, texto, max_char_per_line):
-        """
-        Divide el texto en múltiples líneas si excede max_char_per_line caracteres por línea.
-        """
-        palabras = texto.split()  # Divide el texto por palabras
-        lineas = []
-        linea_actual = ""
-
-        for palabra in palabras:
-            # Si añadir la palabra actual supera el límite, guarda la línea y comienza una nueva
-            if len(linea_actual) + len(palabra) + 1 > max_char_per_line:
-                lineas.append(linea_actual)
-                linea_actual = palabra
-            else:
-                # Añade la palabra a la línea actual
-                if linea_actual:  # Si ya hay palabras en la línea
-                    linea_actual += " " + palabra
-                else:
-                    linea_actual = palabra
-
-        # Añadir la última línea si hay contenido
-        if linea_actual:
-            lineas.append(linea_actual)
-
-        # Unir las líneas con saltos de línea
-        return "\n".join(lineas)
 
 
-    
+
+
+
+
+
+
+
     def zoom(self, event):
         """Maneja el zoom en el Canvas con la rueda del ratón."""
-        # Ajusta el valor de escala dependiendo del sistema
-        if event.num == 4 or event.delta > 0:
-            scale = 1.1
-        elif event.num == 5 or event.delta < 0:
-            scale = 0.9
-        else:
-            return  # No hacer nada si el evento no es reconocible
-
-        # Aplicar el zoom y actualizar el scrollregion
+        scale = 1.1 if event.delta > 0 else 0.9
         self.Canvas1.scale("all", event.x, event.y, scale, scale)
         self.configure_scrollregion()
 
-
-
-    def configure_scrollregion(self, event=None):
-        """Configura la región de desplazamiento del Canvas para permitir desplazamiento completo."""
+    def configure_scrollregion(self):
+        """Configura la región de desplazamiento del Canvas."""
         self.Canvas1.configure(scrollregion=self.Canvas1.bbox("all"))
-
-    
     def start_move(self, event):
-        """Marca la posición inicial en el Canvas para el arrastre."""
+        """Inicia el movimiento del Canvas con el mouse."""
         self.Canvas1.scan_mark(event.x, event.y)
 
     def on_move(self, event):
-        """Arrastra el Canvas en función del movimiento del mouse."""
-        # Usa scan_dragto con las coordenadas actuales sin actualizar start_x y start_y
+        """Mueve el Canvas al arrastrar el mouse."""
         self.Canvas1.scan_dragto(event.x, event.y, gain=1)
 
-    def end_move(self, event):
-        """Finaliza el movimiento del Canvas."""
-        # No se necesita realizar ninguna acción específica al finalizar el arrastre
-        pass
 
 
-    # Método para regresar a navegacion.py
     def regresar(self):
-        self.top.destroy()  # Cierra la ventana actual
-        import navegacion  # Importa el módulo navegacion
-        navegacion.start_up()  # Llama al método principal de navegacion
-
-
-
-
-
-
+        self.top.destroy()
+        import navegacion
+        navegacion.start_up()
 
 def start_up():
     visualizacion_support.main()
