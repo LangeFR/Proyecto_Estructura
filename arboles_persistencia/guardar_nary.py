@@ -10,11 +10,17 @@ models_dir = os.path.join(parent_dir, 'models')
 sys.path.append(models_dir)
 
 # Importar NAryTree desde n_ary_tree.py
-from n_ary_tree import NAryTree
+from models.n_ary_tree import NAryTree
+
+# Determina la ruta al directorio raíz del proyecto
+current_dir = os.path.dirname(__file__)
+project_root = os.path.abspath(os.path.join(current_dir, '..', '..'))
 
 # Rutas de archivos
-ruta_books = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\base_de_datos\books.json"
-ruta_arbol = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\arboles_persistencia\genre_tree.json"
+ruta_books = os.path.join(project_root, 'base_de_datos', 'books.json')
+ruta_generos = os.path.join(project_root, 'base_de_datos', 'generos.json')
+
+
 
 # Función para cargar los libros desde el archivo JSON
 def load_books(filename):
