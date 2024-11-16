@@ -20,6 +20,7 @@ sys.path.append(project_root)
 
 # Importar los adaptadores
 from adapters.visualizar_genero_adapter import VisualizarGeneroAdapter
+from adapters.visualizar_anio_adapter import VisualizarAnioAdapter
 
 import visualizacion_support
 
@@ -165,6 +166,11 @@ class Toplevel1:
             adapter = VisualizarGeneroAdapter(self.Canvas1)
             genre_tree = adapter.construir_arbol_por_genero()
             adapter.dibujar_arbol(genre_tree.root, 300, 20, 150)
+        if selected_option == "Año de Publicación":
+            adapter = VisualizarAnioAdapter(self.Canvas1)
+            anio_tree = adapter.construir_arbol_por_anio()
+            adapter.dibujar_arbol(anio_tree.root, 300, 20, 150, 100)
+
 
 
 
