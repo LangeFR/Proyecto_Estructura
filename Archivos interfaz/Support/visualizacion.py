@@ -24,6 +24,8 @@ from models.n_ary_tree import NAryTree, NAryNode
 
 
 import visualizacion_support
+
+# Rutas de archivos de datos
 ruta_books = os.path.join(project_root, 'base_de_datos', 'books.json')
 ruta_generos = os.path.join(project_root, 'base_de_datos', 'generos.json')
 
