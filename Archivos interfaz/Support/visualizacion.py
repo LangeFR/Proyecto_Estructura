@@ -277,16 +277,16 @@ class Toplevel1:
 
 
     def dibujar_arbol(self, canvas, node, x, y, x_offset):
-        """Dibuja el árbol en el canvas mostrando solo los nombres de los géneros."""
+        """Dibuja el árbol en el canvas mostrando el texto ajustado en líneas."""
         if not node:
             return
 
-        # Dibujar solo el nombre del género
-        canvas.create_text(x, y, text=node.value, anchor="center")
+        # Ajustar el texto para que se divida en varias líneas si es muy largo
+        texto_ajustado = self.dividir_texto(node.value, max_char_per_line=12)  # Dividir texto en líneas de hasta 12 caracteres
+        canvas.create_text(x, y, text=texto_ajustado, anchor="center")
 
         # Ajustar el espaciado horizontal en función del número de hijos
         if node.children:
-            # Cuanto más hijos tiene el nodo, mayor será el espaciado entre ellos
             dynamic_x_offset = x_offset * max(1, (len(node.children) - 1))
 
         child_y = y + 80  # Espaciado vertical entre niveles
@@ -297,6 +297,34 @@ class Toplevel1:
             canvas.create_line(x, y + 10, child_x, child_y - 10)
             # Dibujar el hijo
             self.dibujar_arbol(canvas, child, child_x, child_y, x_offset // 2)
+
+    def dividir_texto(self, texto, max_char_per_line):
+        """
+        Divide el texto en múltiples líneas si excede max_char_per_line caracteres por línea.
+        """
+        palabras = texto.split()  # Divide el texto por palabras
+        lineas = []
+        linea_actual = ""
+
+        for palabra in palabras:
+            # Si añadir la palabra actual supera el límite, guarda la línea y comienza una nueva
+            if len(linea_actual) + len(palabra) + 1 > max_char_per_line:
+                lineas.append(linea_actual)
+                linea_actual = palabra
+            else:
+                # Añade la palabra a la línea actual
+                if linea_actual:  # Si ya hay palabras en la línea
+                    linea_actual += " " + palabra
+                else:
+                    linea_actual = palabra
+
+        # Añadir la última línea si hay contenido
+        if linea_actual:
+            lineas.append(linea_actual)
+
+        # Unir las líneas con saltos de línea
+        return "\n".join(lineas)
+
 
     
     def zoom(self, event):
