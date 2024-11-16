@@ -13,7 +13,7 @@ import os.path
 
 _location = os.path.dirname(__file__)
 
-import agregarlibro2_support
+import agregarlibro_support
 
 _bgcolor = '#d9d9d9'
 _fgcolor = '#000000'
@@ -27,7 +27,7 @@ _style_code_ran = 0
 def _style_code():
     global _style_code_ran
     if _style_code_ran: return        
-    try: agregarlibro2_support.root.tk.call('source',
+    try: agregarlibro_support.root.tk.call('source',
                 os.path.join(_location, 'themes', 'default.tcl'))
     except: pass
     style = ttk.Style()
@@ -193,7 +193,7 @@ class Toplevel1:
         self.btnRegresar.configure(activebackground="#d9d9d9")
         self.btnRegresar.configure(activeforeground="black")
         self.btnRegresar.configure(background="#fecb01")
-        self.btnRegresar.configure(command=agregarlibro2_support.doRegresar)
+        self.btnRegresar.configure(command=agregarlibro_support.doRegresar)
         self.btnRegresar.configure(disabledforeground="#a3a3a3")
         self.btnRegresar.configure(font="-family {Segoe UI} -size 9")
         self.btnRegresar.configure(foreground="#000000")
@@ -206,7 +206,7 @@ class Toplevel1:
         self.btnAgregar.configure(activebackground="#d9d9d9")
         self.btnAgregar.configure(activeforeground="black")
         self.btnAgregar.configure(background="#ff0080")
-        self.btnAgregar.configure(command=agregarlibro2_support.doAgregar)
+        self.btnAgregar.configure(command=agregarlibro_support.doAgregar)
         self.btnAgregar.configure(disabledforeground="#a3a3a3")
         self.btnAgregar.configure(font="-family {Segoe UI} -size 9")
         self.btnAgregar.configure(foreground="#ffffff")
@@ -237,10 +237,10 @@ class Toplevel1:
         self.Popupmenu1.post(event.x_root, event.y_root)
 
 def start_up():
-    agregarlibro2_support.main()
+    agregarlibro_support.main()
 
 if __name__ == '__main__':
-    agregarlibro2_support.main()
+    agregarlibro_support.main()
 
 
 
