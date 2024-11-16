@@ -10,7 +10,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter.constants import *
 
-import agregarlibro2
+import agregarlibro
 
 _debug = True # False to eliminate debug printing from callback functions.
 
@@ -22,7 +22,7 @@ def main(*args):
     # Creates a toplevel widget.
     global _top1, _w1
     _top1 = root
-    _w1 = agregarlibro2.Toplevel1(_top1)
+    _w1 = agregarlibro.Toplevel1(_top1)
     root.mainloop()
 
 def doAgregar(*args):
@@ -40,7 +40,7 @@ def doRegresar(*args):
         sys.stdout.flush()
 
 if __name__ == '__main__':
-    agregarlibro2.start_up()
+    agregarlibro.start_up()
 
 
 
