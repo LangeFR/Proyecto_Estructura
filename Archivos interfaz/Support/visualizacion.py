@@ -129,6 +129,7 @@ class Toplevel1:
         self.Button1.configure(text='''Ver Arbol''')
         self.Button1.configure(command=self.on_button_click)
 
+        # Botón "Regresar"
         self.Button2 = tk.Button(self.Frame1)
         self.Button2.place(relx=0.694, rely=0.788, height=26, width=57)
         self.Button2.configure(activebackground="#d9d9d9")
@@ -139,6 +140,7 @@ class Toplevel1:
         self.Button2.configure(highlightbackground="#d9d9d9")
         self.Button2.configure(highlightcolor="#000000")
         self.Button2.configure(text='''Regresar''')
+        self.Button2.configure(command=self.regresar)
 
         self.Label2 = tk.Label(self.top)
         self.Label2.place(relx=0.433, rely=0.044, height=21, width=74)
@@ -331,6 +333,13 @@ class Toplevel1:
         """Finaliza el movimiento del Canvas."""
         # No se necesita realizar ninguna acción específica al finalizar el arrastre
         pass
+
+
+    # Método para regresar a navegacion.py
+    def regresar(self):
+        self.top.destroy()  # Cierra la ventana actual
+        import navegacion  # Importa el módulo navegacion
+        navegacion.start_up()  # Llama al método principal de navegacion
 
 
 
