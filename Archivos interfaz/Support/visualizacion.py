@@ -24,10 +24,8 @@ from models.n_ary_tree import NAryTree, NAryNode
 
 
 import visualizacion_support
-
-# Rutas de archivos de datos
-ruta_books = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\base_de_datos\books.json"
-ruta_generos = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\base_de_datos\generos.json"
+ruta_books = os.path.join(project_root, 'base_de_datos', 'books.json')
+ruta_generos = os.path.join(project_root, 'base_de_datos', 'generos.json')
 
 _bgcolor = '#d9d9d9'
 _fgcolor = '#000000'
