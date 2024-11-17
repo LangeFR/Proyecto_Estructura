@@ -21,6 +21,7 @@ sys.path.append(project_root)
 # Importar los adaptadores
 from adapters.visualizar_genero_adapter import VisualizarGeneroAdapter
 from adapters.visualizar_anio_adapter import VisualizarAnioAdapter
+from adapters.visualizar_titulo_adapter import VisualizarTituloAdapter
 
 import visualizacion_support
 
@@ -53,7 +54,7 @@ class Toplevel1:
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
 
-        top.geometry("600x450+436+171")
+        top.geometry("1500x750")
         top.minsize(120, 1)
         top.maxsize(1540, 845)
         top.resizable(1, 1)
@@ -66,8 +67,8 @@ class Toplevel1:
         self.combobox = tk.StringVar()
 
         self.Canvas1 = tk.Canvas(self.top)
-        self.Canvas1.place(relx=0.483, rely=0.244, relheight=0.562, relwidth=0.488)
-        self.Canvas1.configure(background="#d9d9d9")
+        self.Canvas1.place(relx=0.303, rely=0.200, relheight=0.700, relwidth=0.650)
+        self.Canvas1.configure(background="#ffefa5")
         self.Canvas1.configure(borderwidth="2")
         self.Canvas1.configure(cursor="fleur")
         self.Canvas1.configure(highlightbackground="#d9d9d9")
@@ -76,9 +77,11 @@ class Toplevel1:
         self.Canvas1.configure(relief="ridge")
         self.Canvas1.configure(selectbackground="#d9d9d9")
         self.Canvas1.configure(selectforeground="black")
+        
+        
 
         self.Frame1 = tk.Frame(self.top)
-        self.Frame1.place(relx=0.033, rely=0.333, relheight=0.367, relwidth=0.408)
+        self.Frame1.place(relx=0.033, rely=0.333, relheight=0.367, relwidth=0.208)
         self.Frame1.configure(relief='groove')
         self.Frame1.configure(borderwidth="2")
         self.Frame1.configure(relief="groove")
@@ -170,15 +173,10 @@ class Toplevel1:
             adapter = VisualizarAnioAdapter(self.Canvas1)
             anio_tree = adapter.construir_arbol_por_anio()
             adapter.dibujar_arbol(anio_tree.root, 300, 20, 150, 100)
-
-
-
-
-
-
-
-
-
+        if selected_option == "Título":
+            adapter = VisualizarTituloAdapter(self.Canvas1) 
+            title_tree = adapter.construir_arbol_por_titulo()
+            adapter.dibujar_arbol(title_tree.root)
 
 
 

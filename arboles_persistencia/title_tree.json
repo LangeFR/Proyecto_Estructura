@@ -1,148 +1,259 @@
 {
-    "titulo": "Biblioteca",
-    "id": null,
+    "titulo": "El misterio del los heroes",
+    "id": "02c6abbb-341a-46a0-a611-1c19c72b4836",
     "left": {
-        "titulo": "El misterio del los heroes",
-        "id": "02c6abbb-341a-46a0-a611-1c19c72b4836",
+        "titulo": "Cincuenta sombras de Santi",
+        "id": "7c99aeb8-a5f6-4aa0-8048-ef9268fde1c0",
         "left": {
-            "titulo": "Cincuenta sombras de Santi",
-            "id": "7c99aeb8-a5f6-4aa0-8048-ef9268fde1c0",
+            "titulo": "Bajo el cielo de los secretos",
+            "id": "a2baea16-ffc3-40da-b48b-0004370d52ce",
             "left": {
-                "titulo": "Bajo el cielo de los secretos",
-                "id": "a2baea16-ffc3-40da-b48b-0004370d52ce",
+                "titulo": "Bajo el cielo de los dioses",
+                "id": "03c54e1c-ba5d-4d92-8144-761986a96ce2",
                 "left": {
-                    "titulo": "Bajo el cielo de los dioses",
-                    "id": "03c54e1c-ba5d-4d92-8144-761986a96ce2",
+                    "titulo": "Bajo el cielo de la tierra",
+                    "id": "9ca8e8d9-6c0c-4b2e-a0ba-2dfe59e6767d",
                     "left": {
-                        "titulo": "Bajo el cielo de la tierra",
-                        "id": "9ca8e8d9-6c0c-4b2e-a0ba-2dfe59e6767d",
-                        "left": {
-                            "titulo": "Aventuras en los secretos",
-                            "id": "5fb7b6be-b81f-40e8-a3d0-b19cd1ca1573",
-                            "left": null,
-                            "right": null
-                        },
+                        "titulo": "Aventuras en los secretos",
+                        "id": "5fb7b6be-b81f-40e8-a3d0-b19cd1ca1573",
+                        "left": null,
                         "right": null
                     },
                     "right": null
                 },
                 "right": null
             },
-            "right": {
-                "titulo": "El canto de los secretos",
-                "id": "1c8e424c-fe05-4af3-b652-d6b202bc25b2",
+            "right": null
+        },
+        "right": {
+            "titulo": "El canto de los secretos",
+            "id": "1c8e424c-fe05-4af3-b652-d6b202bc25b2",
+            "left": {
+                "titulo": "El canto de los heroes",
+                "id": "aed0ea64-56af-4037-a403-4c4bb4e5049e",
                 "left": {
-                    "titulo": "El canto de los heroes",
-                    "id": "aed0ea64-56af-4037-a403-4c4bb4e5049e",
-                    "left": {
-                        "titulo": "Colmillo Blanco",
-                        "id": "9776fc6b-6244-4c26-930e-c01d716f39c6",
-                        "left": null,
-                        "right": {
-                            "titulo": "Cronicas de los secretos",
-                            "id": "2512183d-36cf-4a65-8b0d-b6e347511aa3",
-                            "left": {
-                                "titulo": "Cronicas de la tierra",
-                                "id": "39bcc821-f8ce-4b0c-846c-8bc84889da21",
-                                "left": null,
-                                "right": {
-                                    "titulo": "Cronicas de los heroes",
-                                    "id": "0c439273-abe4-4249-84b4-6e389513e2a8",
-                                    "left": null,
-                                    "right": null
-                                }
-                            },
-                            "right": {
-                                "titulo": "El canto de los dioses",
-                                "id": "d299693d-f102-4080-80e2-ee28b0b4aa1d",
-                                "left": {
-                                    "titulo": "Cronicas del pasado",
-                                    "id": "517259f1-2f68-4981-a61f-da78de2639f8",
-                                    "left": null,
-                                    "right": null
-                                },
-                                "right": null
-                            }
-                        }
-                    },
-                    "right": null
-                },
-                "right": {
-                    "titulo": "El misterio del la luna",
-                    "id": "ba892984-9114-421a-a7d7-ac84ea475fd3",
-                    "left": {
-                        "titulo": "El enigma de los secretos",
-                        "id": "47c73f6b-c1cd-486a-beef-b467eb5a8489",
+                    "titulo": "Colmillo Blanco",
+                    "id": "9776fc6b-6244-4c26-930e-c01d716f39c6",
+                    "left": null,
+                    "right": {
+                        "titulo": "Cronicas de los secretos",
+                        "id": "2512183d-36cf-4a65-8b0d-b6e347511aa3",
                         "left": {
-                            "titulo": "El destino de los dioses",
-                            "id": "c4e1b3f3-c56e-411d-8f00-7190430bd773",
-                            "left": {
-                                "titulo": "El despertar del mar",
-                                "id": "8b1f6398-e9fa-4c38-b4dc-42dfa503094a",
-                                "left": null,
-                                "right": null
-                            },
+                            "titulo": "Cronicas de la tierra",
+                            "id": "39bcc821-f8ce-4b0c-846c-8bc84889da21",
+                            "left": null,
                             "right": {
-                                "titulo": "El destino de los secretos",
-                                "id": "1f968b99-f29d-4c42-8a3e-67c3af5890e7",
+                                "titulo": "Cronicas de los heroes",
+                                "id": "0c439273-abe4-4249-84b4-6e389513e2a8",
                                 "left": null,
                                 "right": null
                             }
                         },
                         "right": {
-                            "titulo": "El misterio de los dioses",
-                            "id": "354b0d17-8c5e-405b-8694-1418b50a7097",
+                            "titulo": "El canto de los dioses",
+                            "id": "d299693d-f102-4080-80e2-ee28b0b4aa1d",
+                            "left": {
+                                "titulo": "Cronicas del pasado",
+                                "id": "517259f1-2f68-4981-a61f-da78de2639f8",
+                                "left": null,
+                                "right": null
+                            },
+                            "right": null
+                        }
+                    }
+                },
+                "right": null
+            },
+            "right": {
+                "titulo": "El misterio del la luna",
+                "id": "ba892984-9114-421a-a7d7-ac84ea475fd3",
+                "left": {
+                    "titulo": "El enigma de los secretos",
+                    "id": "47c73f6b-c1cd-486a-beef-b467eb5a8489",
+                    "left": {
+                        "titulo": "El destino de los dioses",
+                        "id": "c4e1b3f3-c56e-411d-8f00-7190430bd773",
+                        "left": {
+                            "titulo": "El despertar del mar",
+                            "id": "8b1f6398-e9fa-4c38-b4dc-42dfa503094a",
+                            "left": null,
+                            "right": null
+                        },
+                        "right": {
+                            "titulo": "El destino de los secretos",
+                            "id": "1f968b99-f29d-4c42-8a3e-67c3af5890e7",
                             "left": null,
                             "right": null
                         }
                     },
                     "right": {
-                        "titulo": "El misterio del las sombras",
-                        "id": "4803a9b4-a173-4c75-b91a-4d521cd686d8",
+                        "titulo": "El misterio de los dioses",
+                        "id": "354b0d17-8c5e-405b-8694-1418b50a7097",
                         "left": null,
                         "right": null
+                    }
+                },
+                "right": {
+                    "titulo": "El misterio del las sombras",
+                    "id": "4803a9b4-a173-4c75-b91a-4d521cd686d8",
+                    "left": null,
+                    "right": null
+                }
+            }
+        }
+    },
+    "right": {
+        "titulo": "La leyenda de las estrellas",
+        "id": "480de12e-d311-4c18-a4fe-b6ee46845844",
+        "left": {
+            "titulo": "El viaje a la tierra",
+            "id": "2cc10585-4ee6-4597-9830-7b895f2961b8",
+            "left": {
+                "titulo": "El rostro de los secretos",
+                "id": "2d029e64-88fe-4741-83ae-258fd05defec",
+                "left": {
+                    "titulo": "El rostro de las estrellas",
+                    "id": "0ac92c66-9e01-43fb-b47f-0fbda8901571",
+                    "left": {
+                        "titulo": "El poder de la luna",
+                        "id": "ecfc9172-eef6-42d8-b975-8fb98fc57368",
+                        "left": null,
+                        "right": {
+                            "titulo": "El poder de las estrellas",
+                            "id": "170e3184-237e-4696-8ea1-9d3d70d7935c",
+                            "left": null,
+                            "right": {
+                                "titulo": "El poder del mar",
+                                "id": "76bf3e86-469c-4d85-93de-5a7978cf3a49",
+                                "left": null,
+                                "right": null
+                            }
+                        }
+                    },
+                    "right": {
+                        "titulo": "El rostro de las sombras",
+                        "id": "47e69f0e-640c-4283-aa9e-dfc66066dbdc",
+                        "left": null,
+                        "right": {
+                            "titulo": "El rostro de los heroes",
+                            "id": "8a2ec066-d37a-4102-a548-c5bba2ac62f4",
+                            "left": {
+                                "titulo": "El rostro de los dioses",
+                                "id": "d8b3d47f-0ad1-4f48-9453-f43cf02abde8",
+                                "left": null,
+                                "right": null
+                            },
+                            "right": null
+                        }
+                    }
+                },
+                "right": {
+                    "titulo": "El viaje a el mar",
+                    "id": "fe8b3ef8-d924-41aa-8b55-3b6f98cc278a",
+                    "left": {
+                        "titulo": "El ultimo de las sombras",
+                        "id": "dc47488b-cf4e-4159-8dcc-9fe48895c54d",
+                        "left": null,
+                        "right": {
+                            "titulo": "El ultimo de los heroes",
+                            "id": "a2ed0c9d-0a45-4944-9169-e86dbc708a2c",
+                            "left": null,
+                            "right": {
+                                "titulo": "El ultimo del mar",
+                                "id": "45004c9a-b81f-4be1-bbbc-a352aff5d517",
+                                "left": null,
+                                "right": null
+                            }
+                        }
+                    },
+                    "right": {
+                        "titulo": "El viaje a la luna",
+                        "id": "ebe2bcd6-5599-4841-8bbc-745152f5b6ee",
+                        "left": null,
+                        "right": null
+                    }
+                }
+            },
+            "right": {
+                "titulo": "El viaje a los secretos",
+                "id": "3f672d97-d779-4e24-b99b-2a862504500e",
+                "left": {
+                    "titulo": "El viaje a los heroes",
+                    "id": "61a875c2-db8e-42ca-ad6f-7a2909e08b5c",
+                    "left": null,
+                    "right": null
+                },
+                "right": {
+                    "titulo": "Historias de los heroes",
+                    "id": "9f2b64fd-86a7-430b-bf95-082bfa08760f",
+                    "left": {
+                        "titulo": "En busca de las sombras",
+                        "id": "7ba261f8-e050-4132-9c5d-9be300028352",
+                        "left": null,
+                        "right": null
+                    },
+                    "right": {
+                        "titulo": "Historias de los secretos",
+                        "id": "ee5b3eb7-b6dc-48da-8be1-73b9040e0334",
+                        "left": null,
+                        "right": {
+                            "titulo": "La caida de la tierra",
+                            "id": "365df489-a6db-4d53-adae-254efefbffbd",
+                            "left": null,
+                            "right": {
+                                "titulo": "La guerra de los dioses",
+                                "id": "53b8f3c1-70d1-432b-9716-9bb3ab0923a5",
+                                "left": {
+                                    "titulo": "La guerra de las sombras",
+                                    "id": "e9ab0e1a-dc8b-470f-a66f-c14ed42c223d",
+                                    "left": {
+                                        "titulo": "La caida de los dioses",
+                                        "id": "5ac79cc7-5d24-46c6-962f-bf1454be2955",
+                                        "left": null,
+                                        "right": null
+                                    },
+                                    "right": null
+                                },
+                                "right": {
+                                    "titulo": "La guerra del futuro",
+                                    "id": "6e8750d7-b423-4408-b330-3d1065f7e5d0",
+                                    "left": null,
+                                    "right": {
+                                        "titulo": "La leyenda de la tierra",
+                                        "id": "e2def3dc-0c20-4bec-ad9d-dedc295636ff",
+                                        "left": null,
+                                        "right": null
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "right": {
-            "titulo": "La leyenda de las estrellas",
-            "id": "480de12e-d311-4c18-a4fe-b6ee46845844",
+            "titulo": "La noche del pasado",
+            "id": "aae610fa-a897-4620-86c6-d1a3f7659b53",
             "left": {
-                "titulo": "El viaje a la tierra",
-                "id": "2cc10585-4ee6-4597-9830-7b895f2961b8",
+                "titulo": "La marca de las sombras",
+                "id": "18feeef5-e9e5-4270-be46-89f734caa3b4",
                 "left": {
-                    "titulo": "El rostro de los secretos",
-                    "id": "2d029e64-88fe-4741-83ae-258fd05defec",
+                    "titulo": "La magia del rey",
+                    "id": "fafacbe5-c6a2-43af-84bb-b9f592cc7db0",
                     "left": {
-                        "titulo": "El rostro de las estrellas",
-                        "id": "0ac92c66-9e01-43fb-b47f-0fbda8901571",
-                        "left": {
-                            "titulo": "El poder de la luna",
-                            "id": "ecfc9172-eef6-42d8-b975-8fb98fc57368",
-                            "left": null,
-                            "right": {
-                                "titulo": "El poder de las estrellas",
-                                "id": "170e3184-237e-4696-8ea1-9d3d70d7935c",
-                                "left": null,
-                                "right": {
-                                    "titulo": "El poder del mar",
-                                    "id": "76bf3e86-469c-4d85-93de-5a7978cf3a49",
-                                    "left": null,
-                                    "right": null
-                                }
-                            }
-                        },
+                        "titulo": "La magia de las estrellas",
+                        "id": "634f31e1-7794-4c7f-9d60-709bb152338d",
+                        "left": null,
                         "right": {
-                            "titulo": "El rostro de las sombras",
-                            "id": "47e69f0e-640c-4283-aa9e-dfc66066dbdc",
+                            "titulo": "La magia de las sombras",
+                            "id": "3bfb9e29-09af-4775-9d76-798edd77d548",
                             "left": null,
                             "right": {
-                                "titulo": "El rostro de los heroes",
-                                "id": "8a2ec066-d37a-4102-a548-c5bba2ac62f4",
+                                "titulo": "La magia del mar",
+                                "id": "a72360d5-2f48-41dc-ba6f-c57d4aac7d2e",
                                 "left": {
-                                    "titulo": "El rostro de los dioses",
-                                    "id": "d8b3d47f-0ad1-4f48-9453-f43cf02abde8",
+                                    "titulo": "La magia de los secretos",
+                                    "id": "239a3975-23ac-463e-b406-076cbbd7c98f",
                                     "left": null,
                                     "right": null
                                 },
@@ -151,206 +262,90 @@
                         }
                     },
                     "right": {
-                        "titulo": "El viaje a el mar",
-                        "id": "fe8b3ef8-d924-41aa-8b55-3b6f98cc278a",
-                        "left": {
-                            "titulo": "El ultimo de las sombras",
-                            "id": "dc47488b-cf4e-4159-8dcc-9fe48895c54d",
-                            "left": null,
-                            "right": {
-                                "titulo": "El ultimo de los heroes",
-                                "id": "a2ed0c9d-0a45-4944-9169-e86dbc708a2c",
-                                "left": null,
-                                "right": {
-                                    "titulo": "El ultimo del mar",
-                                    "id": "45004c9a-b81f-4be1-bbbc-a352aff5d517",
-                                    "left": null,
-                                    "right": null
-                                }
-                            }
-                        },
-                        "right": {
-                            "titulo": "El viaje a la luna",
-                            "id": "ebe2bcd6-5599-4841-8bbc-745152f5b6ee",
-                            "left": null,
-                            "right": null
-                        }
+                        "titulo": "La marca de la luna",
+                        "id": "6a4e7745-7b40-4b87-83af-08654062855c",
+                        "left": null,
+                        "right": null
                     }
                 },
                 "right": {
-                    "titulo": "El viaje a los secretos",
-                    "id": "3f672d97-d779-4e24-b99b-2a862504500e",
+                    "titulo": "La noche de los secretos",
+                    "id": "d91a24a1-df56-492f-9315-ee3a352ebaf2",
                     "left": {
-                        "titulo": "El viaje a los heroes",
-                        "id": "61a875c2-db8e-42ca-ad6f-7a2909e08b5c",
+                        "titulo": "La marca del pasado",
+                        "id": "2b1262ce-f497-4cdd-9376-80b4ab460b09",
+                        "left": null,
+                        "right": null
+                    },
+                    "right": null
+                }
+            },
+            "right": {
+                "titulo": "La verdad del futuro",
+                "id": "6bf378d1-5922-4aac-a765-9ce3ed6dd3da",
+                "left": {
+                    "titulo": "La pasion de los dioses",
+                    "id": "816a2c1a-f647-45f1-acd6-75efc057659b",
+                    "left": {
+                        "titulo": "La pasion de la luna",
+                        "id": "4efbf6d0-cb24-4ed9-86fb-5d932aeb35e1",
                         "left": null,
                         "right": null
                     },
                     "right": {
-                        "titulo": "Historias de los heroes",
-                        "id": "9f2b64fd-86a7-430b-bf95-082bfa08760f",
+                        "titulo": "La verdad de las estrellas",
+                        "id": "b0e5a860-7710-4675-9ea8-d1a5b539e09f",
                         "left": {
-                            "titulo": "En busca de las sombras",
-                            "id": "7ba261f8-e050-4132-9c5d-9be300028352",
-                            "left": null,
-                            "right": null
-                        },
-                        "right": {
-                            "titulo": "Historias de los secretos",
-                            "id": "ee5b3eb7-b6dc-48da-8be1-73b9040e0334",
-                            "left": null,
-                            "right": {
-                                "titulo": "La caida de la tierra",
-                                "id": "365df489-a6db-4d53-adae-254efefbffbd",
+                            "titulo": "La sombra del pasado",
+                            "id": "46d1d1fb-2f84-48e6-8df4-6a34483d9388",
+                            "left": {
+                                "titulo": "La sombra de la luna",
+                                "id": "b43924af-2e73-4b65-9bd1-5caca5f2ed09",
                                 "left": null,
                                 "right": {
-                                    "titulo": "La guerra de los dioses",
-                                    "id": "53b8f3c1-70d1-432b-9716-9bb3ab0923a5",
-                                    "left": {
-                                        "titulo": "La guerra de las sombras",
-                                        "id": "e9ab0e1a-dc8b-470f-a66f-c14ed42c223d",
-                                        "left": {
-                                            "titulo": "La caida de los dioses",
-                                            "id": "5ac79cc7-5d24-46c6-962f-bf1454be2955",
-                                            "left": null,
-                                            "right": null
-                                        },
-                                        "right": null
-                                    },
-                                    "right": {
-                                        "titulo": "La guerra del futuro",
-                                        "id": "6e8750d7-b423-4408-b330-3d1065f7e5d0",
-                                        "left": null,
-                                        "right": {
-                                            "titulo": "La leyenda de la tierra",
-                                            "id": "e2def3dc-0c20-4bec-ad9d-dedc295636ff",
-                                            "left": null,
-                                            "right": null
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "right": {
-                "titulo": "La noche del pasado",
-                "id": "aae610fa-a897-4620-86c6-d1a3f7659b53",
-                "left": {
-                    "titulo": "La marca de las sombras",
-                    "id": "18feeef5-e9e5-4270-be46-89f734caa3b4",
-                    "left": {
-                        "titulo": "La magia del rey",
-                        "id": "fafacbe5-c6a2-43af-84bb-b9f592cc7db0",
-                        "left": {
-                            "titulo": "La magia de las estrellas",
-                            "id": "634f31e1-7794-4c7f-9d60-709bb152338d",
-                            "left": null,
-                            "right": {
-                                "titulo": "La magia de las sombras",
-                                "id": "3bfb9e29-09af-4775-9d76-798edd77d548",
-                                "left": null,
-                                "right": {
-                                    "titulo": "La magia del mar",
-                                    "id": "a72360d5-2f48-41dc-ba6f-c57d4aac7d2e",
-                                    "left": {
-                                        "titulo": "La magia de los secretos",
-                                        "id": "239a3975-23ac-463e-b406-076cbbd7c98f",
-                                        "left": null,
-                                        "right": null
-                                    },
+                                    "titulo": "La sombra del futuro",
+                                    "id": "f839c9f2-d3ea-4285-9392-4c16fa9b0c8b",
+                                    "left": null,
                                     "right": null
                                 }
-                            }
-                        },
-                        "right": {
-                            "titulo": "La marca de la luna",
-                            "id": "6a4e7745-7b40-4b87-83af-08654062855c",
-                            "left": null,
-                            "right": null
-                        }
-                    },
-                    "right": {
-                        "titulo": "La noche de los secretos",
-                        "id": "d91a24a1-df56-492f-9315-ee3a352ebaf2",
-                        "left": {
-                            "titulo": "La marca del pasado",
-                            "id": "2b1262ce-f497-4cdd-9376-80b4ab460b09",
-                            "left": null,
+                            },
                             "right": null
                         },
                         "right": null
                     }
                 },
                 "right": {
-                    "titulo": "La verdad del futuro",
-                    "id": "6bf378d1-5922-4aac-a765-9ce3ed6dd3da",
+                    "titulo": "Matadero Cinco",
+                    "id": "b942327b-55c3-42e7-9421-6911c8b42c9d",
                     "left": {
-                        "titulo": "La pasion de los dioses",
-                        "id": "816a2c1a-f647-45f1-acd6-75efc057659b",
-                        "left": {
-                            "titulo": "La pasion de la luna",
-                            "id": "4efbf6d0-cb24-4ed9-86fb-5d932aeb35e1",
-                            "left": null,
-                            "right": null
-                        },
+                        "titulo": "La verdad del mar",
+                        "id": "fb4850f8-7be2-4ec2-8c05-7963e13702d2",
+                        "left": null,
                         "right": {
-                            "titulo": "La verdad de las estrellas",
-                            "id": "b0e5a860-7710-4675-9ea8-d1a5b539e09f",
+                            "titulo": "La vida del pasado",
+                            "id": "76ba6671-0b3b-4cdf-9311-0a2d5a43de97",
                             "left": {
-                                "titulo": "La sombra del pasado",
-                                "id": "46d1d1fb-2f84-48e6-8df4-6a34483d9388",
-                                "left": {
-                                    "titulo": "La sombra de la luna",
-                                    "id": "b43924af-2e73-4b65-9bd1-5caca5f2ed09",
-                                    "left": null,
-                                    "right": {
-                                        "titulo": "La sombra del futuro",
-                                        "id": "f839c9f2-d3ea-4285-9392-4c16fa9b0c8b",
-                                        "left": null,
-                                        "right": null
-                                    }
-                                },
+                                "titulo": "La vida de las sombras",
+                                "id": "ba424a3f-b4b4-4570-8008-25c053411a3b",
+                                "left": null,
                                 "right": null
                             },
-                            "right": null
+                            "right": {
+                                "titulo": "Los secretos de la luna",
+                                "id": "da868485-3e99-40d0-a50a-dbec255596e5",
+                                "left": null,
+                                "right": null
+                            }
                         }
                     },
                     "right": {
-                        "titulo": "Matadero Cinco",
-                        "id": "b942327b-55c3-42e7-9421-6911c8b42c9d",
-                        "left": {
-                            "titulo": "La verdad del mar",
-                            "id": "fb4850f8-7be2-4ec2-8c05-7963e13702d2",
-                            "left": null,
-                            "right": {
-                                "titulo": "La vida del pasado",
-                                "id": "76ba6671-0b3b-4cdf-9311-0a2d5a43de97",
-                                "left": {
-                                    "titulo": "La vida de las sombras",
-                                    "id": "ba424a3f-b4b4-4570-8008-25c053411a3b",
-                                    "left": null,
-                                    "right": null
-                                },
-                                "right": {
-                                    "titulo": "Los secretos de la luna",
-                                    "id": "da868485-3e99-40d0-a50a-dbec255596e5",
-                                    "left": null,
-                                    "right": null
-                                }
-                            }
-                        },
-                        "right": {
-                            "titulo": "Secretos de los secretos",
-                            "id": "1e5aed06-278a-45e5-acdc-aac448ee7ecf",
-                            "left": null,
-                            "right": null
-                        }
+                        "titulo": "Secretos de los secretos",
+                        "id": "1e5aed06-278a-45e5-acdc-aac448ee7ecf",
+                        "left": null,
+                        "right": null
                     }
                 }
             }
         }
-    },
-    "right": null
+    }
 }
