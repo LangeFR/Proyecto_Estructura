@@ -5,6 +5,7 @@
 #  in conjunction with Tcl version 8.6
 #    Nov 11, 2024 04:34:41 PM EST  platform: Windows NT
 
+import json
 import sys
 import os
 import tkinter as tk
@@ -19,9 +20,12 @@ project_root = os.path.abspath(os.path.join(current_dir, '..', '..'))
 sys.path.append(project_root)
 
 # Importar los adaptadores
+from models.GRAFOS import Grafo
 from adapters.visualizar_genero_adapter import VisualizarGeneroAdapter
 from adapters.visualizar_anio_adapter import VisualizarAnioAdapter
 from adapters.visualizar_titulo_adapter import VisualizarTituloAdapter
+from adapters.visualizar_grafo import VisualizarGrafoAdapter
+
 
 import visualizacion_support
 
@@ -137,35 +141,20 @@ class Toplevel1:
         self.Button2.configure(highlightcolor="#000000")
         self.Button2.configure(text='''Regresar''')
         self.Button2.configure(command=self.regresar)
-
-        self.Label2 = tk.Label(self.top)
-        self.Label2.place(relx=0.433, rely=0.044, height=21, width=74)
-        self.Label2.configure(activebackground="#d9d9d9")
-        self.Label2.configure(activeforeground="black")
-        self.Label2.configure(anchor='w')
-        self.Label2.configure(background="#98e4fe")
-        self.Label2.configure(compound='left')
-        self.Label2.configure(disabledforeground="#a3a3a3")
-        self.Label2.configure(foreground="black")
-        self.Label2.configure(highlightbackground="#d9d9d9")
-        self.Label2.configure(highlightcolor="#000000")
-        self.Label2.configure(text='''Visualización''')
         
         self.btnGrafo = tk.Button(self.Frame1)
         self.btnGrafo.place(relx=0.082, rely=0.606, height=26, width=57)
         self.btnGrafo.configure(activebackground="#d9d9d9")
         self.btnGrafo.configure(activeforeground="black")
         self.btnGrafo.configure(background="#ff0080")
-        self.btnGrafo.configure(command=visualizacion_support.doGrafo)
         self.btnGrafo.configure(disabledforeground="#a3a3a3")
         self.btnGrafo.configure(font="-family {Segoe UI} -size 9")
         self.btnGrafo.configure(foreground="black")
         self.btnGrafo.configure(highlightbackground="#d9d9d9")
         self.btnGrafo.configure(highlightcolor="#000000")
         self.btnGrafo.configure(text='''Ver grafo''')
+        self.btnGrafo.configure(command=self.doGrafo)
 
-        
-        
 
         # Vincular eventos de zoom y movimiento
         self.Canvas1.bind("<MouseWheel>", self.zoom)  # Zoom con la rueda del ratón
@@ -194,9 +183,36 @@ class Toplevel1:
             adapter = VisualizarTituloAdapter(self.Canvas1) 
             title_tree = adapter.construir_arbol_por_titulo()
             adapter.dibujar_arbol(title_tree.root)
+            
+            
+    def doGrafo(self):
+        """Carga y visualiza el grafo en el Canvas."""
+        # Limpiar el canvas
+        self.Canvas1.delete("all")
 
+        # Ruta al archivo JSON del grafo
+        ruta_grafo = os.path.join(project_root, "arboles_persistencia", "relations_graph.json")
 
+        try:
+            # Cargar los datos del grafo desde el archivo JSON
+            with open(ruta_grafo, "r", encoding="utf-8") as file:
+                graph_data = json.load(file)
 
+            # Construir el grafo desde los datos
+            grafo = Grafo()
+            for node in graph_data["nodes"]:
+                grafo.agregar_vertice(node["id"])
+            for edge in graph_data["edges"]:
+                grafo.agregar_arista(edge["source"], edge["target"])
+
+            # Crear el adaptador de visualización y dibujar el grafo
+            visualizador = VisualizarGrafoAdapter(self.Canvas1, grafo)
+            visualizador.dibujar_grafo()
+
+        except FileNotFoundError:
+            print(f"Archivo no encontrado: {ruta_grafo}")
+        except Exception as e:
+            print(f"Error al visualizar el grafo: {e}")
 
 
     def zoom(self, event):
