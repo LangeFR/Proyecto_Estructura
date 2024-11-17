@@ -54,7 +54,7 @@ class Toplevel1:
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
 
-        top.geometry("1500x750")
+        top.geometry("1500x600")
         top.minsize(120, 1)
         top.maxsize(1540, 845)
         top.resizable(1, 1)
