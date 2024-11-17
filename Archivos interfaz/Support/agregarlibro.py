@@ -12,6 +12,12 @@ import os
 import json
 import uuid
 import subprocess
+from tkinter import messagebox  # Importar el módulo de messagebox
+import re  # Importar el módulo de expresiones regulares
+from datetime import datetime
+from datetime import datetime
+
+
 
 _location = os.path.dirname(__file__)
 
@@ -251,6 +257,63 @@ class Toplevel1:
         navegacion.start_up()
 
 
+    def validacionCampos(self, titulo, autor, genero, editorial, anio, isbn):
+        # Validar que los campos no estén vacíos
+        if not titulo or not autor or not genero or not editorial or not anio or not isbn:
+            messagebox.showwarning("Campos incompletos", "Por favor, completa todos los campos antes de continuar.")
+            print("Por favor, completa todos los campos.")
+            return False
+
+        # Validar espacios en blanco excesivos
+        for campo, valor in [("Título", titulo), ("Autor", autor), ("Género", genero), ("Editorial", editorial), ("Año", anio), ("ISBN", isbn)]:
+            if valor.strip() != valor or not valor.strip():
+                messagebox.showerror("Texto no válido", f"El campo '{campo}' no debe contener solo espacios ni empezar/terminar con espacios.")
+                return False
+
+        
+        # Definir patrón de caracteres válidos (letras, números, espacios, guiones, apóstrofes, comas y puntos)
+        valid_pattern = re.compile(r"^[a-zA-Z0-9\s\-',.]+$")
+        for campo, valor in [("Título", titulo), ("Autor", autor), ("Género", genero), ("Editorial", editorial)]:
+            if not valid_pattern.match(valor):
+                messagebox.showerror("Caracteres no válidos", f"El campo '{campo}' contiene caracteres especiales no permitidos.")
+                return False
+        
+        # Verificar duplicados del ISBN
+        libros_path = os.path.join(self.base_path, "books.json")
+        try:
+            with open(libros_path, 'r', encoding='utf-8') as f:
+                libros = json.load(f)
+
+            # Normalizar el ISBN ingresado (remover guiones)
+            isbn_normalizado = isbn.replace("-", "").strip()
+
+            # Verificar si algún ISBN en la base de datos coincide tras normalización
+            if any(libro["isbn"].replace("-", "").strip() == isbn_normalizado for libro in libros):
+                messagebox.showerror("ISBN duplicado", "El ISBN ya está registrado en el sistema.")
+                return False
+        except FileNotFoundError:
+            print("Archivo 'books.json' no encontrado, se continuará sin verificar duplicados.")
+        except json.JSONDecodeError:
+            print("Archivo 'books.json' corrupto o vacío, se continuará sin verificar duplicados.")
+
+        
+
+        # Validar que el año sea numérico, no negativo y dentro de un rango razonable
+        try:
+            anio_int = int(anio)
+            anio_actual = datetime.now().year
+            if anio_int < 0 or anio_int > anio_actual:
+                messagebox.showerror("Año no válido", f"El año debe ser un número positivo y no puede superar el actual ({anio_actual}).")
+                return False
+        except ValueError:
+            messagebox.showerror("Año no válido", "El año debe ser un número entero.")
+            return False
+        
+
+        # Si todas las validaciones pasan
+        return True
+
+
     def agregar(self):
         """Lógica para el botón Agregar."""
         # Obtener los valores de los campos
@@ -263,9 +326,10 @@ class Toplevel1:
         print(f"Título: {titulo}, Autor: {autor}, Género: {genero}, Editorial: {editorial}, Año: {anio}, ISBN: {isbn}")
 
         # Validar los campos
-        if not titulo or not autor or not genero or not editorial or not anio or not isbn:
-            print("Por favor, completa todos los campos.")
+        camposValidos = self.validacionCampos(titulo, autor, genero, editorial, anio, isbn)
+        if not camposValidos:
             return
+
 
         # Inicializar variables para IDs
         autor_id = None

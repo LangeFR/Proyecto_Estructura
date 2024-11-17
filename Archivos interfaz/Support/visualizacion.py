@@ -201,9 +201,19 @@ class Toplevel1:
 
     def zoom(self, event):
         """Maneja el zoom en el Canvas con la rueda del ratón."""
+        # Obtener las coordenadas internas del Canvas
+        canvas_x = self.Canvas1.canvasx(event.x)
+        canvas_y = self.Canvas1.canvasy(event.y)
+
+        # Determinar el factor de escala
         scale = 1.1 if event.delta > 0 else 0.9
-        self.Canvas1.scale("all", event.x, event.y, scale, scale)
+
+        # Escalar el contenido del Canvas
+        self.Canvas1.scale("all", canvas_x, canvas_y, scale, scale)
+
+        # Configurar la región de scroll del Canvas
         self.configure_scrollregion()
+
 
     def configure_scrollregion(self):
         """Configura la región de desplazamiento del Canvas."""
