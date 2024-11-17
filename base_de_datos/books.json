@@ -628,5 +628,14 @@
         "anio_publicacion": 1997,
         "editorialId": 2010,
         "isbn": "930-83-1869056-0"
+    },
+    {
+        "id": "b9ec02bf-55f3-4a74-8628-d3e9ad448c30",
+        "titulo": "LibroYYy",
+        "autorId": 3024,
+        "generoId": 1016,
+        "anio_publicacion": 2024,
+        "editorialId": 2010,
+        "isbn": "111222333"
     }
 ]

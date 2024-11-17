@@ -1,18 +1,28 @@
 import json
 import sys
 import os
+
 # Obtener el directorio actual (scripts/)
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Navegar al directorio padre (Proyecto_Estructura/)
 project_root = os.path.abspath(os.path.join(current_dir, '..'))
+print(f"Directorio raíz del proyecto: {project_root}")  # Depuración
+
+# Validar que project_root sea una ruta válida
+if not os.path.isdir(project_root):
+    raise FileNotFoundError(f"Directorio del proyecto no encontrado: {project_root}")
+
 models_dir = os.path.join(project_root, 'models')
 if models_dir not in sys.path:
     sys.path.append(models_dir)
+
 from balanced_tree import BalancedTree
 
 def cargar_libros_desde_json(ruta_archivo):
     """Cargar libros desde un archivo JSON."""
+    if not os.path.exists(ruta_archivo):
+        raise FileNotFoundError(f"Archivo JSON no encontrado: {ruta_archivo}")
     with open(ruta_archivo, "r", encoding="utf-8") as archivo:
         return json.load(archivo)
 
@@ -24,17 +34,26 @@ def guardar_arbol_en_json(arbol, ruta):
 
 # Función principal para probar
 def main():
-    ruta_libros = "base_de_datos/books.json"
-    # Crear un árbol balanceado e insertar elementos
-    arbol = BalancedTree()
-    libros = cargar_libros_desde_json(ruta_libros)
+    try:
+        # Ruta absoluta del archivo books.json
+        ruta_libros = os.path.join(project_root, "base_de_datos", "books.json")
+        print(f"Cargando libros desde: {ruta_libros}")  # Depuración
 
-    for libro in libros:
-        arbol.insert(libro["anio_publicacion"], libro["id"])
+        # Crear un árbol balanceado e insertar elementos
+        arbol = BalancedTree()
+        libros = cargar_libros_desde_json(ruta_libros)
 
-    # Guardar el árbol en un archivo JSON
-    guardar_arbol_en_json(arbol, "arbol_balanceado_con_ids.json")
-    print("Árbol balanceado guardado en arbol_balanceado_con_ids.json")
+        for libro in libros:
+            arbol.insert(libro["anio_publicacion"], libro["id"])
+
+        # Ruta para guardar el árbol balanceado
+        ruta_arbol = os.path.join(project_root, "arboles_persistencia", "arbol_balanceado_con_ids.json")
+        guardar_arbol_en_json(arbol, ruta_arbol)
+        print(f"Árbol balanceado guardado en {ruta_arbol}")
+
+    except Exception as e:
+        print(f"Error en la ejecución: {e}")
+        raise
 
 if __name__ == "__main__":
     main()

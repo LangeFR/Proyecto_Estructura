@@ -226,7 +226,14 @@
                     "left": null,
                     "right": null
                 },
-                "right": null
+                "right": {
+                    "anio_publicacion": 2024,
+                    "libros": [
+                        "b9ec02bf-55f3-4a74-8628-d3e9ad448c30"
+                    ],
+                    "left": null,
+                    "right": null
+                }
             }
         }
     }

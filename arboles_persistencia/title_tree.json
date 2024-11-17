@@ -336,7 +336,12 @@
                                 "right": {
                                     "titulo": "Los secretos de la luna",
                                     "id": "da868485-3e99-40d0-a50a-dbec255596e5",
-                                    "left": null,
+                                    "left": {
+                                        "titulo": "LibroYYy",
+                                        "id": "b9ec02bf-55f3-4a74-8628-d3e9ad448c30",
+                                        "left": null,
+                                        "right": null
+                                    },
                                     "right": null
                                 }
                             }

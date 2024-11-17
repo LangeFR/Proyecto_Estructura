@@ -1,24 +1,33 @@
 import json
-
 import sys
 import os
 
-# Agregar la ruta del directorio 'models' al sys.path
+# Obtener el directorio actual (donde se encuentra este script)
 current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.join(current_dir, '..')  # Navegar al directorio padre
-models_dir = os.path.join(parent_dir, 'models')
-sys.path.append(models_dir)
+
+# Navegar al directorio raíz del proyecto (Proyecto_Estructura/)
+project_root = os.path.abspath(os.path.join(current_dir, '..'))
+
+# Agregar el directorio 'models' al sys.path
+models_dir = os.path.join(project_root, 'models')
+if models_dir not in sys.path:
+    sys.path.append(models_dir)
+
+
+# Verificar que el archivo n_ary_tree.py existe
+n_ary_tree_path = os.path.join(models_dir, 'n_ary_tree.py')
+if not os.path.exists(n_ary_tree_path):
+    raise FileNotFoundError(f"El archivo 'n_ary_tree.py' no se encuentra en {models_dir}")
 
 # Importar NAryTree desde n_ary_tree.py
-from models.n_ary_tree import NAryTree
-
-# Determina la ruta al directorio raíz del proyecto
-current_dir = os.path.dirname(__file__)
-project_root = os.path.abspath(os.path.join(current_dir, '..', '..'))
+from n_ary_tree import NAryTree
 
 # Rutas de archivos
 ruta_books = os.path.join(project_root, 'base_de_datos', 'books.json')
 ruta_generos = os.path.join(project_root, 'base_de_datos', 'generos.json')
+ruta_arbol = os.path.join(project_root, 'arboles_persistencia', 'genre_tree.json')
+
+
 
 
 
@@ -38,10 +47,7 @@ def tree_to_dict(node):
     }
 
 
-# Rutas de archivos
-ruta_books = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\base_de_datos\books.json"
-ruta_generos = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\base_de_datos\generos.json"
-ruta_arbol = r"C:\Users\DellInspiron5570\Documents\Universidad\Semestres\Semestre 4\Estructura\Corte 3\Proyecto_Estructura\arboles_persistencia\genre_tree.json"
+
 
 # Función para cargar datos JSON
 def load_json(filename):
