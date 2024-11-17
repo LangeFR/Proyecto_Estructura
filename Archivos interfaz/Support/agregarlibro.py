@@ -314,6 +314,7 @@ class Toplevel1:
         return True
 
 
+
     def agregar(self):
         """Lógica para el botón Agregar."""
         # Obtener los valores de los campos
@@ -330,7 +331,6 @@ class Toplevel1:
         if not camposValidos:
             return
 
-
         # Inicializar variables para IDs
         autor_id = None
         genero_id = None
@@ -338,7 +338,7 @@ class Toplevel1:
 
         try:
             # Buscar el ID del autor
-            autores_path = os.path.join(self.base_path, "autores.json")
+            autores_path = os.path.join(self.base_path,"autores.json")
             with open(autores_path, 'r', encoding='utf-8') as f:
                 autores = json.load(f)
             print(f"Autores cargados: {[a['nombre'] for a in autores]}")  # Depuración
@@ -351,9 +351,25 @@ class Toplevel1:
             with open(generos_path, 'r', encoding='utf-8') as f:
                 generos = json.load(f)
             print(f"Géneros cargados: {[g['nombre'] for g in generos]}")  # Depuración
+
             genero_lower = genero.lower()
-            genero_id = next((g["id"] for g in generos if g["nombre"].strip('- ').lower() == genero_lower), None)
-            print(f"Género ID encontrado: {genero_id}")  # Depuración
+            genero_encontrado = next((g for g in generos if g["nombre"].strip('- ').lower() == genero_lower), None)
+
+            if genero_encontrado:
+                genero_id = genero_encontrado["id"]
+                # Validar si el género es hoja
+                es_hoja = not any(g for g in generos if g.get("generoPadreId") == genero_id)
+                if not es_hoja:
+                    messagebox.showwarning(
+                        "Género no específico",
+                        "El género seleccionado no es lo suficientemente específico. Seleccione otro."
+                    )
+                    return
+                print(f"Género ID encontrado: {genero_id}")  # Depuración
+            else:
+                print("Género no encontrado.")  # Depuración
+                genero_id = None
+            
 
             # Buscar el ID de la editorial
             editoriales_path = os.path.join(self.base_path, "editoriales.json")
@@ -364,22 +380,50 @@ class Toplevel1:
             editorial_id = next((e["id"] for e in editoriales if e["nombre"].lower() == editorial_lower), None)
             print(f"Editorial ID encontrado: {editorial_id}")  # Depuración
 
+            # Identificar qué entidades faltan
+            missing_autor = autor if autor_id is None else None
+            missing_genero = genero if genero_id is None else None
+            missing_editorial = editorial if editorial_id is None else None
+
+            # Si hay entidades faltantes, confirmar creación
+            if missing_autor or missing_genero or missing_editorial:
+                confirmacion = self.confirmarNuevos(missing_autor, missing_genero, missing_editorial)
+                if not confirmacion:
+                    print("Creación de nuevos elementos cancelada por el usuario.")
+                    return
+                
+                # Llamar al método crearNuevos con los nombres faltantes
+                nuevos_autor_id, nuevos_genero_id, nuevos_editorial_id = self.crearNuevos(missing_autor, missing_genero, missing_editorial)
+
+                # Reasignar los IDs si se crearon nuevos
+                if missing_autor:
+                    autor_id = nuevos_autor_id
+                if missing_genero:
+                    genero_id = nuevos_genero_id
+                if missing_editorial:
+                    editorial_id = nuevos_editorial_id
+
             # Verificar que todos los IDs fueron encontrados
             if not all([autor_id, genero_id, editorial_id]):
                 print("Error: No se encontraron uno o más IDs requeridos.")
+                messagebox.showerror("Error de ID", "No se pudieron obtener todos los IDs requeridos para crear el libro.")
                 return
 
         except FileNotFoundError as e:
             print(f"Archivo no encontrado: {e}")
+            messagebox.showerror("Archivo no encontrado", f"Archivo no encontrado: {e}")
             return
         except json.JSONDecodeError as e:
             print(f"Error al decodificar JSON: {e}")
+            messagebox.showerror("Error de JSON", f"Error al decodificar JSON: {e}")
             return
         except StopIteration:
             print("Error: No se encontró uno de los valores requeridos.")
+            messagebox.showerror("Error de iteración", "No se encontró uno de los valores requeridos.")
             return
         except Exception as e:
             print(f"Error inesperado: {e}")
+            messagebox.showerror("Error inesperado", f"Error inesperado: {e}")
             return
 
         # Generar UUID para el libro
@@ -389,7 +433,7 @@ class Toplevel1:
         try:
             anio_int = int(anio)
         except ValueError:
-            print("El año debe ser un número entero.")
+            messagebox.showerror("Año no válido", "El año debe ser un número entero.")
             return
 
         # Crear el diccionario del libro con los IDs
@@ -406,7 +450,7 @@ class Toplevel1:
 
         # Guardar en books.json
         try:
-            books_path = os.path.join(self.base_path, "books.json")
+            books_path = os.path.join(self.base_path,"books.json")
             if not os.path.exists(books_path):
                 with open(books_path, 'w', encoding='utf-8') as f:
                     json.dump([], f, ensure_ascii=False, indent=4)
@@ -425,6 +469,7 @@ class Toplevel1:
 
         except Exception as e:
             print(f"Error al guardar el libro: {e}")
+            messagebox.showerror("Error al guardar", f"Error al guardar el libro: {e}")
             return
 
         # Ejecutar los scripts de persistencia
@@ -443,12 +488,15 @@ class Toplevel1:
             print("Scripts de persistencia ejecutados correctamente.")  # Depuración
         except subprocess.CalledProcessError as e:
             print(f"Error al ejecutar el script {script}: {e}")
+            messagebox.showerror("Error en scripts", f"Error al ejecutar el script {script}: {e}")
             return
         except Exception as e:
             print(f"Error al ejecutar los scripts: {e}")
+            messagebox.showerror("Error en scripts", f"Error al ejecutar los scripts: {e}")
             return
 
         print("Libro agregado exitosamente.")
+        messagebox.showinfo("Éxito", "Libro agregado exitosamente.")
 
         # Limpiar los campos después de agregar
         self.titulo_entry.delete(0, tk.END)
@@ -457,6 +505,138 @@ class Toplevel1:
         self.editorial_combo.var.set('')
         self.anio_entry.delete(0, tk.END)
         self.isbn_entry.delete(0, tk.END)
+
+
+    def confirmarNuevos(self, autor, genero, editorial):
+        # Confirmar autor
+        if autor is not None:
+            respuesta_autor = messagebox.askyesno("Confirmar nuevo autor", f"¿Está seguro que desea crear el autor '{autor}'?")
+            if not respuesta_autor:
+                return False  # Detener si el usuario selecciona "No"
+
+        # Confirmar género
+        if genero is not None:
+            respuesta_genero = messagebox.askyesno("Confirmar nuevo género", f"¿Está seguro que desea crear el género '{genero}'?")
+            if not respuesta_genero:
+                return False  # Detener si el usuario selecciona "No"
+
+        # Confirmar editorial
+        if editorial is not None:
+            respuesta_editorial = messagebox.askyesno("Confirmar nueva editorial", f"¿Está seguro que desea crear la editorial '{editorial}'?")
+            if not respuesta_editorial:
+                return False  # Detener si el usuario selecciona "No"
+
+        # Si todas las confirmaciones fueron aceptadas
+        return True
+
+
+    def crearNuevos(self, autor, genero, editorial):
+        nuevos_autor_id = None
+        nuevos_genero_id = None
+        nuevos_editorial_id = None
+
+        # Crear nuevo autor si es necesario
+        if autor is not None:
+            autores_path = os.path.join(self.base_path, "autores.json")
+            with open(autores_path, 'r+', encoding='utf-8') as f:
+                autores = json.load(f)
+                # Encontrar el ID más alto
+                max_id = max(a['id'] for a in autores)
+                nuevos_autor_id = max_id + 1
+                # Crear nuevo autor
+                nuevo_autor = {
+                    "id": nuevos_autor_id,
+                    "nombre": autor
+                }
+                autores.append(nuevo_autor)
+                # Escribir de vuelta en el archivo
+                f.seek(0)
+                json.dump(autores, f, ensure_ascii=False, indent=4)
+                f.truncate()
+
+        # Crear nueva editorial si es necesario
+        if editorial is not None:
+            editoriales_path = os.path.join(self.base_path, "editoriales.json")
+            with open(editoriales_path, 'r+', encoding='utf-8') as f:
+                editoriales = json.load(f)
+                # Encontrar el ID más alto
+                max_id = max(e['id'] for e in editoriales)
+                nuevos_editorial_id = max_id + 1
+                # Crear nueva editorial
+                nueva_editorial = {
+                    "id": nuevos_editorial_id,
+                    "nombre": editorial
+                }
+                editoriales.append(nueva_editorial)
+                # Escribir de vuelta en el archivo
+                f.seek(0)
+                json.dump(editoriales, f, ensure_ascii=False, indent=4)
+                f.truncate()
+
+        # Crear nuevo género si es necesario
+        if genero is not None:
+            # Obtener lista de géneros
+            generos_path = os.path.join(self.base_path, "generos.json")
+            with open(generos_path, 'r+', encoding='utf-8') as f:
+                generos = json.load(f)
+            # Construir lista de nombres de géneros
+            genero_nombres = [g['nombre'] for g in generos]
+            # Incluir 'Biblioteca' como opción
+            genero_nombres.insert(0, 'Biblioteca')
+
+            # Crear ventana emergente para seleccionar el género padre
+            def seleccionar_genero_padre():
+                genero_padre_window = tk.Toplevel(self.top)
+                genero_padre_window.title("Seleccionar género padre")
+                genero_padre_window.geometry("300x100")
+
+                tk.Label(genero_padre_window, text="Seleccione el género padre:").pack(pady=5)
+                genero_var = tk.StringVar()
+                genero_combobox = ttk.Combobox(genero_padre_window, textvariable=genero_var, values=genero_nombres, state='readonly')
+                genero_combobox.pack(pady=5)
+                genero_combobox.current(0)
+
+                def confirmar():
+                    genero_padre_window.destroy()
+
+                tk.Button(genero_padre_window, text="Aceptar", command=confirmar).pack(pady=5)
+                genero_padre_window.grab_set()
+                self.top.wait_window(genero_padre_window)
+                return genero_var.get()
+
+            parent_genero_nombre = seleccionar_genero_padre()
+            if not parent_genero_nombre:
+                messagebox.showerror("Error", "Debe seleccionar un género padre.")
+                return None, None, None
+
+            # Obtener el ID del género padre seleccionado
+            if parent_genero_nombre == 'Biblioteca':
+                genero_padre_id = None  # O usar un ID especial si 'Biblioteca' es la raíz
+            else:
+                genero_padre = next((g for g in generos if g['nombre'] == parent_genero_nombre), None)
+                if genero_padre is not None:
+                    genero_padre_id = genero_padre['id']
+                else:
+                    messagebox.showerror("Error", "Género padre seleccionado no válido.")
+                    return None, None, None
+
+            # Encontrar el ID más alto
+            max_id = max(g['id'] for g in generos)
+            nuevos_genero_id = max_id + 1
+            # Crear nuevo género
+            nuevo_genero = {
+                "id": nuevos_genero_id,
+                "nombre": genero,
+                "generoPadreId": genero_padre_id
+            }
+            generos.append(nuevo_genero)
+            # Escribir de vuelta en el archivo
+            with open(generos_path, 'w', encoding='utf-8') as f:
+                json.dump(generos, f, ensure_ascii=False, indent=4)
+
+        return nuevos_autor_id, nuevos_genero_id, nuevos_editorial_id
+
+
 
 # Para ejecutar la ventana de prueba
 if __name__ == "__main__":
