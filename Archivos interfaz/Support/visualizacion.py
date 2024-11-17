@@ -150,11 +150,28 @@ class Toplevel1:
         self.Label2.configure(highlightbackground="#d9d9d9")
         self.Label2.configure(highlightcolor="#000000")
         self.Label2.configure(text='''Visualización''')
+        
+        self.btnGrafo = tk.Button(self.Frame1)
+        self.btnGrafo.place(relx=0.082, rely=0.606, height=26, width=57)
+        self.btnGrafo.configure(activebackground="#d9d9d9")
+        self.btnGrafo.configure(activeforeground="black")
+        self.btnGrafo.configure(background="#ff0080")
+        self.btnGrafo.configure(command=visualizacion_support.doGrafo)
+        self.btnGrafo.configure(disabledforeground="#a3a3a3")
+        self.btnGrafo.configure(font="-family {Segoe UI} -size 9")
+        self.btnGrafo.configure(foreground="black")
+        self.btnGrafo.configure(highlightbackground="#d9d9d9")
+        self.btnGrafo.configure(highlightcolor="#000000")
+        self.btnGrafo.configure(text='''Ver grafo''')
+
+        
+        
 
         # Vincular eventos de zoom y movimiento
         self.Canvas1.bind("<MouseWheel>", self.zoom)  # Zoom con la rueda del ratón
         self.Canvas1.bind("<ButtonPress-1>", self.start_move)  # Inicia el movimiento
         self.Canvas1.bind("<B1-Motion>", self.on_move)  # Arrastra el Canvas
+        
 
 
         self.menubar = tk.Menu(top, font="TkMenuFont", bg=_bgcolor, fg=_fgcolor)

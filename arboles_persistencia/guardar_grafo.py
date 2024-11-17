@@ -1,6 +1,6 @@
 import json
-import os
 import sys
+import os
 
 # Obtener el directorio actual (scripts/)
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +14,7 @@ if models_dir not in sys.path:
     sys.path.append(models_dir)
 
 # Importar la clase Grafo desde el archivo correspondiente
-from models.GRAFOS import Grafo
+from GRAFOS import Grafo
 
 # Rutas de archivos
 ruta_books = os.path.join(project_root, 'base_de_datos', 'books.json')
@@ -28,10 +28,10 @@ def load_json(filename):
 # Función para convertir el grafo a un formato serializable
 def graph_to_dict(grafo):
     graph_dict = {"nodes": [], "edges": []}
-    for node in grafo.grafo.nodes:
+    for node, neighbors in grafo.vertices.items():
         graph_dict["nodes"].append({"id": node, "label": node})
-    for edge in grafo.grafo.edges:
-        graph_dict["edges"].append({"source": edge[0], "target": edge[1]})
+        for neighbor in neighbors:
+            graph_dict["edges"].append({"source": node, "target": neighbor})
     return graph_dict
 
 # Función principal
@@ -52,10 +52,10 @@ def main():
         editorial_id = f"Editorial_{book['editorialId']}"
 
         # Agregar nodos
-        relations_graph.agregar_nodo(book_title)
-        relations_graph.agregar_nodo(author_id)
-        relations_graph.agregar_nodo(genre_id)
-        relations_graph.agregar_nodo(editorial_id)
+        relations_graph.agregar_vertice(book_title)
+        relations_graph.agregar_vertice(author_id)
+        relations_graph.agregar_vertice(genre_id)
+        relations_graph.agregar_vertice(editorial_id)
 
         # Agregar aristas (relaciones)
         relations_graph.agregar_arista(book_title, author_id)   # Libro → Autor
