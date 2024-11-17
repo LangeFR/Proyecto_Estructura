@@ -467,7 +467,7 @@ class Toplevel1:
         try:
             # Definir la ruta absoluta a la carpeta de scripts
             scripts_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'arboles_persistencia'))
-            scripts = ['guardar_bal.py', 'guardar_nary.py', 'guardar_bin.py']
+            scripts = ['guardar_bal.py', 'guardar_nary.py', 'guardar_bin.py', 'guardar_grafo.py']
             for script in scripts:
                 script_path = os.path.join(scripts_dir, script)
                 if not os.path.exists(script_path):
