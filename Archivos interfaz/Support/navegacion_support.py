@@ -37,11 +37,6 @@ def doConsultar(*args):
     root.destroy()  # Destruye la ventana actual antes de abrir la nueva
     consultas_support.main()  # Inicia la ventana de navegación
 
-def doOrdenar(*args):
-    global root
-    root.destroy()  # Destruye la ventana actual antes de abrir la nueva
-    consultas_support.main()  # Inicia la ventana de navegación
-
 def doVisualizar(*args):
     global root
     root.destroy()  # Destruye la ventana actual antes de abrir la nueva
