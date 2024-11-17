@@ -8,8 +8,10 @@
 import json
 import sys
 import os
+import threading
 import tkinter as tk
 import tkinter.ttk as ttk
+import networkx as nx
 from tkinter.constants import *
 
 # Determina la ruta al directorio raíz del proyecto
@@ -24,6 +26,7 @@ from models.GRAFOS import Grafo
 from adapters.visualizar_genero_adapter import VisualizarGeneroAdapter
 from adapters.visualizar_anio_adapter import VisualizarAnioAdapter
 from adapters.visualizar_titulo_adapter import VisualizarTituloAdapter
+from adapters.visualizar_grafo import visualizar_grafo
 
 
 
@@ -153,7 +156,7 @@ class Toplevel1:
         self.btnGrafo.configure(highlightbackground="#d9d9d9")
         self.btnGrafo.configure(highlightcolor="#000000")
         self.btnGrafo.configure(text='''Ver grafo''')
-        #self.btnGrafo.configure(command=self.doGrafo)
+        self.btnGrafo.configure(command=self.doGrafo)
 
 
         # Vincular eventos de zoom y movimiento
@@ -211,8 +214,28 @@ class Toplevel1:
     def on_move(self, event):
         """Mueve el Canvas al arrastrar el mouse."""
         self.Canvas1.scan_dragto(event.x, event.y, gain=1)
+        
+    def doGrafo(self):
+    # Ruta del archivo del grafo
+        ruta_grafo = os.path.join(project_root, 'arboles_persistencia', 'grafo_libros.json')
 
+    # Función para cargar el grafo desde un archivo JSON
+        def load_graph_from_json(filename):
+            with open(filename, 'r', encoding='utf-8') as file:
+                data = json.load(file)
+                graph = nx.node_link_graph(data)
+                return graph
 
+    # Verificar si el archivo del grafo existe
+        if not os.path.exists(ruta_grafo):
+            print(f"El archivo {ruta_grafo} no existe. Por favor, genera el grafo primero.")
+            return
+
+    # Cargar el grafo desde el archivo JSO  N
+        graph = load_graph_from_json(ruta_grafo)
+
+    # Llamar a la función de visualización en un hilo separado
+        threading.Thread(target=visualizar_grafo, args=(graph,)).start()
 
     def regresar(self):
         self.top.destroy()
