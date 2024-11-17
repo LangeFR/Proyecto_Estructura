@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 import json
+import os
 
 class Toplevel1:
     def __init__(self, top=None):
@@ -93,11 +94,15 @@ class Toplevel1:
         self.Button1.place(relx=0.128, rely=0.85, height=26, width=80)
         self.Button1.configure(background="#fdab02", text='Regresar', command=self.regresar)
 
-        # Cargar datos JSON
-        self.libros_titulos = self.cargar_json("base_de_datos/books.json")
-        self.autores = self.cargar_json("base_de_datos/autores.json")
-        self.generos = self.cargar_json("base_de_datos/generos.json")
-        self.editoriales = self.cargar_json("base_de_datos/editoriales.json")
+
+        # Ajustar base_path para apuntar a Proyecto_Estructura
+        self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+        # Cargar datos JSON con rutas corregidas
+        self.libros_titulos = self.cargar_json(os.path.join(self.base_path, "base_de_datos", "books.json"))
+        self.autores = self.cargar_json(os.path.join(self.base_path, "base_de_datos", "autores.json"))
+        self.generos = self.cargar_json(os.path.join(self.base_path, "base_de_datos", "generos.json"))
+        self.editoriales = self.cargar_json(os.path.join(self.base_path, "base_de_datos", "editoriales.json"))
 
         # Llenar Combobox de Autores
         self.autores_nombres = [autor["nombre"] for autor in self.autores]
@@ -116,6 +121,7 @@ class Toplevel1:
             with open(archivo, 'r', encoding='utf-8') as file:
                 return json.load(file)
         except FileNotFoundError:
+            print(f"Ruta: ", os.path.abspath(archivo))
             print(f"Archivo {archivo} no encontrado.")
             return []
 
