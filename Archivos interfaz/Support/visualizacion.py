@@ -24,7 +24,7 @@ from models.GRAFOS import Grafo
 from adapters.visualizar_genero_adapter import VisualizarGeneroAdapter
 from adapters.visualizar_anio_adapter import VisualizarAnioAdapter
 from adapters.visualizar_titulo_adapter import VisualizarTituloAdapter
-from adapters.visualizar_grafo import VisualizarGrafoAdapter
+
 
 
 import visualizacion_support
@@ -153,7 +153,7 @@ class Toplevel1:
         self.btnGrafo.configure(highlightbackground="#d9d9d9")
         self.btnGrafo.configure(highlightcolor="#000000")
         self.btnGrafo.configure(text='''Ver grafo''')
-        self.btnGrafo.configure(command=self.doGrafo)
+        #self.btnGrafo.configure(command=self.doGrafo)
 
 
         # Vincular eventos de zoom y movimiento
@@ -184,36 +184,6 @@ class Toplevel1:
             title_tree = adapter.construir_arbol_por_titulo()
             adapter.dibujar_arbol(title_tree.root)
             
-            
-    def doGrafo(self):
-        """Carga y visualiza el grafo en el Canvas."""
-        # Limpiar el canvas
-        self.Canvas1.delete("all")
-
-        # Ruta al archivo JSON del grafo
-        ruta_grafo = os.path.join(project_root, "arboles_persistencia", "relations_graph.json")
-
-        try:
-            # Cargar los datos del grafo desde el archivo JSON
-            with open(ruta_grafo, "r", encoding="utf-8") as file:
-                graph_data = json.load(file)
-
-            # Construir el grafo desde los datos
-            grafo = Grafo()
-            for node in graph_data["nodes"]:
-                grafo.agregar_vertice(node["id"])
-            for edge in graph_data["edges"]:
-                grafo.agregar_arista(edge["source"], edge["target"])
-
-            # Crear el adaptador de visualización y dibujar el grafo
-            visualizador = VisualizarGrafoAdapter(self.Canvas1, grafo)
-            visualizador.dibujar_grafo()
-
-        except FileNotFoundError:
-            print(f"Archivo no encontrado: {ruta_grafo}")
-        except Exception as e:
-            print(f"Error al visualizar el grafo: {e}")
-
 
     def zoom(self, event):
         """Maneja el zoom en el Canvas con la rueda del ratón."""
