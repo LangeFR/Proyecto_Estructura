@@ -114,9 +114,9 @@ class Toplevel1:
         self.btnGrafo = tk.Button(
             self.Frame1,
             text="Ver Grafo",
-            bg="#ff0080",
-            fg="white",
-            font=("Segoe UI", 12, "bold"),
+            bg="#fec210",
+            fg="black",
+            font=("Segoe UI", 12),
             command=self.doGrafo
         )
         self.btnGrafo.pack(fill=tk.X, pady=10)
