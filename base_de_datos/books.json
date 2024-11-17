@@ -637,5 +637,14 @@
         "anio_publicacion": 2024,
         "editorialId": 2010,
         "isbn": "111222333"
+    },
+    {
+        "id": "64b61b7c-b961-45b1-ad1d-1c055a771958",
+        "titulo": "The Secret Garden",
+        "autorId": 3024,
+        "generoId": 1013,
+        "anio_publicacion": 2014,
+        "editorialId": 2004,
+        "isbn": "978-1505002287"
     }
 ]
