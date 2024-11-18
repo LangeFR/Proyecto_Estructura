@@ -16,12 +16,18 @@ models_dir = os.path.join(project_root, 'models')
 if models_dir not in sys.path:
     sys.path.append(models_dir)
 
+# Verificar que el archivo grafo.py existe
+grafo_path = os.path.join(models_dir, 'GRAFOS.py')
+if not os.path.exists(grafo_path):
+    raise FileNotFoundError(f"El archivo 'GRAFOS.py' no se encuentra en {models_dir}")
+
+
 # Importar la clase Grafo desde grafos.py
-from grafos import Grafo
+from GRAFOS import Grafo
 
 # Rutas de archivos
 ruta_books = os.path.join(project_root, 'base_de_datos', 'books.json')
-ruta_grafo = os.path.join(project_root, 'grafos_persistencia', 'grafo_libros.json')
+ruta_grafo = os.path.join(project_root, 'arboles_persistencia', 'grafo_libros.json')
 
 # Función para cargar datos JSON
 def load_json(filename):

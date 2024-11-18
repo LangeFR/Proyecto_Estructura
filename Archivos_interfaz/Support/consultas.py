@@ -6,10 +6,16 @@ import tkinter as tk
 from tkinter import messagebox
 import tkinter.ttk as ttk
 import json
+import subprocess
+
 
 
 class Toplevel1:
     def __init__(self, top=None):
+        self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+        print(f"[DEBUG] Base path establecido en: {self.base_path}")
+
+
         # Maximizar la ventana manteniendo la barra superior visible
         top.state('zoomed')  # Funciona en Windows
         # Para otras plataformas, podrías necesitar ajustar esto

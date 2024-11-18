@@ -5,8 +5,8 @@ class Grafo:
     def __init__(self):
         self.grafo = nx.Graph()
 
-    def agregar_nodo(self, nodo):
-        self.grafo.add_node(nodo)
+    def agregar_nodo(self, nodo, tipo=None):
+        self.grafo.add_node(nodo, tipo=tipo)
         print(f"Nodo '{nodo}' agregado.")
 
     def eliminar_nodo(self, nodo):
