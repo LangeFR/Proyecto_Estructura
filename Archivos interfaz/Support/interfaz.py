@@ -30,12 +30,15 @@ class Toplevel1:
 
         top.geometry("600x450+542+104")
         top.minsize(120, 1)
-        top.maxsize(1540, 845)
-        top.resizable(1,  1)
+        #top.maxsize(1540, 845)
+        top.resizable(True, True)
         top.title("Toplevel 0")
         top.configure(background="#98e4fe")
         top.configure(highlightbackground="#afffff")
         top.configure(highlightcolor="#afffff")
+
+        top.state('zoomed')  # Activa el modo maximizado
+        top.update_idletasks()  # Asegura que las dimensiones se ajusten antes de renderizar
 
         self.top = top
 
@@ -43,7 +46,9 @@ class Toplevel1:
         top.configure(menu = self.menubar)
 
         self.Label1 = tk.Label(self.top)
-        self.Label1.place(relx=0.167, rely=0.022, height=311, width=404)
+        self.Label1.place(relx=0.5, rely=0.5, anchor="center")
+
+        #self.Label1.place(relx=0.167, rely=0.022, height=311, width=404)
         self.Label1.configure(activebackground="#d9d9d9")
         self.Label1.configure(activeforeground="black")
         self.Label1.configure(anchor='w')
@@ -57,10 +62,11 @@ class Toplevel1:
         global _img0
         _img0 = tk.PhotoImage(file=photo_location)
         self.Label1.configure(image=_img0)
-        self.Label1.configure(text='''Label''')
+        #self.Label1.configure(text='''Label''')
 
         self.Button1 = tk.Button(self.top)
-        self.Button1.place(relx=0.467, rely=0.756, height=36, width=67)
+        self.Button1.place(relx=0.5, rely=0.8, anchor="center", height=36, width=67)
+        #self.Button1.place(relx=0.467, rely=0.756, height=36, width=67)
         self.Button1.configure(activebackground="#d9d9d9")
         self.Button1.configure(activeforeground="white")
         self.Button1.configure(background="#b906c8")

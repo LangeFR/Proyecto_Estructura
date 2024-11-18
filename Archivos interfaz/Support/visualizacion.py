@@ -62,12 +62,22 @@ class Toplevel1:
 
         # Centrar la ventana en la pantalla
         top.geometry("900x600")
-        top.resizable(0, 0)
+        top.resizable(True, True)
         top.title("Visualización de Datos")
         top.configure(background="#98e4fe")
+        top.state('zoomed')  # Activa el modo maximizado
+        top.update_idletasks()  # Asegura que las dimensiones se ajusten antes de renderizar
 
         self.top = top
         self.combobox = tk.StringVar()
+        
+        self.DecorativeFrame = tk.Frame(
+            self.top, 
+            bg="#4a154b",  # Color del marco decorativo
+            relief="ridge", 
+            borderwidth=5 
+        )
+        self.DecorativeFrame.place(relx=0.24, rely=0.09, relwidth=0.72, relheight=0.82)
 
         # Canvas principal para la visualización
         self.Canvas1 = tk.Canvas(self.top, bg="#ffefa5", relief="ridge", borderwidth=2)
