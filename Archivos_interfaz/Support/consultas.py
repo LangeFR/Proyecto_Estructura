@@ -3,7 +3,9 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from adapters.consultas_adapter import ConsultasAdapter
 import tkinter as tk
+from tkinter import messagebox
 import tkinter.ttk as ttk
+import json
 
 
 class Toplevel1:
@@ -84,12 +86,18 @@ class Toplevel1:
         self.TEntry5 = ttk.Entry(self.filters_frame, state='readonly')
         self.TEntry5.grid(row=6, column=1, pady=5, sticky='ew')
 
-        # Botones en el marco de filtros
-        self.Button1 = tk.Button(self.filters_frame, text='Regresar', bg="#fdab02", command=self.regresar)
-        self.Button1.grid(row=7, column=0, pady=20, sticky='ew')
-
+        # Boton nueva busqueda
         self.Button2 = tk.Button(self.filters_frame, text='Nueva Búsqueda', bg="#fdab02", command=self.limpiar_busqueda)
-        self.Button2.grid(row=7, column=1, pady=20, sticky='ew')
+        self.Button2.grid(row=7, column=0, pady=20, sticky='ew')
+
+        # Botón Eliminar Libro
+        self.ButtonEliminar = tk.Button(self.filters_frame, text='Eliminar Libro', bg="#fdab02", command=self.eliminar_libro_seleccionado)
+        self.ButtonEliminar.grid(row=8, column=0, pady=20, sticky='ew')
+
+        # Botones regresar
+        self.Button1 = tk.Button(self.filters_frame, text='Regresar', bg="#fdab02", command=self.regresar)
+        self.Button1.grid(row=9, column=0, pady=20, sticky='ew')
+
 
         # Configurar las columnas del grid en filters_frame para ajustar el ancho
         self.filters_frame.columnconfigure(0, weight=1)
@@ -379,6 +387,98 @@ class Toplevel1:
         # Importar y llamar al método principal de navegacion.py
         import navegacion
         navegacion.start_up()
+    def eliminar_libro_seleccionado(self):
+        """Lógica para eliminar el libro seleccionado en la tabla."""
+        seleccion = self.Treeview1.focus()  # Obtener el elemento seleccionado en la tabla
+        if not seleccion:
+            print("[DEBUG] No se seleccionó ningún libro para eliminar.")
+            tk.messagebox.showwarning("Eliminar Libro", "Por favor, seleccione un libro de la tabla para eliminar.")
+            return
+        
+        # Obtener valores del libro seleccionado
+        valores = self.Treeview1.item(seleccion, 'values')
+        if not valores:
+            print("[DEBUG] No se encontraron valores en la selección.")
+            tk.messagebox.showerror("Eliminar Libro", "No se pudo obtener la información del libro seleccionado.")
+            return
+        
+        titulo = valores[0]  # Suponiendo que el título es el primer valor en 'values'
+        print(f"[DEBUG] Título del libro seleccionado para eliminar: {titulo}")
+
+        # Buscar el libro en la base de datos por su título
+        libro = next((libro for libro in self.adapter.libros_titulos if libro["titulo"] == titulo), None)
+        if not libro:
+            print(f"[DEBUG] No se encontró el libro con título: {titulo}")
+            tk.messagebox.showerror("Eliminar Libro", "No se encontró el libro en la base de datos.")
+            return
+
+        id_libro = libro["id"]
+        print(f"[DEBUG] ID del libro a eliminar: {id_libro}")
+
+        # Confirmación del usuario
+        respuesta = tk.messagebox.askyesno("Eliminar Libro", f"¿Está seguro que desea eliminar el libro '{titulo}'?")
+        if not respuesta:
+            print("[DEBUG] Eliminación de libro cancelada por el usuario.")
+            return
+
+        # Llamar al método eliminarLibro con el id del libro
+        self.eliminarLibro(id_libro)
+    
+    def eliminarLibro(self, idLibro):
+        """Elimina un libro de la base de datos por su ID."""
+        print(f"[DEBUG] Ejecutando eliminación del libro con ID: {idLibro}")
+
+        # Cargar los libros desde el archivo JSON
+        libros = self.cargar_json(os.path.join(self.base_path, "base_de_datos", "books.json"))
+
+        # Buscar y eliminar el libro por ID
+        libro_a_eliminar = next((libro for libro in libros if libro["id"] == idLibro), None)
+        if libro_a_eliminar:
+            libros.remove(libro_a_eliminar)
+            # Guardar la lista actualizada de libros en el archivo JSON
+            with open(os.path.join(self.base_path, "base_de_datos", "books.json"), 'w', encoding='utf-8') as file:
+                json.dump(libros, file, ensure_ascii=False, indent=4)
+            print("[DEBUG] Libro eliminado correctamente.")
+            messagebox.showinfo("Eliminar Libro", "El libro ha sido eliminado exitosamente.")
+            self.aplicar_filtros_combinados()  # Actualizar la tabla
+
+            #Actualizar Árboles
+            self.ejecutarScripts()
+        else:
+            messagebox.showwarning("Eliminar Libro", "El libro no fue encontrado.")
+
+    def cargar_json(self, archivo):
+        try:
+            with open(archivo, 'r', encoding='utf-8') as file:
+                return json.load(file)
+        except FileNotFoundError:
+            print(f"[ERROR] Archivo {archivo} no encontrado.")
+            return []
+
+    def ejecutarScripts(self):
+         # Ejecutar los scripts de persistencia
+        try:
+            # Definir la ruta absoluta a la carpeta de scripts
+            scripts_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'arboles_persistencia'))
+            scripts = ['guardar_bal.py', 'guardar_nary.py', 'guardar_bin.py', 'guardar_grafo.py']
+            for script in scripts:
+                script_path = os.path.join(scripts_dir, script)
+                if not os.path.exists(script_path):
+                    print(f"Script '{script}' no encontrado en '{scripts_dir}'.")
+                    continue
+                # Ejecutar el script
+                print(f"Ejecutando script: {script_path}")  # Depuración
+                subprocess.run(['python', script_path], check=True)
+            print("Scripts de persistencia ejecutados correctamente.")  # Depuración
+        except subprocess.CalledProcessError as e:
+            print(f"Error al ejecutar el script {script}: {e}")
+            messagebox.showerror("Error en scripts", f"Error al ejecutar el script {script}: {e}")
+            return
+        except Exception as e:
+            print(f"Error al ejecutar los scripts: {e}")
+            messagebox.showerror("Error en scripts", f"Error al ejecutar los scripts: {e}")
+            return
+
 
 
 if __name__ == '__main__':
