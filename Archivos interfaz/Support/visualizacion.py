@@ -62,9 +62,11 @@ class Toplevel1:
 
         # Centrar la ventana en la pantalla
         top.geometry("900x600")
-        top.resizable(0, 0)
+        top.resizable(True, True)
         top.title("Visualización de Datos")
         top.configure(background="#98e4fe")
+        top.state('zoomed')  # Activa el modo maximizado
+        top.update_idletasks()  # Asegura que las dimensiones se ajusten antes de renderizar
 
         self.top = top
         self.combobox = tk.StringVar()

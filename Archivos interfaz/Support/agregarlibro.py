@@ -145,6 +145,9 @@ class Toplevel1:
         top.title("Agregar Libro")
         top.configure(background="#98e4fe")  # Fondo original
 
+
+        #top.state('zoomed')  # Activa el modo maximizado
+        #top.update_idletasks()  # Asegura que las dimensiones se ajusten antes de renderizar
         self.top = top
 
         # Frame principal
