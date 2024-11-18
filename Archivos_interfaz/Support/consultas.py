@@ -8,7 +8,7 @@ import tkinter.ttk as ttk
 
 class Toplevel1:
     def __init__(self, top=None):
-        top.geometry("600x500+597+181")
+        top.geometry("800x600+597+181")  # Aumenté el tamaño para acomodar la tabla
         top.minsize(120, 1)
         top.maxsize(1540, 845)
         top.resizable(1, 1)
@@ -94,35 +94,49 @@ class Toplevel1:
         self.TEntry5 = ttk.Entry(self.Frame1, state='readonly')
         self.TEntry5.place(relx=0.147, rely=0.55, relheight=0.049, relwidth=0.246)
 
-        # Listbox para mostrar información
-        self.Listbox1 = tk.Listbox(self.Frame1)
-        self.Listbox1.place(relx=0.532, rely=0.15, relheight=0.6, relwidth=0.393)
-        self.Listbox1.bind("<Double-1>", self.mostrar_detalles)
+        # Treeview para mostrar información en formato de tabla
+        self.Treeview1 = ttk.Treeview(self.Frame1, columns=("Titulo", "Autor", "Genero", "Editorial", "Año", "ISBN"), show='headings')
+        self.Treeview1.place(relx=0.037, rely=0.63, relheight=0.3, relwidth=0.926)
+
+        # Definir encabezados de columnas
+        self.Treeview1.heading("Titulo", text="Título")
+        self.Treeview1.heading("Autor", text="Autor")
+        self.Treeview1.heading("Genero", text="Género")
+        self.Treeview1.heading("Editorial", text="Editorial")
+        self.Treeview1.heading("Año", text="Año de Publicación")
+        self.Treeview1.heading("ISBN", text="ISBN")
+
+        # Definir el ancho de las columnas
+        self.Treeview1.column("Titulo", width=150)
+        self.Treeview1.column("Autor", width=100)
+        self.Treeview1.column("Genero", width=100)
+        self.Treeview1.column("Editorial", width=100)
+        self.Treeview1.column("Año", width=100)
+        self.Treeview1.column("ISBN", width=100)
+
+        # Agregar scrollbar a la Treeview
+        self.scrollbar = ttk.Scrollbar(self.Frame1, orient="vertical", command=self.Treeview1.yview)
+        self.Treeview1.configure(yscroll=self.scrollbar.set)
+        self.scrollbar.place(relx=0.963, rely=0.63, relheight=0.3)
 
         # Botón Regresar
         self.Button1 = tk.Button(self.Frame1)
-        self.Button1.place(relx=0.128, rely=0.85, height=26, width=80)
+        self.Button1.place(relx=0.128, rely=0.95, height=26, width=80)
         self.Button1.configure(background="#fdab02", text='Regresar', command=self.regresar)
 
         # Botón Nueva Búsqueda
         self.Button2 = tk.Button(self.Frame1)
-        self.Button2.place(relx=0.3, rely=0.85, height=26, width=120)
+        self.Button2.place(relx=0.3, rely=0.95, height=26, width=120)
         self.Button2.configure(background="#fdab02", text='Nueva Búsqueda', command=self.limpiar_busqueda)
 
-        # Llenar Combobox de Autores
-        self.TComboboxAutores['values'] = self.adapter.autores_nombres
+        # Llenar Combobox de Autores con opción "Todos"
         self.TComboboxAutores['values'] = ["Todos"] + self.adapter.autores_nombres
 
-        # Llenar Combobox de Géneros
-        self.TCombobox1['values'] = self.adapter.generos_nombres
+        # Llenar Combobox de Géneros con opción "Todos"
         self.TCombobox1['values'] = ["Todos"] + self.adapter.generos_nombres
 
-        # Llenar Combobox de Años de Publicación
-        self.TComboboxAñoPub['values'] = self.adapter.años_publicacion
+        # Llenar Combobox de Años de Publicación con opción "Todos"
         self.TComboboxAñoPub['values'] = ["Todos"] + self.adapter.años_publicacion
-
-        # Inicializar filtro activo
-        # self.filtro_activo = None  # Eliminado
 
     # Métodos que interactúan con el adaptador
     def autocompletar_titulos(self, event):
@@ -134,7 +148,7 @@ class Toplevel1:
     def filtrar_autores(self, event):
         entrada = self.TComboboxAutores.get().lower()
         coincidencias = [autor for autor in self.adapter.autores_nombres if entrada in autor.lower()]
-        self.TComboboxAutores['values'] = coincidencias
+        self.TComboboxAutores['values'] = ["Todos"] + coincidencias
         print(f"[DEBUG] Filtrando autores con entrada: '{entrada}'. Coincidencias: {coincidencias}")
         # No actualiza el filtro aquí, se actualiza al seleccionar
 
@@ -142,27 +156,31 @@ class Toplevel1:
         autor_seleccionado = self.TComboboxAutores.get()
         if autor_seleccionado == "Todos":
             self.filtros_activos.pop("autor", None)
+            print(f"[DEBUG] Filtro 'autor' eliminado (se seleccionó 'Todos').")
         else:
             self.filtros_activos["autor"] = autor_seleccionado
+            print(f"[DEBUG] Filtro 'autor' actualizado a: '{autor_seleccionado}'")
         self.aplicar_filtros_combinados()
 
     def mostrar_libros_genero(self, event):
         genero_seleccionado = self.TCombobox1.get()
         if genero_seleccionado == "Todos":
             self.filtros_activos.pop("genero", None)
+            print(f"[DEBUG] Filtro 'genero' eliminado (se seleccionó 'Todos').")
         else:
             self.filtros_activos["genero"] = genero_seleccionado
+            print(f"[DEBUG] Filtro 'genero' actualizado a: '{genero_seleccionado}'")
         self.aplicar_filtros_combinados()
 
     def mostrar_libros_anio(self, event):
         anio_seleccionado = self.TComboboxAñoPub.get()
         if anio_seleccionado == "Todos":
             self.filtros_activos.pop("anio", None)
+            print(f"[DEBUG] Filtro 'anio' eliminado (se seleccionó 'Todos').")
         else:
             self.filtros_activos["anio"] = anio_seleccionado
+            print(f"[DEBUG] Filtro 'anio' actualizado a: '{anio_seleccionado}'")
         self.aplicar_filtros_combinados()
-
-
 
     def aplicar_filtros_combinados(self):
         """Aplica todos los filtros activos y muestra los libros que cumplen con todos los criterios."""
@@ -213,20 +231,27 @@ class Toplevel1:
             print(f"[DEBUG] Libros por año '{anio}': {libros_anio}")
             resultados &= libros_anio
 
-        # Mostrar resultados en la Listbox
-        self.Listbox1.delete(0, tk.END)
+        # Mostrar resultados en el Treeview
+        self.Treeview1.delete(*self.Treeview1.get_children())
         for titulo in sorted(resultados):
-            self.Listbox1.insert(tk.END, titulo)
-        print(f"[DEBUG] Total de resultados mostrados en Listbox: {len(resultados)}")
+            libro = next((libro for libro in self.adapter.libros_titulos if libro["titulo"] == titulo), None)
+            if libro:
+                autor_nombre = self.adapter.buscar_por_id(libro["autorId"], self.adapter.autores)
+                genero_nombre = self.adapter.buscar_por_id(libro["generoId"], self.adapter.generos)
+                editorial_nombre = self.adapter.buscar_por_id(libro["editorialId"], self.adapter.editoriales)
+                año = libro["anio_publicacion"]
+                isbn = libro["isbn"]
+                self.Treeview1.insert("", tk.END, values=(titulo, autor_nombre, genero_nombre, editorial_nombre, año, isbn))
+        print(f"[DEBUG] Total de resultados mostrados en Treeview: {len(resultados)}")
 
     def limpiar_busqueda(self):
         """Limpia todos los campos de búsqueda y detalles del libro."""
         # Limpiar campos de entrada
         self.TEntry1.configure(state="normal")
         self.TEntry1.delete(0, tk.END)
-        self.TComboboxAutores.set("")
-        self.TCombobox1.set("")
-        self.TComboboxAñoPub.set("")
+        self.TComboboxAutores.set("Todos")
+        self.TCombobox1.set("Todos")
+        self.TComboboxAñoPub.set("Todos")
 
         # Limpiar los detalles del libro seleccionado
         self.TEntry4.configure(state='normal')
@@ -236,7 +261,7 @@ class Toplevel1:
         self.TEntry5.delete(0, tk.END)
         self.TEntry5.configure(state='readonly')
 
-        self.Listbox1.delete(0, tk.END)
+        self.Treeview1.delete(*self.Treeview1.get_children())
 
         # Restablecer los filtros activos
         self.filtros_activos.clear()
@@ -254,36 +279,30 @@ class Toplevel1:
         # No modificar self.filtros_activos aquí
 
     def mostrar_detalles(self, event):
-        seleccion = self.Listbox1.get(self.Listbox1.curselection())
-        print(f"[DEBUG] Mostrando detalles para el libro seleccionado: '{seleccion}'")
-        for libro in self.adapter.libros_titulos:
-            if libro["titulo"] == seleccion:
+        seleccion = self.Treeview1.focus()
+        if seleccion:
+            valores = self.Treeview1.item(seleccion, 'values')
+            if valores:
+                titulo, autor, genero, editorial, año, isbn = valores
+                print(f"[DEBUG] Mostrando detalles para el libro seleccionado: '{titulo}'")
                 # Llenar campos
                 self.TEntry1.configure(state="normal")
                 self.TEntry1.delete(0, tk.END)
-                self.TEntry1.insert(0, libro["titulo"])
-                self.TComboboxAutores.set(self.adapter.buscar_por_id(libro["autorId"], self.adapter.autores))
-                self.TCombobox1.set(self.adapter.buscar_por_id(libro["generoId"], self.adapter.generos))
-                self.TComboboxAñoPub.set(libro["anio_publicacion"])
+                self.TEntry1.insert(0, titulo)
+                self.TComboboxAutores.set(autor)
+                self.TCombobox1.set(genero)
+                self.TComboboxAñoPub.set(año)
                 self.TEntry4.configure(state='normal')
                 self.TEntry4.delete(0, tk.END)
-                self.TEntry4.insert(0, libro["isbn"])
+                self.TEntry4.insert(0, isbn)
                 self.TEntry4.configure(state='readonly')
                 self.TEntry5.configure(state='normal')
                 self.TEntry5.delete(0, tk.END)
-                self.TEntry5.insert(0, self.adapter.buscar_por_id(libro["editorialId"], self.adapter.editoriales))
+                self.TEntry5.insert(0, editorial)
                 self.TEntry5.configure(state='readonly')
 
-                # Desactivar todos los filtros para evitar cambios accidentales
-                self.desactivar_todos_los_filtros()
-                break  # Salir del ciclo una vez encontrado el libro
-
-    def desactivar_todos_los_filtros(self):
-        """Desactiva todos los filtros."""
-        # En lugar de desactivar, mantenemos los filtros activos
-        # Para permitir que los filtros sigan funcionando
-        print("[DEBUG] Desactivando todos los filtros (no se realizan acciones).")
-        pass  # No realizar ninguna acción para mantener los filtros activos
+                # Opcional: Si deseas desactivar los filtros después de seleccionar un libro, puedes hacerlo aquí
+                # self.desactivar_todos_los_filtros()
 
     def buscar_por_id(self, id, lista):
         return self.adapter.buscar_por_id(id, lista)
