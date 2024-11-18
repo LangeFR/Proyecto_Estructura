@@ -206,6 +206,7 @@ class Toplevel1:
     def activar_filtro(self, filtro):
         """Activa un filtro y limpia los demás."""
         self.filtro_activo = filtro
+        self.activar_filtro_por_nombre()
         print(f"Filtro activado: {filtro}")
     
     def limpiar_busqueda(self):
@@ -238,12 +239,24 @@ class Toplevel1:
         """Habilita los filtros nuevamente según el campo activo."""
         if self.filtro_activo == "titulo":
             self.TEntry1.configure(state="normal")
+            self.TComboboxAutores.configure(state="disabled")
+            self.TComboboxAñoPub.configure(state="disabled")
+            self.TCombobox1.configure(state="disabled")
         elif self.filtro_activo == "autor":
+            self.TEntry1.configure(state="disabled")
             self.TComboboxAutores.configure(state="normal")
+            self.TComboboxAñoPub.configure(state="disabled")
+            self.TCombobox1.configure(state="disabled")
         elif self.filtro_activo == "genero":
+            self.TEntry1.configure(state="disabled")
+            self.TComboboxAutores.configure(state="disabled")
+            self.TComboboxAñoPub.configure(state="disabled")
             self.TCombobox1.configure(state="normal")
         elif self.filtro_activo == "anio":
+            self.TEntry1.configure(state="disabled")
+            self.TComboboxAutores.configure(state="disabled")
             self.TComboboxAñoPub.configure(state="normal")
+            self.TCombobox1.configure(state="disabled")
         else:
             # Habilitar todos los campos si no hay un filtro activo
             self.TEntry1.configure(state="normal")
@@ -324,6 +337,7 @@ class Toplevel1:
                 self.TEntry5.insert(0, self.buscar_por_id(libro["editorialId"], self.editoriales))
                 self.TEntry5.configure(state='readonly')
                 if self.filtro_activo != "titulo":
+                    self.TEntry1.configure(state="normal")
                     self.TEntry1.delete(0, tk.END)
                     self.TEntry1.insert(0, libro["titulo"])
 
