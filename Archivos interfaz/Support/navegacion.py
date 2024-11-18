@@ -48,17 +48,21 @@ class Toplevel1:
         top.geometry("600x450+468+138")
         top.minsize(120, 1)
         top.maxsize(1540, 845)
-        top.resizable(1, 1)
+        top.resizable(True, True)
         top.title("Menú principal")
         top.configure(background="#98e4fe")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="#000000")
+
+        #top.state('zoomed')  # Activa el modo maximizado
+        #top.update_idletasks()  # Asegura que las dimensiones se ajusten antes de renderizar
 
         self.top = top
 
         # Contenedor principal (Frame)
         self.Frame1 = tk.Frame(self.top)
         self.Frame1.place(relx=0.15, rely=0.15, relheight=0.7, relwidth=0.7)
+        
         self.Frame1.configure(relief='groove')
         self.Frame1.configure(borderwidth="2")
         self.Frame1.configure(relief="groove")
@@ -81,6 +85,7 @@ class Toplevel1:
         # Botón "Añadir libro"
         self.btnAnadir = tk.Button(self.Frame1)
         self.btnAnadir.place(relx=0.35, rely=0.3, height=36, width=120)
+        #self.btnAnadir.place(relx=0.5, rely=0.3, anchor="center", height=36, width=120)
         self.btnAnadir.configure(activebackground="#d9d9d9")
         self.btnAnadir.configure(activeforeground="black")
         self.btnAnadir.configure(background="#ffcc00")
@@ -93,6 +98,7 @@ class Toplevel1:
         # Botón "Visualizar"
         self.btnVisualizar = tk.Button(self.Frame1)
         self.btnVisualizar.place(relx=0.35, rely=0.5, height=36, width=120)
+        #self.btnVisualizar.place(relx=0.5, rely=0.5, anchor="center", height=36, width=120)
         self.btnVisualizar.configure(activebackground="#d9d9d9")
         self.btnVisualizar.configure(activeforeground="black")
         self.btnVisualizar.configure(background="#ffcc00")
@@ -105,6 +111,7 @@ class Toplevel1:
         # Botón "Consultas"
         self.btnConsultar = tk.Button(self.Frame1)
         self.btnConsultar.place(relx=0.35, rely=0.7, height=36, width=120)
+        #self.btnConsultar.place(relx=0.5, rely=0.7, anchor="center", height=36, width=120)
         self.btnConsultar.configure(activebackground="#d9d9d9")
         self.btnConsultar.configure(activeforeground="black")
         self.btnConsultar.configure(background="#ffcc00")

@@ -116,54 +116,61 @@ class VisualizarGeneroAdapter:
                 # Generar las iniciales del nombre (e.g., "Romance Histórico" -> "R. H.")
                 return ". ".join([palabra[0].upper() for palabra in nombre.split()]) + "."
         return "N/A"  # En caso de que no se encuentre el nombre
-
-    def dibujar_arbol(self, node, x, y, x_offset):
-        """Dibuja el árbol en el canvas mostrando las iniciales de los géneros."""
+    
+    def dibujar_arbol(self, node, x, y, x_offset=100):
+        """Dibuja el árbol en el canvas mostrando las iniciales de los géneros con ajuste en la disposición horizontal."""
         if not node:
             return
+        
+        # Determinar si el nodo es "Biblioteca" y ajustar el tamaño
+        if node.value == "Biblioteca":
+            radius_x, radius_y = 67, 20  # Radio más grande para el nodo de "Biblioteca"
+            font_size = "Arial 12 bold"  # Fuente más grande para el texto del nodo de "Biblioteca"
+        else:
+            radius_x, radius_y = 30, 20
+            font_size = "Arial 10 bold"
 
-        # Obtener las iniciales del género
         iniciales = self.obtener_iniciales(node.value)
         texto = self.ajustar_texto(iniciales, 15)  # Ajustar texto a un máximo de 15 caracteres
-
-        # Crear el texto en el canvas y asociar un tag único basado en el valor del nodo
         tag = f"node_{node.value}"
-        self.canvas.create_text(x, y, text=texto, anchor="center", tags=(tag,))
 
-        # Agregar eventos al nodo para mostrar información
+        # Crear el fondo ovalado del nodo
+        self.canvas.create_oval(x - radius_x, y - radius_y, x + radius_x, y + radius_y, fill="#ec8bff", outline="black", width=2, tags=tag)
+        self.canvas.create_text(x, y, text=texto, anchor="center", font=font_size, tags=(tag,))
+
+
         self.agregar_eventos_nodo(tag, node.value)
 
-        # Si el nodo no tiene hijos, simplemente dibuja
         if not node.children:
             return
 
-        # Calcular las posiciones de los hijos
-        y_hijos = y + 80
-        ancho_total = self.calcular_ancho_subarbol(node) * 50  # Determina el rango total de ancho
-        current_x = x - ancho_total / 2  # Empieza desde la posición inicial del rango
+        y_hijos = y + 120
+        ancho_total = self.calcular_ancho_subarbol(node)
+        current_x = x - ancho_total / 2
 
-        posiciones_hijos = []  # Lista para almacenar las posiciones de los hijos
+        posiciones_hijos = []
         for child in node.children:
-            child_ancho = self.calcular_ancho_subarbol(child) * 50
-            child_x = current_x + child_ancho / 2  # Centra el hijo dentro de su rango
+            child_ancho = self.calcular_ancho_subarbol(child)
+            child_x = current_x + child_ancho / 2
             posiciones_hijos.append(child_x)
             self.dibujar_arbol(child, child_x, y_hijos, x_offset)
-            current_x += child_ancho  # Avanza al siguiente hijo
+            current_x += child_ancho
 
-        # Recalcular la posición del nodo actual basado en los hijos
         if posiciones_hijos:
             x_centrado = (posiciones_hijos[0] + posiciones_hijos[-1]) / 2
-            # Mover el texto del nodo actual al nuevo centro
             self.canvas.move(tag, x_centrado - x, 0)
 
-        # Dibuja líneas entre el nodo y sus hijos
         for child_x in posiciones_hijos:
-            self.canvas.create_line(x_centrado, y + 20, child_x, y_hijos - 20)
+            self.canvas.create_line(x_centrado, y + 20, child_x, y_hijos - 20, fill="#4caf50", width=2)
+
+
+
+
 
     def calcular_ancho_subarbol(self, node):
-        """Calcula el ancho del subárbol en términos de número de hojas."""
+        """Calcula el ancho del subárbol basado en el tamaño del nodo (ovalo) y no solo en la cantidad de hojas."""
         if not node.children:
-            return 1  # Es una hoja
+            return 70  # Ancho del nodo (ovalo) en píxeles
         return sum(self.calcular_ancho_subarbol(child) for child in node.children)
 
     def ajustar_texto(self, texto, max_length):
