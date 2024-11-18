@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from adapters.consultas_adapter import ConsultasAdapter
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -16,7 +16,7 @@ class Toplevel1:
         top.configure(background="#98e4fe")
 
         self.top = top
-        self.filtro_activo = None
+        self.filtros_activos = {}  # Cambiado de filtro_activo a un diccionario
 
         # Inicializar el adaptador
         self.adapter = ConsultasAdapter()
@@ -111,95 +111,113 @@ class Toplevel1:
 
         # Llenar Combobox de Autores
         self.TComboboxAutores['values'] = self.adapter.autores_nombres
+        self.TComboboxAutores['values'] = ["Todos"] + self.adapter.autores_nombres
 
         # Llenar Combobox de Géneros
         self.TCombobox1['values'] = self.adapter.generos_nombres
+        self.TCombobox1['values'] = ["Todos"] + self.adapter.generos_nombres
 
         # Llenar Combobox de Años de Publicación
         self.TComboboxAñoPub['values'] = self.adapter.años_publicacion
+        self.TComboboxAñoPub['values'] = ["Todos"] + self.adapter.años_publicacion
 
         # Inicializar filtro activo
-        self.filtro_activo = None
+        # self.filtro_activo = None  # Eliminado
 
     # Métodos que interactúan con el adaptador
     def autocompletar_titulos(self, event):
         entrada = self.TEntry1.get()
-        coincidencias = self.adapter.busqueda_binaria_titulos(entrada)
-        self.Listbox1.delete(0, tk.END)
-        for titulo in coincidencias:
-            self.Listbox1.insert(tk.END, titulo)
+        self.filtros_activos["titulo"] = entrada  # Actualizar filtro de título
+        print(f"[DEBUG] Filtro 'titulo' actualizado a: '{entrada}'")
+        self.aplicar_filtros_combinados()
 
     def filtrar_autores(self, event):
         entrada = self.TComboboxAutores.get().lower()
         coincidencias = [autor for autor in self.adapter.autores_nombres if entrada in autor.lower()]
         self.TComboboxAutores['values'] = coincidencias
+        print(f"[DEBUG] Filtrando autores con entrada: '{entrada}'. Coincidencias: {coincidencias}")
+        # No actualiza el filtro aquí, se actualiza al seleccionar
 
     def mostrar_libros_autor(self, event):
         autor_seleccionado = self.TComboboxAutores.get()
-        autor_id = next((autor["id"] for autor in self.adapter.autores if autor["nombre"] == autor_seleccionado), None)
-        if autor_id:
-            libros_autor = [libro["titulo"] for libro in self.adapter.libros_titulos if libro["autorId"] == autor_id]
-            self.Listbox1.delete(0, tk.END)
-            for titulo in libros_autor:
-                self.Listbox1.insert(tk.END, titulo)
+        if autor_seleccionado == "Todos":
+            self.filtros_activos.pop("autor", None)
+        else:
+            self.filtros_activos["autor"] = autor_seleccionado
+        self.aplicar_filtros_combinados()
 
     def mostrar_libros_genero(self, event):
         genero_seleccionado = self.TCombobox1.get()
-        genero_id = next((genero["id"] for genero in self.adapter.generos if genero["nombre"] == genero_seleccionado), None)
-        if genero_id:
-            generos_hijos = self.adapter.obtener_generos_hijos(genero_id)
-            ids_generos = [genero_id] + [g["id"] for g in generos_hijos]
-            libros_genero = [libro["titulo"] for libro in self.adapter.libros_titulos if libro["generoId"] in ids_generos]
-            self.Listbox1.delete(0, tk.END)
-            for titulo in libros_genero:
-                self.Listbox1.insert(tk.END, titulo)
+        if genero_seleccionado == "Todos":
+            self.filtros_activos.pop("genero", None)
+        else:
+            self.filtros_activos["genero"] = genero_seleccionado
+        self.aplicar_filtros_combinados()
 
     def mostrar_libros_anio(self, event):
         anio_seleccionado = self.TComboboxAñoPub.get()
-        if anio_seleccionado in self.adapter.hash_libros_por_anio:
-            libros_anio = self.adapter.hash_libros_por_anio[anio_seleccionado]
+        if anio_seleccionado == "Todos":
+            self.filtros_activos.pop("anio", None)
         else:
-            libros_anio = []
+            self.filtros_activos["anio"] = anio_seleccionado
+        self.aplicar_filtros_combinados()
+
+
+
+    def aplicar_filtros_combinados(self):
+        """Aplica todos los filtros activos y muestra los libros que cumplen con todos los criterios."""
+        print(f"[DEBUG] Aplicando filtros combinados: {self.filtros_activos}")
+        resultados = set(libro["titulo"] for libro in self.adapter.libros_titulos)  # Empezar con todos los libros
+
+        # Aplicar filtro de título
+        titulo = self.filtros_activos.get("titulo", "").strip().lower()
+        if titulo:
+            print(f"[DEBUG] Aplicando filtro de título: '{titulo}'")
+            coincidencias_titulo = set(self.adapter.busqueda_lineal_titulos(titulo))
+            print(f"[DEBUG] Coincidencias de título: {coincidencias_titulo}")
+            resultados &= coincidencias_titulo
+
+        # Aplicar filtro de autor
+        autor = self.filtros_activos.get("autor", "").strip().lower()
+        if autor:
+            print(f"[DEBUG] Aplicando filtro de autor: '{autor}'")
+            autor_id = next((autor_obj["id"] for autor_obj in self.adapter.autores if autor_obj["nombre"].lower() == autor), None)
+            if autor_id:
+                libros_autor = set(libro["titulo"] for libro in self.adapter.libros_titulos if libro["autorId"] == autor_id)
+                print(f"[DEBUG] Libros por autor ID {autor_id}: {libros_autor}")
+                resultados &= libros_autor
+            else:
+                print(f"[DEBUG] No se encontró el autor: '{autor}'")
+                resultados.clear()
+
+        # Aplicar filtro de género
+        genero = self.filtros_activos.get("genero", "").strip().lower()
+        if genero:
+            print(f"[DEBUG] Aplicando filtro de género: '{genero}'")
+            genero_id = next((genero_obj["id"] for genero_obj in self.adapter.generos if genero_obj["nombre"].lower() == genero), None)
+            if genero_id:
+                generos_hijos = self.adapter.obtener_generos_hijos(genero_id)
+                ids_generos = {genero_id} | {g["id"] for g in generos_hijos}
+                libros_genero = set(libro["titulo"] for libro in self.adapter.libros_titulos if libro["generoId"] in ids_generos)
+                print(f"[DEBUG] Libros por género ID {genero_id}: {libros_genero}")
+                resultados &= libros_genero
+            else:
+                print(f"[DEBUG] No se encontró el género: '{genero}'")
+                resultados.clear()
+
+        # Aplicar filtro de año
+        anio = self.filtros_activos.get("anio", "").strip()
+        if anio:
+            print(f"[DEBUG] Aplicando filtro de año: '{anio}'")
+            libros_anio = set(libro["titulo"] for libro in self.adapter.libros_titulos if str(libro["anio_publicacion"]) == anio)
+            print(f"[DEBUG] Libros por año '{anio}': {libros_anio}")
+            resultados &= libros_anio
+
+        # Mostrar resultados en la Listbox
         self.Listbox1.delete(0, tk.END)
-        for titulo in libros_anio:
+        for titulo in sorted(resultados):
             self.Listbox1.insert(tk.END, titulo)
-
-    def mostrar_detalles(self, event):
-        seleccion = self.Listbox1.get(self.Listbox1.curselection())
-        for libro in self.adapter.libros_titulos:
-            if libro["titulo"] == seleccion:
-                # Llenar campos
-                self.TEntry1.delete(0, tk.END)
-                self.TEntry1.insert(0, libro["titulo"])
-                self.TComboboxAutores.set(self.adapter.buscar_por_id(libro["autorId"], self.adapter.autores))
-                self.TCombobox1.set(self.adapter.buscar_por_id(libro["generoId"], self.adapter.generos))
-                self.TComboboxAñoPub.set(libro["anio_publicacion"])
-                self.TEntry4.configure(state='normal')
-                self.TEntry4.delete(0, tk.END)
-                self.TEntry4.insert(0, libro["isbn"])
-                self.TEntry4.configure(state='readonly')
-                self.TEntry5.configure(state='normal')
-                self.TEntry5.delete(0, tk.END)
-                self.TEntry5.insert(0, self.adapter.buscar_por_id(libro["editorialId"], self.adapter.editoriales))
-                self.TEntry5.configure(state='readonly')
-
-                if self.filtro_activo != "titulo":
-                    self.TEntry1.delete(0, tk.END)
-                    self.TEntry1.insert(0, libro["titulo"])
-
-        self.desactivar_todos_los_filtros()
-
-    def activar_filtro(self, filtro):
-        """Activa un filtro y limpia los demás."""
-        self.filtro_activo = filtro
-        print(f"Filtro activado: {filtro}")
-
-    def desactivar_todos_los_filtros(self):
-        """Desactiva todos los filtros."""
-        self.TEntry1.configure(state="disabled")
-        self.TComboboxAutores.configure(state="disabled")
-        self.TCombobox1.configure(state="disabled")
-        self.TComboboxAñoPub.configure(state="disabled")
+        print(f"[DEBUG] Total de resultados mostrados en Listbox: {len(resultados)}")
 
     def limpiar_busqueda(self):
         """Limpia todos los campos de búsqueda y detalles del libro."""
@@ -220,41 +238,65 @@ class Toplevel1:
 
         self.Listbox1.delete(0, tk.END)
 
-        # Restablecer el filtro activo
-        self.filtro_activo = None
-        print("Campos de búsqueda limpiados.")
+        # Restablecer los filtros activos
+        self.filtros_activos.clear()
+        print("[DEBUG] Todos los filtros activos han sido limpiados.")
 
-        # Volver a habilitar los filtros
-        self.activar_filtro_por_nombre()
+        # Mostrar todos los libros
+        self.aplicar_filtros_combinados()
 
-    def activar_filtro_por_nombre(self):
-        """Habilita los filtros nuevamente según el campo activo."""
-        if self.filtro_activo == "titulo":
-            self.TEntry1.configure(state="normal")
-        elif self.filtro_activo == "autor":
-            self.TComboboxAutores.configure(state="normal")
-        elif self.filtro_activo == "genero":
-            self.TCombobox1.configure(state="normal")
-        elif self.filtro_activo == "anio":
-            self.TComboboxAñoPub.configure(state="normal")
-        else:
-            # Habilitar todos los campos si no hay un filtro activo
-            self.TEntry1.configure(state="normal")
-            self.TComboboxAutores.configure(state="normal")
-            self.TCombobox1.configure(state="normal")
-            self.TComboboxAñoPub.configure(state="normal")
+    # Eliminar el método activar_filtro_por_nombre y sus llamadas
+
+    def activar_filtro(self, filtro):
+        """Activa un filtro y actualiza su valor en el diccionario."""
+        # Este método ya no es necesario en su forma actual, ya que los filtros se actualizan directamente en los métodos de filtro
+        print(f"[DEBUG] Filtro activado: {filtro}")
+        # No modificar self.filtros_activos aquí
+
+    def mostrar_detalles(self, event):
+        seleccion = self.Listbox1.get(self.Listbox1.curselection())
+        print(f"[DEBUG] Mostrando detalles para el libro seleccionado: '{seleccion}'")
+        for libro in self.adapter.libros_titulos:
+            if libro["titulo"] == seleccion:
+                # Llenar campos
+                self.TEntry1.configure(state="normal")
+                self.TEntry1.delete(0, tk.END)
+                self.TEntry1.insert(0, libro["titulo"])
+                self.TComboboxAutores.set(self.adapter.buscar_por_id(libro["autorId"], self.adapter.autores))
+                self.TCombobox1.set(self.adapter.buscar_por_id(libro["generoId"], self.adapter.generos))
+                self.TComboboxAñoPub.set(libro["anio_publicacion"])
+                self.TEntry4.configure(state='normal')
+                self.TEntry4.delete(0, tk.END)
+                self.TEntry4.insert(0, libro["isbn"])
+                self.TEntry4.configure(state='readonly')
+                self.TEntry5.configure(state='normal')
+                self.TEntry5.delete(0, tk.END)
+                self.TEntry5.insert(0, self.adapter.buscar_por_id(libro["editorialId"], self.adapter.editoriales))
+                self.TEntry5.configure(state='readonly')
+
+                # Desactivar todos los filtros para evitar cambios accidentales
+                self.desactivar_todos_los_filtros()
+                break  # Salir del ciclo una vez encontrado el libro
+
+    def desactivar_todos_los_filtros(self):
+        """Desactiva todos los filtros."""
+        # En lugar de desactivar, mantenemos los filtros activos
+        # Para permitir que los filtros sigan funcionando
+        print("[DEBUG] Desactivando todos los filtros (no se realizan acciones).")
+        pass  # No realizar ninguna acción para mantener los filtros activos
 
     def buscar_por_id(self, id, lista):
         return self.adapter.buscar_por_id(id, lista)
 
     def regresar(self):
         """Lógica para el botón Regresar."""
-        print("Botón 'Regresar' presionado.")
+        print("[DEBUG] Botón 'Regresar' presionado.")
         # Cerrar la ventana actual
         self.top.destroy()
         # Importar y llamar al método principal de navegacion.py
         import navegacion
         navegacion.start_up()
+
 
 if __name__ == '__main__':
     root = tk.Tk()
