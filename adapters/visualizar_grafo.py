@@ -5,6 +5,7 @@ import sys
 import os
 import networkx as nx
 import matplotlib.pyplot as plt
+from adjustText import adjust_text
 
 # Obtener el directorio actual (scripts/)
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -29,8 +30,8 @@ def load_graph_from_json(filename):
 
 # Función para visualizar el grafo con colores diferenciados
 def visualizar_grafo(graph):
-    plt.figure(figsize=(12, 8))
-    pos = nx.spring_layout(graph, k=0.5, iterations=50)
+    plt.figure(figsize=(16, 12))
+    pos = nx.spring_layout(graph, k=1, iterations=200)
 
     # Listas para cada tipo de nodo
     libros = [n for n, attrs in graph.nodes(data=True) if attrs.get('tipo') == 'libro']
@@ -39,22 +40,33 @@ def visualizar_grafo(graph):
     anios = [n for n, attrs in graph.nodes(data=True) if attrs.get('tipo') == 'año']
 
     # Dibujar nodos por separado con colores específicos
-    nx.draw_networkx_nodes(graph, pos, nodelist=libros, node_color='#db00b6', node_size=600, label='Libros')
-    nx.draw_networkx_nodes(graph, pos, nodelist=autores, node_color='#fdb17d', node_size=600, label='Autores')
-    nx.draw_networkx_nodes(graph, pos, nodelist=generos, node_color='#fd7de8', node_size=600, label='Géneros')
-    nx.draw_networkx_nodes(graph, pos, nodelist=anios, node_color='#7de2fd', node_size=600, label='Años')
+    nx.draw_networkx_nodes(graph, pos, nodelist=libros, node_color='#db00b6', node_size=400, label='Libros')
+    nx.draw_networkx_nodes(graph, pos, nodelist=autores, node_color='#fdb17d', node_size=400, label='Autores')
+    nx.draw_networkx_nodes(graph, pos, nodelist=generos, node_color='#fd7de8', node_size=400, label='Géneros')
+    nx.draw_networkx_nodes(graph, pos, nodelist=anios, node_color='#7de2fd', node_size=400, label='Años')
 
     # Dibujar aristas
     nx.draw_networkx_edges(graph, pos, edge_color='gray')
 
-    # Dibujar etiquetas
-    nx.draw_networkx_labels(graph, pos, font_size=8, font_family='sans-serif')
+    # Preparar las etiquetas
+    texts = []
+    for node, (x, y) in pos.items():
+        texts.append(plt.text(x, y, node, fontsize=6, ha='center', va='center'))
+
+    # Ajustar las etiquetas para evitar superposición
+    adjust_text(texts, arrowprops=dict(arrowstyle='-', color='gray', lw=0.5))
 
     # Añadir leyenda
-    plt.legend(scatterpoints=1)
+    handles = [
+        plt.Line2D([], [], color='#db00b6', marker='o', linestyle='', label='Libros'),
+        plt.Line2D([], [], color='#fdb17d', marker='o', linestyle='', label='Autores'),
+        plt.Line2D([], [], color='#fd7de8', marker='o', linestyle='', label='Géneros'),
+        plt.Line2D([], [], color='#7de2fd', marker='o', linestyle='', label='Años')
+    ]
+    plt.legend(handles=handles, scatterpoints=1)
 
     plt.title("Grafo de Libros")
-    plt.axis('off')  # Ocultar los ejes
+    plt.axis('off')
     plt.tight_layout()
     plt.show()
 

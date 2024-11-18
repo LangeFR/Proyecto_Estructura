@@ -137,70 +137,61 @@ class AutocompleteEntry(tk.Entry):
     #             self.close_listbox()
 
 class Toplevel1:
+
     def __init__(self, top=None):
         '''Esta clase configura y popula la ventana principal.'''
-        top.geometry("600x450+468+138")
-        top.minsize(120, 1)
-        top.maxsize(1540, 845)
-        top.resizable(1, 1)
+        top.geometry("600x500")
+        top.resizable(0, 0)
         top.title("Agregar Libro")
-        top.configure(background="#98e4fe")
-        top.configure(highlightbackground="#d9d9d9")
-        top.configure(highlightcolor="#000000")
+        top.configure(background="#98e4fe")  # Fondo original
 
         self.top = top
-        self.base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../base_de_datos'))
 
-        # Cargar datos desde los archivos JSON
-        self.autor_data = self.cargar_datos("autores.json")
-        self.editorial_data = self.cargar_datos("editoriales.json")
-        self.genero_data = self.cargar_datos("generos.json")
-
-        # Inicializar listas
-        self.genero_lista = []
-        self.autor_lista = [autor["nombre"] for autor in self.autor_data]
-        self.editorial_lista = [editorial["nombre"] for editorial in self.editorial_data]
-        self.actualizar_genero_lista()
-
-        # UI Principal
+        # Frame principal
         self.Frame1 = tk.Frame(self.top)
-        self.Frame1.place(relx=0.167, rely=0.111, relheight=0.744, relwidth=0.675)
+        self.Frame1.place(relx=0.1, rely=0.1, relheight=0.8, relwidth=0.8)
         self.Frame1.configure(relief='groove', borderwidth="2", background="#9b0a64")
+        self.Frame1.configure(highlightbackground="#d9d9d9", highlightcolor="#000000")
 
         # Etiqueta principal
-        self.Label1 = tk.Label(self.Frame1, text='''Completa la información''', font="-family {Segoe UI} -size 9",
-                               background="#9b0a64", foreground="#ffffff")
-        self.Label1.place(relx=0.321, rely=0.06, height=21, width=146)
+        self.Label1 = tk.Label(
+            self.Frame1,
+            text='''Agregar un nuevo libro''',
+            font="-family {Segoe UI} -size 14 -weight bold",
+            background="#9b0a64",
+            foreground="#ffffff"
+        )
+        self.Label1.place(relx=0.2, rely=0.05, relwidth=0.6, height=30)
 
-        # Campos de texto y comboboxes
-        self.crear_label(self.Frame1, "Título:", 0.209)
-        self.titulo_entry = self.crear_entry(self.Frame1, 0.209)
+        # Campos de texto
+        self.crear_label(self.Frame1, "Título:", 0.2)
+        self.titulo_entry = self.crear_entry(self.Frame1, 0.2)
 
-        self.crear_label(self.Frame1, "Autor:", 0.328)
-        self.autor_combo = self.crear_autocomplete_entry(
-            self.Frame1, 0.328, self.autor_lista)
+        self.crear_label(self.Frame1, "Autor:", 0.3)
+        self.autor_entry = self.crear_entry(self.Frame1, 0.3)
 
-        self.crear_label(self.Frame1, "Género:", 0.448)
-        self.genero_combo = self.crear_autocomplete_entry(
-            self.Frame1, 0.448, self.genero_lista)
+        self.crear_label(self.Frame1, "Género:", 0.4)
+        self.genero_entry = self.crear_entry(self.Frame1, 0.4)
 
-        self.crear_label(self.Frame1, "Editorial:", 0.567)
-        self.editorial_combo = self.crear_autocomplete_entry(
-            self.Frame1, 0.567, self.editorial_lista)
+        self.crear_label(self.Frame1, "Editorial:", 0.5)
+        self.editorial_entry = self.crear_entry(self.Frame1, 0.5)
 
-        self.crear_label(self.Frame1, "Año:", 0.687)
-        self.anio_entry = self.crear_entry(self.Frame1, 0.687)
+        self.crear_label(self.Frame1, "Año:", 0.6)
+        self.anio_entry = self.crear_entry(self.Frame1, 0.6)
 
-        self.crear_label(self.Frame1, "ISBN:", 0.806)
-        self.isbn_entry = self.crear_entry(self.Frame1, 0.806)
+        self.crear_label(self.Frame1, "ISBN:", 0.7)
+        self.isbn_entry = self.crear_entry(self.Frame1, 0.7)
 
-        # Botones
-        self.btnRegresar = tk.Button(self.Frame1, text="Regresar", background="#fecb01", command=self.regresar)
-        self.btnRegresar.place(relx=0.049, rely=0.896, height=26, width=57)
+        # Botones centrados
+        self.btnAgregar = tk.Button(self.Frame1, text="Agregar", font="-family {Segoe UI} -size 10 -weight bold",
+                                    background="#ffcc00", command=self.agregar)
+        self.btnAgregar.place(relx=0.25, rely=0.85, height=35, width=100)
 
-        self.btnAgregar = tk.Button(self.Frame1, text="Agregar", background="#ff0080", foreground="#ffffff",
-                                    command=self.agregar)
-        self.btnAgregar.place(relx=0.79, rely=0.896, height=26, width=57)
+        self.btnRegresar = tk.Button(self.Frame1, text="Regresar", font="-family {Segoe UI} -size 10 -weight bold",
+                                     background="#f97db1", command=self.regresar)
+        self.btnRegresar.place(relx=0.55, rely=0.85, height=35, width=100)
+
+
 
     def cargar_datos(self, archivo):
         """Carga datos desde un archivo JSON en la carpeta base_de_datos."""
@@ -476,7 +467,7 @@ class Toplevel1:
         try:
             # Definir la ruta absoluta a la carpeta de scripts
             scripts_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'arboles_persistencia'))
-            scripts = ['guardar_bal.py', 'guardar_nary.py', 'guardar_bin.py']
+            scripts = ['guardar_bal.py', 'guardar_nary.py', 'guardar_bin.py', 'guardar_grafo.py']
             for script in scripts:
                 script_path = os.path.join(scripts_dir, script)
                 if not os.path.exists(script_path):

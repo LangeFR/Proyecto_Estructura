@@ -8,8 +8,10 @@
 import json
 import sys
 import os
+import threading
 import tkinter as tk
 import tkinter.ttk as ttk
+import networkx as nx
 from tkinter.constants import *
 
 # Determina la ruta al directorio raíz del proyecto
@@ -24,6 +26,7 @@ from models.GRAFOS import Grafo
 from adapters.visualizar_genero_adapter import VisualizarGeneroAdapter
 from adapters.visualizar_anio_adapter import VisualizarAnioAdapter
 from adapters.visualizar_titulo_adapter import VisualizarTituloAdapter
+from adapters.visualizar_grafo import visualizar_grafo
 
 
 
@@ -55,116 +58,84 @@ def _style_code():
 
 class Toplevel1:
     def __init__(self, top=None):
-        '''This class configures and populates the toplevel window.
-           top is the toplevel containing window.'''
+        """Configura y muestra la ventana principal."""
 
-        top.geometry("1500x600")
-        top.minsize(120, 1)
-        top.maxsize(1540, 845)
-        top.resizable(1, 1)
-        top.title("Toplevel 0")
+        # Centrar la ventana en la pantalla
+        top.geometry("900x600")
+        top.resizable(0, 0)
+        top.title("Visualización de Datos")
         top.configure(background="#98e4fe")
-        top.configure(highlightbackground="#d9d9d9")
-        top.configure(highlightcolor="#000000")
 
         self.top = top
         self.combobox = tk.StringVar()
 
-        self.Canvas1 = tk.Canvas(self.top)
-        self.Canvas1.place(relx=0.303, rely=0.200, relheight=0.700, relwidth=0.650)
-        self.Canvas1.configure(background="#ffefa5")
-        self.Canvas1.configure(borderwidth="2")
-        self.Canvas1.configure(cursor="fleur")
-        self.Canvas1.configure(highlightbackground="#d9d9d9")
-        self.Canvas1.configure(highlightcolor="#000000")
-        self.Canvas1.configure(insertbackground="#000000")
-        self.Canvas1.configure(relief="ridge")
-        self.Canvas1.configure(selectbackground="#d9d9d9")
-        self.Canvas1.configure(selectforeground="black")
+        # Canvas principal para la visualización
+        self.Canvas1 = tk.Canvas(self.top, bg="#ffefa5", relief="ridge", borderwidth=2)
+        self.Canvas1.place(relx=0.25, rely=0.1, relwidth=0.7, relheight=0.8)
+
+        # Frame de controles (lateral izquierdo)
+        self.Frame1 = tk.Frame(self.top, bg="#9b0a64", relief="groove", borderwidth=2, padx=10, pady=10)
+        self.Frame1.place(relx=0.03, rely=0.1, relwidth=0.2, relheight=0.8)
+
+        # Label de título principal
+        self.Label1 = tk.Label(
+            self.Frame1,
+            text="Visualización",
+            bg="#9b0a64",
+            fg="white",
+            font=("Segoe UI", 14, "bold"),
+            anchor="center"
+        )
+        self.Label1.pack(pady=10)
+
+        # Combobox para seleccionar la opción de visualización
+        self.TCombobox1 = ttk.Combobox(
+            self.Frame1,
+            textvariable=self.combobox,
+            state="readonly",
+            font=("Segoe UI", 10)
+        )
+        self.TCombobox1["values"] = ["Título", "Género", "Año de Publicación"]
+        self.TCombobox1.set("Título")
+        self.TCombobox1.pack(fill=tk.X, pady=10)
+
+        # Botón para ver el árbol
+        self.Button1 = tk.Button(
+            self.Frame1,
+            text="Ver Árbol",
+            bg="#fec210",
+            fg="black",
+            font=("Segoe UI", 12),
+            command=self.on_button_click
+        )
+        self.Button1.pack(fill=tk.X, pady=10)
+
+        # Botón para ver el grafo
+        self.btnGrafo = tk.Button(
+            self.Frame1,
+            text="Ver Grafo",
+            bg="#fec210",
+            fg="black",
+            font=("Segoe UI", 12),
+            command=self.doGrafo
+        )
+        self.btnGrafo.pack(fill=tk.X, pady=10)
         
-        
-
-        self.Frame1 = tk.Frame(self.top)
-        self.Frame1.place(relx=0.033, rely=0.333, relheight=0.367, relwidth=0.208)
-        self.Frame1.configure(relief='groove')
-        self.Frame1.configure(borderwidth="2")
-        self.Frame1.configure(relief="groove")
-        self.Frame1.configure(background="#9b0a64")
-        self.Frame1.configure(cursor="fleur")
-        self.Frame1.configure(highlightbackground="#d9d9d9")
-        self.Frame1.configure(highlightcolor="#000000")
-
-        self.Label1 = tk.Label(self.Frame1)
-        self.Label1.place(relx=0.041, rely=0.242, height=21, width=84)
-        self.Label1.configure(activebackground="#d9d9d9")
-        self.Label1.configure(activeforeground="black")
-        self.Label1.configure(anchor='w')
-        self.Label1.configure(background="#9b0a64")
-        self.Label1.configure(compound='left')
-        self.Label1.configure(cursor="fleur")
-        self.Label1.configure(disabledforeground="#a3a3a3")
-        self.Label1.configure(foreground="#ffffff")
-        self.Label1.configure(highlightbackground="#d9d9d9")
-        self.Label1.configure(highlightcolor="#000000")
-        self.Label1.configure(text='''Visualizar por:''')
-
-        _style_code()
-        self.TCombobox1 = ttk.Combobox(self.Frame1, textvariable=self.combobox, state="readonly")
-        self.TCombobox1.place(relx=0.408, rely=0.242, relheight=0.115, relwidth=0.559)
-        opciones_combobox = ['Título', 'Género', 'Año de Publicación']
-        self.TCombobox1['values'] = opciones_combobox
-        self.TCombobox1.set('Título') 
-        self.TCombobox1.configure(takefocus="")
-
-        # Botón "Ver árbol"
-        self.Button1 = tk.Button(self.Frame1)
-        self.Button1.place(relx=0.082, rely=0.424, height=26, width=57)
-        self.Button1.configure(activebackground="#d9d9d9")
-        self.Button1.configure(activeforeground="black")
-        self.Button1.configure(background="#fec210")
-        self.Button1.configure(disabledforeground="#a3a3a3")
-        self.Button1.configure(foreground="black")
-        self.Button1.configure(highlightbackground="#d9d9d9")
-        self.Button1.configure(highlightcolor="#000000")
-        self.Button1.configure(text='''Ver Arbol''')
-        self.Button1.configure(command=self.on_button_click)
-
-        # Botón "Regresar"
-        self.Button2 = tk.Button(self.Frame1)
-        self.Button2.place(relx=0.694, rely=0.788, height=26, width=57)
-        self.Button2.configure(activebackground="#d9d9d9")
-        self.Button2.configure(activeforeground="black")
-        self.Button2.configure(background="#f97db1")
-        self.Button2.configure(disabledforeground="#a3a3a3")
-        self.Button2.configure(foreground="black")
-        self.Button2.configure(highlightbackground="#d9d9d9")
-        self.Button2.configure(highlightcolor="#000000")
-        self.Button2.configure(text='''Regresar''')
-        self.Button2.configure(command=self.regresar)
-        
-        self.btnGrafo = tk.Button(self.Frame1)
-        self.btnGrafo.place(relx=0.082, rely=0.606, height=26, width=57)
-        self.btnGrafo.configure(activebackground="#d9d9d9")
-        self.btnGrafo.configure(activeforeground="black")
-        self.btnGrafo.configure(background="#ff0080")
-        self.btnGrafo.configure(disabledforeground="#a3a3a3")
-        self.btnGrafo.configure(font="-family {Segoe UI} -size 9")
-        self.btnGrafo.configure(foreground="black")
-        self.btnGrafo.configure(highlightbackground="#d9d9d9")
-        self.btnGrafo.configure(highlightcolor="#000000")
-        self.btnGrafo.configure(text='''Ver grafo''')
-        #self.btnGrafo.configure(command=self.doGrafo)
-
+                # Botón para regresar
+        self.Button2 = tk.Button(
+            self.Frame1,
+            text="Regresar",
+            bg="#f97db1",
+            fg="black",
+            font=("Segoe UI", 12),
+            command=self.regresar
+        )
+        self.Button2.pack(fill=tk.X, pady=10)
 
         # Vincular eventos de zoom y movimiento
         self.Canvas1.bind("<MouseWheel>", self.zoom)  # Zoom con la rueda del ratón
         self.Canvas1.bind("<ButtonPress-1>", self.start_move)  # Inicia el movimiento
         self.Canvas1.bind("<B1-Motion>", self.on_move)  # Arrastra el Canvas
-        
-
-
-        self.menubar = tk.Menu(top, font="TkMenuFont", bg=_bgcolor, fg=_fgcolor)
-        top.configure(menu=self.menubar)
 
     def on_button_click(self):
         """Determina el tipo de árbol a visualizar y delega al adaptador correspondiente."""
@@ -211,8 +182,28 @@ class Toplevel1:
     def on_move(self, event):
         """Mueve el Canvas al arrastrar el mouse."""
         self.Canvas1.scan_dragto(event.x, event.y, gain=1)
+        
+    def doGrafo(self):
+    # Ruta del archivo del grafo
+        ruta_grafo = os.path.join(project_root, 'arboles_persistencia', 'grafo_libros.json')
 
+    # Función para cargar el grafo desde un archivo JSON
+        def load_graph_from_json(filename):
+            with open(filename, 'r', encoding='utf-8') as file:
+                data = json.load(file)
+                graph = nx.node_link_graph(data)
+                return graph
 
+    # Verificar si el archivo del grafo existe
+        if not os.path.exists(ruta_grafo):
+            print(f"El archivo {ruta_grafo} no existe. Por favor, genera el grafo primero.")
+            return
+
+    # Cargar el grafo desde el archivo JSO  N
+        graph = load_graph_from_json(ruta_grafo)
+
+    # Llamar a la función de visualización en un hilo separado
+        threading.Thread(target=visualizar_grafo, args=(graph,)).start()
 
     def regresar(self):
         self.top.destroy()
