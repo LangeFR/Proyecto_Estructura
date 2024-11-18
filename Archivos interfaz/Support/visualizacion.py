@@ -64,7 +64,7 @@ class Toplevel1:
         top.geometry("900x600")
         top.resizable(True, True)
         top.title("Visualización de Datos")
-        top.configure(background="#98e4fe")
+        top.configure(background="#ff9abf")
         top.state('zoomed')  # Activa el modo maximizado
         top.update_idletasks()  # Asegura que las dimensiones se ajusten antes de renderizar
 
@@ -80,7 +80,7 @@ class Toplevel1:
         self.DecorativeFrame.place(relx=0.24, rely=0.09, relwidth=0.72, relheight=0.82)
 
         # Canvas principal para la visualización
-        self.Canvas1 = tk.Canvas(self.top, bg="#ffefa5", relief="ridge", borderwidth=2)
+        self.Canvas1 = tk.Canvas(self.top, bg="#fff0c6", relief="ridge", borderwidth=2)
         self.Canvas1.place(relx=0.25, rely=0.1, relwidth=0.7, relheight=0.8)
 
         # Frame de controles (lateral izquierdo)
