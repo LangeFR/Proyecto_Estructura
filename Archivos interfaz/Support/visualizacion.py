@@ -68,6 +68,14 @@ class Toplevel1:
 
         self.top = top
         self.combobox = tk.StringVar()
+        
+        self.DecorativeFrame = tk.Frame(
+            self.top, 
+            bg="#4a154b",  # Color del marco decorativo
+            relief="ridge", 
+            borderwidth=5 
+        )
+        self.DecorativeFrame.place(relx=0.24, rely=0.09, relwidth=0.72, relheight=0.82)
 
         # Canvas principal para la visualización
         self.Canvas1 = tk.Canvas(self.top, bg="#ffefa5", relief="ridge", borderwidth=2)
